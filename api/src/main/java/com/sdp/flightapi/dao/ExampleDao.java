@@ -1,17 +1,17 @@
 package com.sdp.flightapi.dao;
 
-import com.sdp.flightapi.models.Example;
+import com.sdp.flightapi.models.ReservedFlights;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ExampleDao {
-    int insertExample(UUID id, Example example);
+    int insertExample(UUID id, ReservedFlights reservedFlights);
 
-    default int insertExample(Example example){
+    default int insertExample(ReservedFlights reservedFlights){
         UUID id = UUID.randomUUID();
-        return insertExample(id, example);
+        return insertExample(id, reservedFlights);
     }
 
-    List<Example> selectAllExamples();
+    List<ReservedFlights> selectAllExamples();
 }
