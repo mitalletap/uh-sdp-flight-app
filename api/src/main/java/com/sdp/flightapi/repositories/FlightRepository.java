@@ -1,4 +1,4 @@
-package com.sdp.flightapi.dao;
+package com.sdp.flightapi.repositories;
 
 import com.sdp.flightapi.models.ReservedFlights;
 import org.springframework.data.mongodb.repository.MongoRepository;

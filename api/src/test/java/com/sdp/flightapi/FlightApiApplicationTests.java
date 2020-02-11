@@ -1,6 +1,6 @@
 package com.sdp.flightapi;
 
-import com.sdp.flightapi.dao.FlightRepository;
+import com.sdp.flightapi.repositories.FlightRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
