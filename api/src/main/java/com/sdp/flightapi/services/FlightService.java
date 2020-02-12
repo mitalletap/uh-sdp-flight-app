@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 public class FlightService {
     private final ExampleDao exampleDao;
+    private final String SERVICE_URL = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2020-02-20";
 
     @Autowired
     public FlightService(@Qualifier("example") ExampleDao exampleDao) {
@@ -30,8 +31,7 @@ public class FlightService {
         return exampleDao.selectAllExamples();
     }
     public Object getFlights() {
-        String Url = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/SFO-sky/JFK-sky/2020-02-20";
-        ;
+        String Url = SERVICE_URL;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
