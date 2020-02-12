@@ -3,4 +3,5 @@
   color: black;
   min-height: 100vh;
   padding: 1%;
+  overflow: hidden;
 }
