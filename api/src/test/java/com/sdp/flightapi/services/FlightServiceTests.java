@@ -1,6 +1,6 @@
 package com.sdp.flightapi.services;
 
-import com.sdp.flightapi.repositories.ExampleRepository;
+import com.sdp.flightapi.dao.FlightDao;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +17,7 @@ public class FlightServiceTests {
     public void testServiceShouldCallRestTemplateExchange() throws Exception {
         RestTemplate restTemplateMock = mock(RestTemplate.class);
 
-        FlightService flightService = new FlightService(new ExampleRepository());
+        FlightService flightService = new FlightService();
         flightService.setRestTemplate(restTemplateMock);
 
         flightService.getFlights();

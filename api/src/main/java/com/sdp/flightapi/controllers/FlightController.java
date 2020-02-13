@@ -24,16 +24,4 @@ public class FlightController {
         //GET request that returns list of examples from fake database
         return flightService.getFlights();
     }
-
-    @GetMapping(path = "examples")
-    public List<ReservedFlights> getAllExamples() {
-        //GET request that returns list of examples from fake database
-        return flightService.getAllExamples();
-    }
-
-    @PostMapping(path = "examples")
-    public void addExample(@Valid @NotNull @RequestBody ReservedFlights reservedFlights) {
-        //POST request that adds example from request body to fake database
-        flightService.addExample(reservedFlights);
-    }
 }
