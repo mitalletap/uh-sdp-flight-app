@@ -1,6 +1,6 @@
-package com.sdp.flightapi;
+package com.sdp.flightapi.repositories;
 
-import com.sdp.flightapi.repositories.FlightRepository;
+import com.sdp.flightapi.dao.FlightDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,25 +9,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FlightApiApplicationTests {
+class FlightDaoTests {
 
 	@Autowired private MockMvc mockMvc;
-	@Autowired private FlightRepository flightRepository;
+	@Autowired private FlightDao flightDao;
 
-	FlightApiApplicationTests() {
+	FlightDaoTests() {
 	}
 
 	@BeforeEach
 	public void clearLeftoverDataBeforeTest() throws Exception {
-		flightRepository.deleteAll();
+		flightDao.deleteAll();
 	}
 
 	@Test
