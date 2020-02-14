@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api")
 @RestController
@@ -20,8 +21,14 @@ public class FlightController {
     }
 
     @GetMapping(path = "/get-flights")
-    public Object getFlights() {
+    public Object getFlights(@RequestParam Optional<String> origin,
+                             @RequestParam Optional<String> destination,
+                             @RequestParam Optional<String> dateString) {
         //GET request that returns list of examples from fake database
-        return flightService.getFlights();
+        return flightService.getFlights(
+                origin.orElse("SFO"),
+                destination.orElse("JFK"),
+                dateString.orElse("2020-02-20")
+        );
     }
 }

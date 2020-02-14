@@ -1,32 +1,35 @@
 package com.sdp.flightapi.services;
 
-import com.sdp.flightapi.dao.FlightDao;
-import com.sdp.flightapi.models.ReservedFlights;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import com.sdp.flightapi.models.RawFlightData;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class FlightService {
-    @Autowired
-    public Object getFlights() {
-        RestTemplate restTemplate = new RestTemplate();
-        String SERVICE_URL =
-                "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/" +
-                        "apiservices/browsequotes/v1.0/US/USD/en-US/" +
-                        "SFO-sky/JFK-sky/2020-02-20";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-RapidAPI-Key", "c25f6b34acmsh3e88e6211d976dcp1b322cjsn2b02ff0fa923");
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+    private final WebClient webClient;
+    private final String flightSearchBaseUrl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/" +
+            "apiservices/browsequotes/v1.0/US/USD/en-US/";
 
-        return restTemplate.exchange(SERVICE_URL, HttpMethod.GET, entity, Object.class);
+    public FlightService(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl(flightSearchBaseUrl)
+                .build();
+    }
+
+    public Mono<RawFlightData> getFlights(String origin, String destination, String dateString) {
+        return this.webClient.get()
+                .uri( originDestinationString(origin, destination) + dateString)
+                .header("X-RapidAPI-Key", "c25f6b34acmsh3e88e6211d976dcp1b322cjsn2b02ff0fa923")
+                .retrieve()
+                .bodyToMono(RawFlightData.class);
+    }
+
+    String urlCodedOriginOrDestination(String iataCode) {
+        String skyCode = "-sky";
+        return iataCode + skyCode + "/";
+    }
+
+    String originDestinationString(String origin, String destination) {
+        return urlCodedOriginOrDestination(origin) + urlCodedOriginOrDestination(destination);
     }
 }
