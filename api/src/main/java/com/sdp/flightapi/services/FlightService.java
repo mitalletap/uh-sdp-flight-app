@@ -34,7 +34,7 @@ public class FlightService {
     }
 
     String datesString(String outboundDate, @Nullable Optional<String> inboundDate) {
-        return outboundDate + (inboundDate.isPresent() ? "/" + inboundDate : "");
+        return outboundDate + (inboundDate.isPresent() ? "/" + inboundDate.get() : "");
     }
 
     String parameterString(String origin, String destination,
