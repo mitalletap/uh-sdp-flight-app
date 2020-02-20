@@ -8,6 +8,7 @@ public class ReservedFlights {
     @Id
     private String id;
 
+    private boolean direct;
     private float price;
     private java.sql.Date departureDate;
 

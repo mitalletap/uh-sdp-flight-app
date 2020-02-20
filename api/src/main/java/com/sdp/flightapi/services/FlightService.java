@@ -37,8 +37,7 @@ public class FlightService {
     }
 
     String datesString(String outboundDate, @Nullable Optional<String> inboundDate) {
-        return outboundDate + (
-                inboundDate.map(s -> "/" + s)
+        return outboundDate + (inboundDate.map(s -> "/" + s)
                         .orElse(""));
     }
 

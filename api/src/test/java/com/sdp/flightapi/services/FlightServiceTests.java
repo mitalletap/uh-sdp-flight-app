@@ -1,5 +1,7 @@
 package com.sdp.flightapi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdp.flightapi.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,11 +68,16 @@ public class FlightServiceTests {
 
     @Test
     void testConvertRawFlightDataToReservedFlightsFormat() {
-        List<Carrier> carriers = Arrays.asList(new Carrier(), new Carrier());
+
+        List<Carrier> carriers = Arrays.asList(new Carrier(), new Carrier(), new Carrier());
         carriers.get(0).setCarrierId(100);
         carriers.get(0).setName("A Airlines");
         carriers.get(1).setCarrierId(200);
         carriers.get(1).setName("B Airlines");
+        carriers.get(2).setCarrierId(300);
+        carriers.get(2).setName("C Airlines");
+        carriers.get(3).setCarrierId(400);
+        carriers.get(3).setName("D Airlines");
 
         List<Place> places = Arrays.asList(new Place(), new Place());
         places.get(0).setPlaceId(10000);
@@ -79,15 +86,17 @@ public class FlightServiceTests {
         places.get(1).setCityName("Origin City");
 
         List<Quote> quotes = Arrays.asList(new Quote(), new Quote());
+        quotes.get(0).setDirect(false);
         quotes.get(0).setMinPrice(500d);
         quotes.get(0).setOutboundLeg(new OutboundLeg());
-        quotes.get(0).getOutboundLeg().setCarrierIds(Arrays.asList(100));
+        quotes.get(0).getOutboundLeg().setCarrierIds(Arrays.asList(200));
         quotes.get(0).getOutboundLeg().setOriginId(20000);
         quotes.get(0).getOutboundLeg().setDestinationId(10000);
         quotes.get(0).getOutboundLeg().setDepartureDate(tomorrowDateString);
+        quotes.get(1).setDirect(true);
         quotes.get(1).setMinPrice(600d);
         quotes.get(1).setOutboundLeg(new OutboundLeg());
-        quotes.get(1).getOutboundLeg().setCarrierIds(Arrays.asList(200));
+        quotes.get(1).getOutboundLeg().setCarrierIds(Arrays.asList(300));
         quotes.get(1).getOutboundLeg().setOriginId(20000);
         quotes.get(1).getOutboundLeg().setDestinationId(10000);
         quotes.get(1).getOutboundLeg().setDepartureDate(tomorrowDateString);
@@ -101,6 +110,10 @@ public class FlightServiceTests {
 
         assertEquals(2, convertedFlightsList.size());
         assertAll(
+                () -> assertEquals(Arrays.asList(true, false),
+                        convertedFlightsList.stream()
+                            .map(ReservedFlights::isDirect)),
+
                 () -> assertTrue(convertedFlightsList.stream()
                         .allMatch(flight -> flight
                                 .getOrigin()
@@ -111,13 +124,15 @@ public class FlightServiceTests {
                                 .getDestination()
                                 .getCityName().equals("Destination City"))),
 
-                () -> assertEquals(Arrays.asList("A Airlines", "B Airlines"), convertedFlightsList.stream()
-                        .map(flight -> flight
+                () -> assertEquals(Arrays.asList("C Airlines", "B Airlines"),
+                        convertedFlightsList.stream()
+                            .map(flight -> flight
                                 .getOutboundCarrier()
                                 .getName())),
 
-                () -> assertEquals(Arrays.asList(500f, 600f), convertedFlightsList.stream()
-                        .map(ReservedFlights::getPrice))
+                () -> assertEquals(Arrays.asList(600f, 500f),
+                        convertedFlightsList.stream()
+                            .map(ReservedFlights::getPrice))
         );
     }
 }
