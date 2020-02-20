@@ -1,21 +1,18 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
 import {
-  SelectPicker,
   DateRangePicker,
   Content,
+  Input,
   InputNumber,
+  Button,
+  Toggle,
   InputGroup,
   Icon,
-  AutoComplete,
-  Button,
-  Panel,
-  PanelGroup,
-  Toggle,
   InputPicker
 } from "rsuite";
-import dataSet from "../data/data";
-import airportData from "../data/airports";
+import airportData from "../data/airports.js";
+import testData from "../data/data";
 
 class FlightSearch extends Component {
   state = {
@@ -58,10 +55,10 @@ class FlightSearch extends Component {
   handleisOneWay = props => {
     this.setState(
       {
-        isOneWay: props
+        isRoundTrip: props
       },
       () => {
-        console.log("Current Value: " + this.state.isOneWay);
+        console.log("Current Value: " + this.state.isRoundTrip);
       }
     );
   };
@@ -72,7 +69,7 @@ class FlightSearch extends Component {
         origin: props
       },
       () => {
-        console.log("Current Value: " + this.state.origin);
+        console.log(props);
       }
     );
   };
@@ -87,8 +84,14 @@ class FlightSearch extends Component {
       }
     );
   };
+
+  handleSearch = props => {
+    this.setState({}, () => {
+      console.log(this.state);
+    });
+  };
+
   render() {
-    const data = ["Hello", "Hi"];
     const { beforeToday } = DateRangePicker;
     return (
       <React.Fragment>
@@ -120,13 +123,15 @@ class FlightSearch extends Component {
             >
               <InputPicker
                 placeholder="Depart From"
-                data={airportData}
+                data={testData}
+                value={this.state.value}
                 onChange={this.handleOrigin}
               />
               <InputGroup.Addon>to</InputGroup.Addon>
               <InputPicker
                 placeholder="Arrive In"
-                data={airportData}
+                data={testData}
+                value={this.state.value}
                 onChange={this.handleDestination}
               />
             </InputGroup>
@@ -167,7 +172,7 @@ class FlightSearch extends Component {
               <Button
                 style={{ marginRight: "10px" }}
                 appearance="default"
-                onChange={this.hasChanged}
+                onClick={this.handleSearch}
               >
                 Find Flights
               </Button>
@@ -180,24 +185,3 @@ class FlightSearch extends Component {
 }
 
 export default FlightSearch;
-
-{
-  /* <InputGroup
-    inside
-    style={{ width: 305, marginBottom: 10, paddingRight: "5px"}}
->
-    <AutoComplete data={airportData} placeholder="Depart From" />
-    <InputGroup.Addon>
-    <Icon icon="plane" />
-    </InputGroup.Addon>
-</InputGroup>
-<InputGroup
-    inside
-    style={{ width: 305, marginBottom: 10, paddingLeft: "5px" }}
->
-    <AutoComplete data={airportData} placeholder="Arrive In" />
-    <InputGroup.Addon>
-    <Icon icon="plane" rotate={90} />
-    </InputGroup.Addon>
-</InputGroup> */
-}
