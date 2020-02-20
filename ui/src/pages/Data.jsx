@@ -1,14 +1,14 @@
 import React from "react";
 import DataTable from "../components/DataTable";
-import Nav from "../components/NavigationBar";
+import NavigationBar from "../components/NavigationBar";
 import { Container, Header, Footer, Content, Toggle } from "rsuite";
 
-const Home = () => {
+const Data = () => {
   return (
     <React.Fragment>
       <Container>
         <Header>
-          <Nav />
+          <NavigationBar />
         </Header>
         <Content>
           <DataTable />
@@ -19,4 +19,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Data;
