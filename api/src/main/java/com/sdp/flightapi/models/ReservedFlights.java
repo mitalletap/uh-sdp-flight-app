@@ -13,18 +13,9 @@ public class ReservedFlights {
 
     private String userName;
 
-    private String originId;
-    private String originIataCode;
-    private String originName;
-    private String originCityName;
-    private String originCityId;
+    private Place origin;
+    private Place destination;
 
-    private String destinationId;
-    private String destinationIataCode;
-    private String destinationName;
-    private String destinationCityName;
-    private String destinationCityId;
-
-    private String carrierName;
-    private String carrierId;
+    private Carrier outboundCarrier;
+    private Carrier inboundCarrier;
 }

@@ -1,11 +1,14 @@
 package com.sdp.flightapi.services;
 
 import com.sdp.flightapi.models.RawFlightData;
+import com.sdp.flightapi.models.ReservedFlights;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +37,7 @@ public class FlightService {
     }
 
     String datesString(String outboundDate, @Nullable Optional<String> inboundDate) {
-        return outboundDate + (inboundDate.isPresent() ? "/" + inboundDate.get() : "");
+        return outboundDate + (inboundDate.map(s -> "/" + s).orElse(""));
     }
 
     String parameterString(String origin, String destination,
@@ -42,5 +45,9 @@ public class FlightService {
         return urlCodedOriginOrDestination(origin) +
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
+    }
+
+    public List<ReservedFlights> formatFlightList(RawFlightData rawFlightData) {
+        return Arrays.asList();
     }
 }
