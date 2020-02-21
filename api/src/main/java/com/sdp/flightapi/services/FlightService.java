@@ -46,9 +46,4 @@ public class FlightService {
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
     }
-
-    public List<ReservedFlights> formatFlightList(RawFlightData rawFlightData) {
-        return RawFlightDataToReservedFlightsConverter
-                .convert(rawFlightData);
-    }
 }
