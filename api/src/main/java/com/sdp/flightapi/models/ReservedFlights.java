@@ -10,7 +10,7 @@ public class ReservedFlights {
 
     private boolean direct;
     private float price;
-    private java.sql.Date departureDate;
+    private String departureDate;
 
     private String userName;
 

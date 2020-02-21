@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +48,7 @@ public class FlightService {
     }
 
     public List<ReservedFlights> formatFlightList(RawFlightData rawFlightData) {
-        return Arrays.asList();
+        return RawFlightDataToReservedFlightsConverter
+                .convert(rawFlightData);
     }
 }
