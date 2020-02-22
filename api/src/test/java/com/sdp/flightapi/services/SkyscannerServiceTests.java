@@ -10,15 +10,13 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class SkyscannerAPITests {
+public class SkyscannerServiceTests {
     @Autowired
-    private FlightService flightService;
+    SkyscannerService skyscannerService;
 
     String tomorrowDateString;
 
@@ -33,9 +31,8 @@ public class SkyscannerAPITests {
         RawFlightData[] rawFlightData = new RawFlightData[1];
 
         assertDoesNotThrow(() ->  {
-            rawFlightData[0] = flightService
-                    .getFlights("SFO", "JFK", tomorrowDateString, Optional.empty())
-                    .block();
+            rawFlightData[0] = skyscannerService
+                    .getFlights("SFO-sky/JFK-sky/" + tomorrowDateString);
         });
 
         assertTrue(rawFlightData[0].getQuotes()

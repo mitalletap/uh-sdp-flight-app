@@ -126,25 +126,120 @@ public class RawFlightDataToReservedFlightsConverterTests {
 
     @Test
     void testConvertRawFlightDataWithNoQuotesGeneratesEmptyListOfReservedFlights() {
-        List<Carrier> carriers = Collections.emptyList();
-
-        List<Place> places = Arrays.asList(new Place(), new Place());
-        places.get(0).setPlaceId(10000);
-        places.get(0).setCityName("Destination City");
-        places.get(1).setPlaceId(20000);
-        places.get(1).setCityName("Origin City");
-
-        List<Quote> quotes = Collections.emptyList();
-
-        RawFlightData noQuotesRawFlightData = new RawFlightData();
-        noQuotesRawFlightData.setCarriers(carriers);
-        noQuotesRawFlightData.setPlaces(places);
-        noQuotesRawFlightData.setQuotes(quotes);
+        rawFlightData.setQuotes(Collections.emptyList());
 
         List<ReservedFlights> convertedFlightsList
-                = RawFlightDataToReservedFlightsConverter
-                    .convert(noQuotesRawFlightData);
+                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
 
         assertEquals(0, convertedFlightsList.size());
+    }
+
+    @Test
+    void testConvertRawFlightDataWithOnlyDirectQuoteGeneratesListWithOneReservedFlight() {
+        rawFlightData.setQuotes(Collections.singletonList(
+                rawFlightData.getQuotes()
+                        .get(1)));
+
+        List<ReservedFlights> convertedFlights
+                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+
+        assertEquals(1, convertedFlights.size());
+
+        assertAll(
+                () -> assertTrue(convertedFlights.get(0).isDirect()),
+                () -> assertEquals("C Airlines",
+                        convertedFlights.get(0)
+                                .getOutboundCarrier()
+                                .getName()),
+                () -> assertEquals(600f,
+                        convertedFlights.get(0)
+                                .getPrice()),
+                () -> assertEquals("Origin City",
+                        convertedFlights.get(0)
+                                .getOrigin()
+                                .getCityName()),
+                () -> assertEquals("Destination City",
+                        convertedFlights.get(0)
+                                .getDestination()
+                                .getCityName()),
+                () -> assertEquals(tomorrowDateString,
+                        convertedFlights.get(0)
+                                .getDepartureDate())
+        );
+    }
+
+    @Test
+    void testConvertRawFlightDataWithOnlyIndirectQuoteGeneratesListWithOneReservedFlight() {
+        rawFlightData.setQuotes(Collections.singletonList(
+                rawFlightData.getQuotes()
+                        .get(0)));
+
+        List<ReservedFlights> convertedFlights
+                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+
+        assertEquals(1, convertedFlights.size());
+
+        assertAll(
+                () -> assertFalse(convertedFlights.get(0).isDirect()),
+                () -> assertEquals("B Airlines",
+                        convertedFlights.get(0)
+                                .getOutboundCarrier()
+                                .getName()),
+                () -> assertEquals(500f,
+                        convertedFlights.get(0)
+                                .getPrice()),
+                () -> assertEquals("Origin City",
+                        convertedFlights.get(0)
+                                .getOrigin()
+                                .getCityName()),
+                () -> assertEquals("Destination City",
+                        convertedFlights.get(0)
+                                .getDestination()
+                                .getCityName()),
+                () -> assertEquals(tomorrowDateString,
+                        convertedFlights.get(0)
+                                .getDepartureDate())
+        );
+    }
+
+    @Test
+    void testConvertRawFlightDataWithDirectAndIndirectQuoteGeneratesPairOfReservedFlights() {
+        List<ReservedFlights> convertedFlights
+                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+
+        assertEquals(2, convertedFlights.size());
+
+        assertAll(
+                () -> assertEquals(Arrays.asList(false, true),
+                        convertedFlights.stream()
+                                .map(ReservedFlights::isDirect)
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("B Airlines", "C Airlines"),
+                        convertedFlights.stream()
+                                .map(flight -> flight
+                                        .getOutboundCarrier()
+                                        .getName())
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList(500f, 600f),
+                        convertedFlights.stream()
+                                .map(ReservedFlights::getPrice)
+                                .collect(Collectors.toList())),
+
+                () -> assertTrue(convertedFlights.stream()
+                        .allMatch(flight -> flight
+                                .getOrigin()
+                                .getCityName().equals("Origin City"))),
+
+                () -> assertTrue(convertedFlights.stream()
+                        .allMatch(flight -> flight
+                                .getDestination()
+                                .getCityName().equals("Destination City"))),
+
+                () -> assertTrue(convertedFlights.stream()
+                        .allMatch(flight -> flight.getDepartureDate()
+                                .equals(tomorrowDateString)))
+        );
     }
 }

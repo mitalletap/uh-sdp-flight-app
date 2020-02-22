@@ -5,30 +5,23 @@ import com.sdp.flightapi.models.ReservedFlights;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FlightService {
-    private final WebClient webClient;
-    private final String flightSearchBaseUrl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/" +
-            "apiservices/browsequotes/v1.0/US/USD/en-US/";
+    SkyscannerService skyscannerService;
 
     public FlightService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl(flightSearchBaseUrl)
-                .build();
+        skyscannerService = new SkyscannerService(webClientBuilder);
     }
 
-    public Mono<RawFlightData> getFlights(String origin, String destination,
+    public List<ReservedFlights> getFlights(String origin, String destination,
                                           String outboundDate, @Nullable Optional<String> inboundDate) {
-        return this.webClient.get()
-                .uri(parameterString(
-                        origin, destination, outboundDate, inboundDate))
-                .header("X-RapidAPI-Key", "c25f6b34acmsh3e88e6211d976dcp1b322cjsn2b02ff0fa923")
-                .retrieve()
-                .bodyToMono(RawFlightData.class);
+        RawFlightData rawFlightData = skyscannerService.getFlights(
+                parameterString(origin, destination, outboundDate, inboundDate));
+        return RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
     }
 
     String urlCodedOriginOrDestination(String iataCode) {
