@@ -1,18 +1,21 @@
 package com.sdp.flightapi.controllers;
 
+import com.sdp.flightapi.dao.FlightDao;
+import com.sdp.flightapi.models.ReservedFlights;
 import com.sdp.flightapi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequestMapping("api")
 @RestController
 public class FlightController {
     private final FlightService flightService;
+
+    @Autowired
+    private FlightDao flightDao;
 
     @Autowired
     public FlightController(FlightService flightService) {
@@ -32,4 +35,19 @@ public class FlightController {
                 inboundDate
         );
     }
+    @PostMapping("/post-reserved-flight")
+    public String saveFlight(@RequestBody ReservedFlights reservedFlights){
+        flightDao.save(reservedFlights);
+        return "Added reserved flight with info " + reservedFlights.getId();
+    }
+    @GetMapping("/get-reserved-flights")
+    public List<ReservedFlights>getReservedFlights(){
+        return flightDao.findAll();
+    }
+
+    @GetMapping("/get-reserved-flights/{id}")
+    public Optional<ReservedFlights> getUsersReservedFlights(@RequestParam int id){
+        return flightDao.findById(id);
+    }
+
 }

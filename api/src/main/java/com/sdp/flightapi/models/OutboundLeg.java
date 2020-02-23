@@ -43,4 +43,39 @@ public class OutboundLeg {
         this.additionalProperties.put(name, value);
     }
 
+    public List<Integer> getCarrierIds() {
+        return carrierIds;
+    }
+
+    public void setCarrierIds(List<Integer> carrierIds) {
+        this.carrierIds = carrierIds;
+    }
+
+    public Integer getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(Integer originId) {
+        this.originId = originId;
+    }
+
+    public Integer getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(Integer destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public String getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(String departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
 }

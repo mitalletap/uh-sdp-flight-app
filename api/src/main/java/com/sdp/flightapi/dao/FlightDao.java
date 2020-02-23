@@ -9,6 +9,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "flights", path = "flights")
-public interface FlightDao extends MongoRepository<ReservedFlights, String> {
+public interface FlightDao extends MongoRepository<ReservedFlights, Integer> {
     List<ReservedFlights> findByUserName(@Param("name") String name);
 }

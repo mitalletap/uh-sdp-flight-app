@@ -45,4 +45,47 @@ public class Quote {
         this.additionalProperties.put(name, value);
     }
 
+    public Boolean getDirect() {
+        return direct;
+    }
+
+    public void setDirect(Boolean direct) {
+        this.direct = direct;
+    }
+
+    public Double getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(Double minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public OutboundLeg getOutboundLeg() {
+        return outboundLeg;
+    }
+
+    public void setOutboundLeg(OutboundLeg outboundLeg) {
+        this.outboundLeg = outboundLeg;
+    }
+
+    public String getQuoteDateTime() {
+        return quoteDateTime;
+    }
+
+    public void setQuoteDateTime(String quoteDateTime) {
+        this.quoteDateTime = quoteDateTime;
+    }
+
+    public Integer getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(Integer quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
 }
