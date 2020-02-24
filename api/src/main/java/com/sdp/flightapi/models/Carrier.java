@@ -35,24 +35,4 @@ public class Carrier {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
-    public Integer getCarrierId() {
-        return carrierId;
-    }
-
-    public void setCarrierId(Integer carrierId) {
-        this.carrierId = carrierId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
-        this.additionalProperties = additionalProperties;
-    }
 }
