@@ -45,9 +45,9 @@ public class FlightController {
         return flightDao.findAll();
     }
 
-    @GetMapping("/get-reserved-flights/{id}")
-    public Optional<ReservedFlights> getUsersReservedFlights(@RequestParam int id){
-        return flightDao.findById(id);
+    @GetMapping("/get-users-reserved-flights")
+    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName){
+        return flightDao.findByUserName(userName);
     }
 
 }
