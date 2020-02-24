@@ -38,11 +38,6 @@ public class OutboundLeg {
         return this.additionalProperties;
     }
 
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     public List<Integer> getCarrierIds() {
         return carrierIds;
     }
@@ -73,9 +68,5 @@ public class OutboundLeg {
 
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
-    }
-
-    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
-        this.additionalProperties = additionalProperties;
     }
 }
