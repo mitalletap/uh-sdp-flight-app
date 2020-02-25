@@ -1,15 +1,15 @@
 {
     "env": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-credera-flight-app-env-201031-authRole",
-            "UnauthRoleArn": "arn:aws:iam::660232795038:role/amplify-credera-flight-app-env-201031-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::660232795038:role/amplify-credera-flight-app-env-201031-authRole",
+            "AuthRoleName": "amplify-credera-flight-app-env-203124-authRole",
+            "UnauthRoleArn": "arn:aws:iam::660232795038:role/amplify-credera-flight-app-env-203124-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::660232795038:role/amplify-credera-flight-app-env-203124-authRole",
             "Region": "us-east-2",
-            "DeploymentBucketName": "amplify-credera-flight-app-env-201031-deployment",
-            "UnauthRoleName": "amplify-credera-flight-app-env-201031-unauthRole",
-            "StackName": "amplify-credera-flight-app-env-201031",
-            "StackId": "arn:aws:cloudformation:us-east-2:660232795038:stack/amplify-credera-flight-app-env-201031/00b44b20-5774-11ea-b41b-0a6c486e9f90",
-            "AmplifyAppId": "dh1rx1zu1sio3"
+            "DeploymentBucketName": "amplify-credera-flight-app-env-203124-deployment",
+            "UnauthRoleName": "amplify-credera-flight-app-env-203124-unauthRole",
+            "StackName": "amplify-credera-flight-app-env-203124",
+            "StackId": "arn:aws:cloudformation:us-east-2:660232795038:stack/amplify-credera-flight-app-env-203124/ebd7b040-5776-11ea-bb00-06d9da1ade34",
+            "AmplifyAppId": "d2sza6eb3c6t8t"
         }
     }
 }
