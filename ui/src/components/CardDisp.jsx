@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table } from "rsuite";
 import jsonData from "../data/actualData";
-import { Container, Row, Col, Image, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Image, Card, Button, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const { Column, HeaderCell, Cell } = Table;
@@ -24,7 +24,16 @@ class CardDisp extends Component {
     return (
       <div>
         <Card bg="dark" text="white">
-          <Card.Header as="h5">2/20/2020</Card.Header>
+          <Card.Header as="h5">
+            <Nav variant="pills" defaultActiveKey="#first">
+              <Nav.Item>
+                <Nav.Link href="#first">Departure</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#link">Arrival</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Card.Header>
           <Card.Body>
             <Card.Title>
               {places[0].CityName}->{places[1].CityName}
