@@ -26,7 +26,6 @@ import "./App.css";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
 import Amplify from "aws-amplify";
 import awsconfig from "./aws-exports";
-import { Auth } from "aws-amplify";
 import { withAuthenticator } from "aws-amplify-react";
 Amplify.configure(awsconfig);
 
@@ -42,9 +41,6 @@ function App() {
 
   // Modal Hook
   const [show, setShow] = useState(true);
-  // const currentSession = Auth.currentAuthenticatedUser()
-  //   .then(user => setEmail(user.attributes.email))
-  //   .catch(err => console.log(err));
 
   return (
     <Router>
@@ -59,7 +55,7 @@ function App() {
         }}
       >
         <Switch>
-          <Route exact path="/" component={FlightSelection} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/flight-search" component={FlightSelection} />
           <Route exact path="/data" component={Data} />
           <Route exact path="/logout" component={Home} />
@@ -71,4 +67,28 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, true);
+
+{
+  /* <form onSubmit={onSubmit}>
+          <input
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+          />
+          <input
+            value={password}
+            onChange={event => setPassword(event.target.value)}
+          />
+          <button type='submit'> signup </button>
+        </form> */
+}
+
+// const onSubmit = event => {
+//   event.preventDefault();
+//   UserPool.signUp(email, password, [], null, (err, data) => {
+//     if (err)
+//       console.log(err);
+//       console.log(err.message);
+//     console.log(data);
+//   });
+// }
