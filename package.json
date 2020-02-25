@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "aws-amplify": "^2.2.5",
+    "aws-amplify-react": "^3.1.6"
+  }
+}
