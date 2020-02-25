@@ -1,5 +1,5 @@
 // Imports
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -17,17 +17,23 @@ import Home from "../pages/Home.jsx";
 import FlightSelection from "../pages/FlightSelection";
 import Data from "../pages/Data";
 import PageNotFound from "../pages/404.jsx";
+import { Auth } from "aws-amplify";
 
 class NavigationBar extends Component {
-  state = {};
   render() {
+    const signoutFunction = () => {
+      Auth.signOut()
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    };
+
     return (
       <Navbar>
         <Navbar.Body>
           <Nav>
-            <Link to={"/"}>
+            {/* <Link to={"/"}>
               <Nav.Item icon={<Icon icon="home" />}>Home</Nav.Item>
-            </Link>
+            </Link> */}
             <Link to={"/flight-search"}>
               <Nav.Item icon={<Icon icon="plane" />}> Search Flights</Nav.Item>
             </Link>
@@ -37,7 +43,10 @@ class NavigationBar extends Component {
           </Nav>
           <Nav pullRight>
             <Link to={"/logout"}>
-              <Nav.Item icon={<Icon icon="cog" />}></Nav.Item>
+              <Nav.Item
+                icon={<Icon icon="cog" />}
+                onClick={signoutFunction}
+              ></Nav.Item>
             </Link>
             <Badge content={"1"}>
               <Link to={"/profile"}>

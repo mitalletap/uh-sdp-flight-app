@@ -1,0 +1,20 @@
+{
+    "env": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-flight-app-env-25639-authRole",
+            "UnauthRoleArn": "arn:aws:iam::660232795038:role/amplify-flight-app-env-25639-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::660232795038:role/amplify-flight-app-env-25639-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-flight-app-env-25639-deployment",
+            "UnauthRoleName": "amplify-flight-app-env-25639-unauthRole",
+            "StackName": "amplify-flight-app-env-25639",
+            "StackId": "arn:aws:cloudformation:us-east-2:660232795038:stack/amplify-flight-app-env-25639/3dbd0090-5551-11ea-9e2c-0a9d1f6a4556",
+            "AmplifyAppId": "d2i23uvmtnsokl"
+        },
+        "categories": {
+            "auth": {
+                "flightapp89ec110b": {}
+            }
+        }
+    }
+}
