@@ -19,6 +19,8 @@ import Data from "./pages/Data.jsx";
 import Profile from "./pages/Profile.jsx";
 import PageNotFound from "./pages/404";
 
+import Card from "./pages/Card.jsx";
+
 // CSS
 import "./App.css";
 
@@ -65,6 +67,8 @@ function App() {
           <Route exact path="/logout" component={Home} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/404" component={PageNotFound} />
+
+          <Route exact path="/card" component={Card} />
         </Switch>
       </div>
     </Router>
