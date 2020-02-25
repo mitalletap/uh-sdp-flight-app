@@ -12,6 +12,7 @@ import {
   InputPicker
 } from "rsuite";
 import airportData from "../data/airports.js";
+import mockData from "../data/mockData";
 import testData from "../data/data";
 
 class FlightSearch extends Component {
