@@ -35,6 +35,7 @@ public class FlightController {
                 inboundDate
         );
     }
+  
     @PostMapping("/post-reserved-flight")
     public String saveFlight(@RequestBody ReservedFlights reservedFlights){
         flightDao.save(reservedFlights);
@@ -49,5 +50,4 @@ public class FlightController {
     public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName){
         return flightDao.findByUserName(userName);
     }
-
 }

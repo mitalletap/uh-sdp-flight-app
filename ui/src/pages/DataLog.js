@@ -1,5 +1,5 @@
 import React from "react";
-import FlightSearch from "../components/FlightSearch";
+import DataTable from "../components/DataTable";
 import Nav from "../components/NavigationBar";
 import { Container, Header, Footer, Content, Toggle } from "rsuite";
 
@@ -11,7 +11,7 @@ const Home = () => {
           <Nav />
         </Header>
         <Content>
-          <FlightSearch />
+          <DataTable />
         </Content>
         <Footer></Footer>
       </Container>

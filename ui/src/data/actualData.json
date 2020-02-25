@@ -1,0 +1,64 @@
+{
+  "Quotes": [
+    {
+      "QuoteId": 1,
+      "MinPrice": 399.0,
+      "Direct": true,
+      "OutboundLeg": {
+        "CarrierIds": [851],
+        "OriginId": 81727,
+        "DestinationId": 60987,
+        "DepartureDate": "2020-02-08T00:00:00"
+      },
+      "QuoteDateTime": "2020-02-07T19:03:00"
+    }
+  ],
+  "Places": [
+    {
+      "PlaceId": 60987,
+      "IataCode": "JFK",
+      "Name": "New York John F. Kennedy",
+      "Type": "Station",
+      "SkyscannerCode": "JFK",
+      "CityName": "New York",
+      "CityId": "NYCA",
+      "CountryName": "United States"
+    },
+    {
+      "PlaceId": 81727,
+      "IataCode": "SFO",
+      "Name": "San Francisco International",
+      "Type": "Station",
+      "SkyscannerCode": "SFO",
+      "CityName": "San Francisco",
+      "CityId": "SFOA",
+      "CountryName": "United States"
+    }
+  ],
+  "Carriers": [
+    {
+      "CarrierId": 851,
+      "Name": "Alaska Airlines"
+    },
+    {
+      "CarrierId": 870,
+      "Name": "jetBlue"
+    },
+    {
+      "CarrierId": 1065,
+      "Name": "Frontier Airlines"
+    }
+  ],
+  "Currencies": [
+    {
+      "Code": "USD",
+      "Symbol": "$",
+      "ThousandsSeparator": ",",
+      "DecimalSeparator": ".",
+      "SymbolOnLeft": true,
+      "SpaceBetweenAmountAndSymbol": false,
+      "RoundingCoefficient": 0,
+      "DecimalDigits": 2
+    }
+  ]
+}

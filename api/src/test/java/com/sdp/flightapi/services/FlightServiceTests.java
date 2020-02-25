@@ -1,7 +1,10 @@
 package com.sdp.flightapi.services;
 
+
 import com.sdp.flightapi.models.RawFlightData;
 import org.junit.jupiter.api.BeforeEach;
+
+import com.sdp.flightapi.dao.FlightDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +42,7 @@ public class FlightServiceTests {
     }
 
     @Test
+
     void testGenerateParameterStringWithPresentInboundDate() {
         assertEquals("SFO-sky/JFK-sky/2020-01-01/2020-01-02",
                 flightService.parameterString("SFO", "JFK",
