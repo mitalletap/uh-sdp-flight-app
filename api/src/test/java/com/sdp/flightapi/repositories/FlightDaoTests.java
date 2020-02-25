@@ -45,7 +45,8 @@ class FlightDaoTests {
 	public void shouldCreateEntity() throws Exception {
 
 		mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
+                "{\"origin\" : {\"name\" : \"A City\"}, " +
+                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
 				status().isCreated()).andExpect(
 				header().string("Location", containsString("flights/")));
 	}
@@ -54,26 +55,28 @@ class FlightDaoTests {
 	public void shouldRetrieveEntity() throws Exception {
 
 		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
+                "{\"origin\" : {\"name\" : \"A City\"}, " +
+                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
 				status().isCreated()).andReturn();
 
 		String location = mvcResult.getResponse().getHeader("Location");
 		mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-				jsonPath("$.originName").value("A City")).andExpect(
-				jsonPath("$.destinationName").value("B City"));
+				jsonPath("$.origin.name").value("A City")).andExpect(
+				jsonPath("$.destination.name").value("B City"));
 	}
 
 	@Test
 	public void shouldQueryEntity() throws Exception {
 
 		mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
+                "{\"userName\" : \"User1\", \"origin\" : {\"name\" : \"A City\"}, " +
+                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
 				status().isCreated());
 
 		mockMvc.perform(
-				get("/flights/search/findByOriginName?name={name}", "A City")).andExpect(
+				get("/flights/search/findByUserName?name={name}", "User1")).andExpect(
 				status().isOk()).andExpect(
-				jsonPath("$._embedded.flights[0].destinationName").value(
+				jsonPath("$._embedded.flights[0].destination.name").value(
 						"B City"));
 	}
 
@@ -81,43 +84,28 @@ class FlightDaoTests {
 	public void shouldUpdateEntity() throws Exception {
 
 		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
+                "{\"origin\" : {\"name\" : \"A City\"}, " +
+                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
 				status().isCreated()).andReturn();
 
 		String location = mvcResult.getResponse().getHeader("Location");
 
 		mockMvc.perform(put(location).content(
-				"{\"originName\": \"C City\", \"destinationName\":\"Z Town\"}")).andExpect(
+                "{\"origin\" : {\"name\" : \"C City\"}, " +
+                        "\"destination\" : {\"name\" : \"Z Town\"}}")).andExpect(
 				status().isNoContent());
 
 		mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-				jsonPath("$.originName").value("C City")).andExpect(
-				jsonPath("$.destinationName").value("Z Town"));
-	}
-
-	@Test
-	public void shouldPartiallyUpdateEntity() throws Exception {
-
-		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
-				status().isCreated()).andReturn();
-
-		String location = mvcResult.getResponse().getHeader("Location");
-
-		mockMvc.perform(
-				patch(location).content("{\"originName\": \"Alpha City\"}")).andExpect(
-				status().isNoContent());
-
-		mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
-				jsonPath("$.originName").value("Alpha City")).andExpect(
-				jsonPath("$.destinationName").value("B City"));
+				jsonPath("$.origin.name").value("C City")).andExpect(
+				jsonPath("$.destination.name").value("Z Town"));
 	}
 
 	@Test
 	public void shouldDeleteEntity() throws Exception {
 
 		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
-				"{\"originName\": \"A City\", \"destinationName\":\"B City\"}")).andExpect(
+                "{\"origin\" : {\"name\" : \"A City\"}, " +
+                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
 				status().isCreated()).andReturn();
 
 		String location = mvcResult.getResponse().getHeader("Location");

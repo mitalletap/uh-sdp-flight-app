@@ -2,29 +2,23 @@ package com.sdp.flightapi.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "reservedFlights")
 public class ReservedFlights {
     @Id
-    private String id;
+    private Integer id;
 
+    private boolean direct;
     private float price;
-    private java.sql.Date departureDate;
+    private String departureDate;
 
     private String userName;
 
-    private String originId;
-    private String originIataCode;
-    private String originName;
-    private String originCityName;
-    private String originCityId;
+    private Place origin;
+    private Place destination;
 
-    private String destinationId;
-    private String destinationIataCode;
-    private String destinationName;
-    private String destinationCityName;
-    private String destinationCityId;
-
-    private String carrierName;
-    private String carrierId;
+    private Carrier outboundCarrier;
+    private Carrier inboundCarrier;
 }
