@@ -18,12 +18,12 @@ public class SkyscannerServiceTests {
     @Autowired
     SkyscannerService skyscannerService;
 
-    String tomorrowDateString;
+    String nextWeekDateString;
 
     @BeforeEach
     void setUp() {
-        tomorrowDateString = new SimpleDateFormat("yyyy-MM-dd").format(
-                Date.from(Instant.now().plus(1, ChronoUnit.DAYS)));
+        nextWeekDateString = new SimpleDateFormat("yyyy-MM-dd").format(
+                Date.from(Instant.now().plus(7, ChronoUnit.DAYS)));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class SkyscannerServiceTests {
 
         assertDoesNotThrow(() ->  {
             rawFlightData[0] = skyscannerService
-                    .getFlights("SFO-sky/JFK-sky/" + tomorrowDateString);
+                    .getFlights("SFO-sky/JFK-sky/" + nextWeekDateString);
         });
 
         assertTrue(rawFlightData[0].getQuotes()
