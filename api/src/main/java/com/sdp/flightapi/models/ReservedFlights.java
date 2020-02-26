@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "reservedFlights")
 public class ReservedFlights {
     @Id
-    private Integer id;
+    private String id;
 
     private boolean direct;
     private float price;
