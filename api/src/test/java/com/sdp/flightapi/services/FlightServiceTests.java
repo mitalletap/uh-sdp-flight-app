@@ -1,7 +1,9 @@
 package com.sdp.flightapi.services;
 
 
+import com.sdp.flightapi.controllers.FlightController;
 import com.sdp.flightapi.models.RawFlightData;
+import com.sdp.flightapi.models.ReservedFlights;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.sdp.flightapi.dao.FlightDao;
@@ -14,8 +16,10 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -64,6 +68,26 @@ public class FlightServiceTests {
                 "", Optional.empty());
 
         verify(skyscannerServiceMock).getFlights(anyString());
+    }
+
+    @Test
+    void testGetFlightsCallsDataFormatConverter() {
+        RawFlightData rawFlightData = new RawFlightData();
+        rawFlightData.setQuotes(Collections.emptyList());
+
+        RawFlightDataToReservedFlightsConverter converterMock = mock(RawFlightDataToReservedFlightsConverter.class);
+
+        SkyscannerService skyscannerServiceMock = mock(SkyscannerService.class);
+        when(skyscannerServiceMock.getFlights(anyString())).thenReturn(rawFlightData);
+
+        FlightService flightServiceWithMockComponents = flightService;
+        flightServiceWithMockComponents.skyscannerService = skyscannerServiceMock;
+        flightServiceWithMockComponents.dataConverter = converterMock;
+
+        flightServiceWithMockComponents.getFlights("", "",
+                "", Optional.empty());
+
+        verify(converterMock).convert(rawFlightData);
     }
 
 }
