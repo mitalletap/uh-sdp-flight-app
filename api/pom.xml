@@ -68,7 +68,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>systems.manifold</groupId>
+            <artifactId>manifold</artifactId>
+            <version>2020.1.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

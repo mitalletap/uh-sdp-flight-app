@@ -19,11 +19,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class RawFlightDataToReservedFlightsConverterTests {
 
+    RawFlightDataToReservedFlightsConverter converter;
     String tomorrowDateString;
     RawFlightData rawFlightData;
 
     @BeforeEach
     void setUp() {
+        converter = new RawFlightDataToReservedFlightsConverter();
+
         tomorrowDateString = new SimpleDateFormat("yyyy-MM-dd").format(
                 Date.from(Instant.now().plus(1, ChronoUnit.DAYS)));
 
@@ -129,7 +132,7 @@ public class RawFlightDataToReservedFlightsConverterTests {
         rawFlightData.setQuotes(Collections.emptyList());
 
         List<ReservedFlights> convertedFlightsList
-                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+                = converter.convert(rawFlightData);
 
         assertEquals(0, convertedFlightsList.size());
     }
@@ -141,7 +144,7 @@ public class RawFlightDataToReservedFlightsConverterTests {
                         .get(1)));
 
         List<ReservedFlights> convertedFlights
-                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+                = converter.convert(rawFlightData);
 
         assertEquals(1, convertedFlights.size());
 
@@ -175,7 +178,7 @@ public class RawFlightDataToReservedFlightsConverterTests {
                         .get(0)));
 
         List<ReservedFlights> convertedFlights
-                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+                = converter.convert(rawFlightData);
 
         assertEquals(1, convertedFlights.size());
 
@@ -205,7 +208,7 @@ public class RawFlightDataToReservedFlightsConverterTests {
     @Test
     void testConvertRawFlightDataWithDirectAndIndirectQuoteGeneratesPairOfReservedFlights() {
         List<ReservedFlights> convertedFlights
-                = RawFlightDataToReservedFlightsConverter.convert(rawFlightData);
+                = converter.convert(rawFlightData);
 
         assertEquals(2, convertedFlights.size());
 
