@@ -147,7 +147,7 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>com/sdp/flightapi/FlightApiApplication.java</exclude>
+								<exclude>com/sdp/flightapi/FlightApiApplication</exclude>
 								<exclude>com/sdp/flightapi/models/*</exclude>
 							</excludes>
 							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
