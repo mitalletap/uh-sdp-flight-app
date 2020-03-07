@@ -12,12 +12,14 @@ public class ReservedFlights {
 
     private boolean direct;
     private float price;
-    private String departureDate;
 
     private String userName;
 
     private Place origin;
     private Place destination;
+
+    private String outboundDepartureDate;
+    private String inboundDepartureDate;
 
     private Carrier outboundCarrier;
     private Carrier inboundCarrier;

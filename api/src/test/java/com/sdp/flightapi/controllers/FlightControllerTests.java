@@ -27,25 +27,11 @@ public class FlightControllerTests {
     @Autowired MockMvc mockMvc;
     @Autowired FlightController flightController;
 
-    FlightService realFlightService;
-    FlightDao realFlightDao;
     static ObjectMapper jsonMapper;
 
     @BeforeAll
     static void setUpBeforeAll() {
         jsonMapper = new ObjectMapper();
-    }
-
-    @BeforeEach
-    void setUp() {
-        realFlightService = flightController.flightService;
-        realFlightDao = flightController.flightDao;
-    }
-
-    @AfterEach
-    void tearDown() {
-        flightController.flightDao = realFlightDao;
-        flightController.flightService = realFlightService;
     }
 
     @Test

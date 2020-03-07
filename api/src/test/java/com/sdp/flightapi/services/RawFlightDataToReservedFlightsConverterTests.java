@@ -1,16 +1,15 @@
 package com.sdp.flightapi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdp.flightapi.models.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,78 +18,162 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class RawFlightDataToReservedFlightsConverterTests {
 
-    RawFlightDataToReservedFlightsConverter converter;
-    String tomorrowDateString;
-    RawFlightData rawFlightData;
+    static RawFlightDataToReservedFlightsConverter converter;
+    static ObjectMapper objectMapper;
+    RawFlightData oneWayRawFlightData;
+    RawFlightData roundTripRawFlightData;
+
+    @BeforeAll
+    static void setUpBeforeAll() {
+        converter = new RawFlightDataToReservedFlightsConverter();
+        objectMapper = new ObjectMapper();
+    }
 
     @BeforeEach
-    void setUp() {
-        converter = new RawFlightDataToReservedFlightsConverter();
-
-        tomorrowDateString = new SimpleDateFormat("yyyy-MM-dd").format(
-                Date.from(Instant.now().plus(1, ChronoUnit.DAYS)));
-
-        List<Carrier> carriers = Arrays.asList(new Carrier(), new Carrier(),
-                new Carrier(), new Carrier());
-        carriers.get(0).setCarrierId(100);
-        carriers.get(0).setName("A Airlines");
-        carriers.get(1).setCarrierId(200);
-        carriers.get(1).setName("B Airlines");
-        carriers.get(2).setCarrierId(300);
-        carriers.get(2).setName("C Airlines");
-        carriers.get(3).setCarrierId(400);
-        carriers.get(3).setName("D Airlines");
-
-        List<Place> places = Arrays.asList(new Place(), new Place());
-        places.get(0).setPlaceId(10000);
-        places.get(0).setCityName("Destination City");
-        places.get(1).setPlaceId(20000);
-        places.get(1).setCityName("Origin City");
-
-        List<Quote> quotes = Arrays.asList(new Quote(), new Quote());
-        quotes.get(0).setDirect(false);
-        quotes.get(0).setMinPrice(500d);
-        quotes.get(0).setOutboundLeg(new OutboundLeg());
-        quotes.get(0).getOutboundLeg().setCarrierIds(Collections.singletonList(200));
-        quotes.get(0).getOutboundLeg().setOriginId(20000);
-        quotes.get(0).getOutboundLeg().setDestinationId(10000);
-        quotes.get(0).getOutboundLeg().setDepartureDate(tomorrowDateString);
-        quotes.get(1).setDirect(true);
-        quotes.get(1).setMinPrice(600d);
-        quotes.get(1).setOutboundLeg(new OutboundLeg());
-        quotes.get(1).getOutboundLeg().setCarrierIds(Collections.singletonList(300));
-        quotes.get(1).getOutboundLeg().setOriginId(20000);
-        quotes.get(1).getOutboundLeg().setDestinationId(10000);
-        quotes.get(1).getOutboundLeg().setDepartureDate(tomorrowDateString);
-
-        rawFlightData = new RawFlightData();
-        rawFlightData.setCarriers(carriers);
-        rawFlightData.setPlaces(places);
-        rawFlightData.setQuotes(quotes);
+    void setUp() throws JsonProcessingException {
+        oneWayRawFlightData = objectMapper.readValue(RawFlightDataMockData.oneWayData, RawFlightData.class);
+        roundTripRawFlightData = objectMapper.readValue(RawFlightDataMockData.roundTripData, RawFlightData.class);
     }
 
     @Test
-    void testInitializeWithQuoteAndCarrierData() {
-        List<ReservedFlights> reservedFlights
-                = RawFlightDataToReservedFlightsConverter
-                    .initializeWithQuoteAndCarrierData(rawFlightData);
+    void testBuildFlightFromQuoteAndCarriersOneWay() {
+        ReservedFlights flight0 =
+                RawFlightDataToReservedFlightsConverter.buildFlightFromQuoteAndCarriers(
+                        oneWayRawFlightData.getQuotes().get(0), oneWayRawFlightData.getCarriers());
+        ReservedFlights flight1 =
+                RawFlightDataToReservedFlightsConverter.buildFlightFromQuoteAndCarriers(
+                        oneWayRawFlightData.getQuotes().get(1), oneWayRawFlightData.getCarriers());
 
         assertAll(
-                () -> assertEquals(Arrays.asList(false, true),
+                () -> assertTrue(flight0.isDirect()),
+                () -> assertEquals(200f, flight0.getPrice()),
+                () -> assertEquals("Alpha Airlines", flight0.getOutboundCarrier()
+                        .getName()),
+                () -> assertEquals("2020-05-09T00:00:00", flight0.getOutboundDepartureDate())
+        );
+        assertAll(
+                () -> assertFalse(flight1.isDirect()),
+                () -> assertEquals(300f, flight1.getPrice()),
+                () -> assertEquals("Beta Airlines", flight1.getOutboundCarrier()
+                        .getName()),
+                () -> assertEquals("2020-05-10T00:00:00", flight1.getOutboundDepartureDate())
+        );
+    }
+
+    @Test
+    void testBuildFlightListFromQuotesAndCarriersOneWay() {
+        List<ReservedFlights> reservedFlights
+                = RawFlightDataToReservedFlightsConverter
+                    .buildFlightListFromQuotesAndCarriers(oneWayRawFlightData);
+
+        assertAll(
+                () -> assertEquals(oneWayRawFlightData.getQuotes()
+                                .stream()
+                                .map(Quote::getDirect)
+                                .collect(Collectors.toList()),
                         reservedFlights.stream()
                                 .map(ReservedFlights::isDirect)
                                 .collect(Collectors.toList())),
 
-                () -> assertEquals(Arrays.asList("B Airlines", "C Airlines"),
+                () -> assertEquals(Arrays.asList("Alpha Airlines", "Beta Airlines",
+                        "Gamma Airlines", "Epsilon Airlines"),
                         reservedFlights.stream()
                                 .map(flight -> flight
                                         .getOutboundCarrier()
                                         .getName())
                                 .collect(Collectors.toList())),
 
-                () -> assertEquals(Arrays.asList(500f, 600f),
+                () -> assertEquals(Arrays.asList(200f, 300f, 250f, 300f),
                         reservedFlights.stream()
                                 .map(ReservedFlights::getPrice)
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("2020-05-09T00:00:00", "2020-05-10T00:00:00",
+                            "2020-05-11T00:00:00", "2020-05-12T00:00:00"),
+                        reservedFlights.stream()
+                                .map(ReservedFlights::getOutboundDepartureDate)
+                                .collect(Collectors.toList()))
+        );
+    }
+
+    @Test
+    void testBuildFlightFromQuoteAndCarriersRoundTrip() {
+        ReservedFlights flight0 =
+                RawFlightDataToReservedFlightsConverter.buildFlightFromQuoteAndCarriers(
+                        roundTripRawFlightData.getQuotes().get(0), roundTripRawFlightData.getCarriers());
+        ReservedFlights flight1 =
+                RawFlightDataToReservedFlightsConverter.buildFlightFromQuoteAndCarriers(
+                        roundTripRawFlightData.getQuotes().get(1), roundTripRawFlightData.getCarriers());
+
+
+        assertAll(
+                () -> assertTrue(flight0.isDirect()),
+                () -> assertEquals(300f, flight0.getPrice()),
+                () -> assertEquals("Alpha Airlines", flight0.getOutboundCarrier()
+                        .getName()),
+                () -> assertEquals("Alpha Airlines", flight0.getInboundCarrier()
+                        .getName()),
+                () -> assertEquals("2020-05-09T00:00:00", flight0.getOutboundDepartureDate()),
+                () -> assertEquals("2020-05-11T00:00:00", flight0.getInboundDepartureDate())
+        );
+        assertAll(
+                () -> assertFalse(flight1.isDirect()),
+                () -> assertEquals(500f, flight1.getPrice()),
+                () -> assertEquals("Beta Airlines", flight1.getOutboundCarrier()
+                        .getName()),
+                () -> assertEquals("Beta Airlines", flight1.getInboundCarrier()
+                        .getName()),
+                () -> assertEquals("2020-05-10T00:00:00", flight1.getOutboundDepartureDate()),
+                () -> assertEquals("2020-05-12T00:00:00", flight1.getInboundDepartureDate())
+        );
+    }
+
+    @Test
+    void testBuildFlightListFromQuotesAndCarriersRoundTrip() {
+        List<ReservedFlights> reservedFlights
+                = RawFlightDataToReservedFlightsConverter
+                .buildFlightListFromQuotesAndCarriers(roundTripRawFlightData);
+
+        assertAll(
+                () -> assertEquals(roundTripRawFlightData.getQuotes()
+                                .stream()
+                                .map(Quote::getDirect)
+                                .collect(Collectors.toList()),
+                        reservedFlights.stream()
+                                .map(ReservedFlights::isDirect)
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("Alpha Airlines", "Beta Airlines",
+                        "Gamma Airlines", "Epsilon Airlines"),
+                        reservedFlights.stream()
+                                .map(flight -> flight
+                                        .getOutboundCarrier()
+                                        .getName())
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("Alpha Airlines", "Beta Airlines",
+                        "Gamma Airlines", "Epsilon Airlines"),
+                        reservedFlights.stream()
+                                .map(flight -> flight
+                                        .getInboundCarrier()
+                                        .getName())
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList(300f, 500f, 350f, 450f),
+                        reservedFlights.stream()
+                                .map(ReservedFlights::getPrice)
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("2020-05-09T00:00:00", "2020-05-10T00:00:00",
+                        "2020-05-11T00:00:00", "2020-05-12T00:00:00"),
+                        reservedFlights.stream()
+                                .map(ReservedFlights::getOutboundDepartureDate)
+                                .collect(Collectors.toList())),
+
+                () -> assertEquals(Arrays.asList("2020-05-11T00:00:00", "2020-05-12T00:00:00",
+                        "2020-05-13T00:00:00", "2020-05-14T00:00:00"),
+                        reservedFlights.stream()
+                                .map(ReservedFlights::getInboundDepartureDate)
                                 .collect(Collectors.toList()))
         );
     }
@@ -100,132 +183,122 @@ public class RawFlightDataToReservedFlightsConverterTests {
         List<ReservedFlights> reservedFlights
                 = List.of(new ReservedFlights(), new ReservedFlights());
 
-        RawFlightDataToReservedFlightsConverter.loadPlaceData(reservedFlights, rawFlightData);
+        RawFlightDataToReservedFlightsConverter.loadPlaceData(reservedFlights, roundTripRawFlightData);
 
         assertAll(
                 () -> assertTrue(reservedFlights.stream()
                         .allMatch(flight -> flight
                                 .getOrigin()
-                                .getCityName().equals("Origin City"))),
+                                .getCityName().equals("A City"))),
 
                 () -> assertTrue(reservedFlights.stream()
                         .allMatch(flight -> flight
                                 .getDestination()
-                                .getCityName().equals("Destination City")))
+                                .getCityName().equals("B City")))
         );
     }
 
     @Test
-    void testLoadDateData() {
-        List<ReservedFlights> reservedFlights
-                = List.of(new ReservedFlights(), new ReservedFlights());
-
-        RawFlightDataToReservedFlightsConverter.loadDateData(reservedFlights, rawFlightData);
-
-        assertTrue(reservedFlights.stream()
-                .allMatch(flight -> flight.getDepartureDate()
-                        .equals(tomorrowDateString)));
-    }
-
-    @Test
     void testConvertRawFlightDataWithNoQuotesGeneratesEmptyListOfReservedFlights() {
-        rawFlightData.setQuotes(Collections.emptyList());
+        roundTripRawFlightData.setQuotes(Collections.emptyList());
 
         List<ReservedFlights> convertedFlightsList
-                = converter.convert(rawFlightData);
+                = converter.convert(roundTripRawFlightData);
 
         assertEquals(0, convertedFlightsList.size());
     }
 
     @Test
     void testConvertRawFlightDataWithOnlyDirectQuoteGeneratesListWithOneReservedFlight() {
-        rawFlightData.setQuotes(Collections.singletonList(
-                rawFlightData.getQuotes()
-                        .get(1)));
+        roundTripRawFlightData.setQuotes(Collections.singletonList(
+                roundTripRawFlightData.getQuotes()
+                        .get(0)));
 
         List<ReservedFlights> convertedFlights
-                = converter.convert(rawFlightData);
+                = converter.convert(roundTripRawFlightData);
 
         assertEquals(1, convertedFlights.size());
 
         assertAll(
                 () -> assertTrue(convertedFlights.get(0).isDirect()),
-                () -> assertEquals("C Airlines",
+                () -> assertEquals("Alpha Airlines",
                         convertedFlights.get(0)
                                 .getOutboundCarrier()
                                 .getName()),
-                () -> assertEquals(600f,
+                () -> assertEquals(300f,
                         convertedFlights.get(0)
                                 .getPrice()),
-                () -> assertEquals("Origin City",
+                () -> assertEquals("A City",
                         convertedFlights.get(0)
                                 .getOrigin()
                                 .getCityName()),
-                () -> assertEquals("Destination City",
+                () -> assertEquals("B City",
                         convertedFlights.get(0)
                                 .getDestination()
                                 .getCityName()),
-                () -> assertEquals(tomorrowDateString,
+                () -> assertEquals("2020-05-09T00:00:00",
                         convertedFlights.get(0)
-                                .getDepartureDate())
+                                .getOutboundDepartureDate())
         );
     }
 
     @Test
     void testConvertRawFlightDataWithOnlyIndirectQuoteGeneratesListWithOneReservedFlight() {
-        rawFlightData.setQuotes(Collections.singletonList(
-                rawFlightData.getQuotes()
-                        .get(0)));
+        roundTripRawFlightData.setQuotes(Collections.singletonList(
+                roundTripRawFlightData.getQuotes()
+                        .get(1)));
 
         List<ReservedFlights> convertedFlights
-                = converter.convert(rawFlightData);
+                = converter.convert(roundTripRawFlightData);
 
         assertEquals(1, convertedFlights.size());
 
         assertAll(
                 () -> assertFalse(convertedFlights.get(0).isDirect()),
-                () -> assertEquals("B Airlines",
+                () -> assertEquals("Beta Airlines",
                         convertedFlights.get(0)
                                 .getOutboundCarrier()
                                 .getName()),
                 () -> assertEquals(500f,
                         convertedFlights.get(0)
                                 .getPrice()),
-                () -> assertEquals("Origin City",
+                () -> assertEquals("A City",
                         convertedFlights.get(0)
                                 .getOrigin()
                                 .getCityName()),
-                () -> assertEquals("Destination City",
+                () -> assertEquals("B City",
                         convertedFlights.get(0)
                                 .getDestination()
                                 .getCityName()),
-                () -> assertEquals(tomorrowDateString,
+                () -> assertEquals("2020-05-10T00:00:00",
                         convertedFlights.get(0)
-                                .getDepartureDate())
+                                .getOutboundDepartureDate())
         );
     }
 
     @Test
     void testConvertRawFlightDataWithDirectAndIndirectQuoteGeneratesPairOfReservedFlights() {
+        roundTripRawFlightData.setQuotes(roundTripRawFlightData.getQuotes().subList(0, 2));
+
         List<ReservedFlights> convertedFlights
-                = converter.convert(rawFlightData);
+                = converter.convert(roundTripRawFlightData);
 
         assertEquals(2, convertedFlights.size());
 
         assertAll(
-                () -> assertEquals(Arrays.asList(false, true),
+                () -> assertEquals(Arrays.asList(true, false),
                         convertedFlights.stream()
                                 .map(ReservedFlights::isDirect)
                                 .collect(Collectors.toList())),
 
-                () -> assertEquals(Arrays.asList("B Airlines", "C Airlines"),
+                () -> assertEquals(Arrays.asList("Alpha Airlines", "Beta Airlines"),
                         convertedFlights.stream()
                                 .map(flight -> flight
                                         .getOutboundCarrier()
                                         .getName())
                                 .collect(Collectors.toList())),
 
-                () -> assertEquals(Arrays.asList(500f, 600f),
+                () -> assertEquals(Arrays.asList(300f, 500f),
                         convertedFlights.stream()
                                 .map(ReservedFlights::getPrice)
                                 .collect(Collectors.toList())),
@@ -233,16 +306,17 @@ public class RawFlightDataToReservedFlightsConverterTests {
                 () -> assertTrue(convertedFlights.stream()
                         .allMatch(flight -> flight
                                 .getOrigin()
-                                .getCityName().equals("Origin City"))),
+                                .getCityName().equals("A City"))),
 
                 () -> assertTrue(convertedFlights.stream()
                         .allMatch(flight -> flight
                                 .getDestination()
-                                .getCityName().equals("Destination City"))),
+                                .getCityName().equals("B City"))),
 
-                () -> assertTrue(convertedFlights.stream()
-                        .allMatch(flight -> flight.getDepartureDate()
-                                .equals(tomorrowDateString)))
+                () -> assertEquals(Arrays.asList("2020-05-09T00:00:00", "2020-05-10T00:00:00"),
+                        convertedFlights.stream()
+                                .map(ReservedFlights::getOutboundDepartureDate)
+                                .collect(Collectors.toList()))
         );
     }
 }
