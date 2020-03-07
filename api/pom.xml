@@ -117,6 +117,14 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<forceJavacCompilerUse>true</forceJavacCompilerUse>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
@@ -139,8 +147,8 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>com.sdp.flightapi.FlightApiApplication</exclude>
-								<exclude>com.sdp.flightapi.models.*</exclude>
+								<exclude>com/sdp/flightapi/FlightApiApplication.java</exclude>
+								<exclude>com/sdp/flightapi/models/*</exclude>
 							</excludes>
 							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
