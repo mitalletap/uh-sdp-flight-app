@@ -171,6 +171,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.15</version>
 				<configuration>
+					<!--suppress UnresolvedMavenProperty -->
 					<argLine>${surefireArgLine}</argLine>
 					<skipTests>${skip.unit.tests}</skipTests>
 					<excludes>
@@ -190,6 +191,7 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
+							<!--suppress UnresolvedMavenProperty -->
 							<argLine>${failsafeArgLine}</argLine>
 							<skipTests>${skip.integration.tests}</skipTests>
 						</configuration>
