@@ -138,6 +138,10 @@
 							<goal>report</goal>
 						</goals>
 						<configuration>
+							<excludes>
+								<exclude>com.sdp.flightapi.FlightApiApplication</exclude>
+								<exclude>com.sdp.flightapi.models.*</exclude>
+							</excludes>
 							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
 							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
 						</configuration>
