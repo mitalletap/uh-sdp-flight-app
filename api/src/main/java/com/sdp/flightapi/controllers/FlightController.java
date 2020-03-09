@@ -36,19 +36,20 @@ public class FlightController {
                 inboundDate
         );
     }
-  
+
     @PostMapping("/post-reserved-flight")
-    public String saveFlight(@RequestBody ReservedFlights reservedFlights){
+    public String saveFlight(@RequestBody ReservedFlights reservedFlights) {
         flightDao.save(reservedFlights);
         return "Added reserved flight with info " + reservedFlights.getId();
     }
+
     @GetMapping("/get-reserved-flights")
-    public List<ReservedFlights>getReservedFlights(){
-        return  flightDao.findAll();
+    public List<ReservedFlights> getReservedFlights() {
+        return flightDao.findAll();
     }
 
     @GetMapping("/get-users-reserved-flights")
-    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName){
+    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName) {
         return flightDao.findByUserName(userName);
     }
 }
