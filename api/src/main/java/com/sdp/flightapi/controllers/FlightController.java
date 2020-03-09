@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api")
 @RestController
 public class FlightController {
@@ -43,7 +44,7 @@ public class FlightController {
     }
     @GetMapping("/get-reserved-flights")
     public List<ReservedFlights>getReservedFlights(){
-        return flightDao.findAll();
+        return  flightDao.findAll();
     }
 
     @GetMapping("/get-users-reserved-flights")
