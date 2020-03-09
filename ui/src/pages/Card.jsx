@@ -9,7 +9,7 @@ const Card = () => {
     <React.Fragment>
       <Container>
         <Content>
-          <FlightService></FlightService>
+          <FlightService />
           <CardDisp />
         </Content>
         <Footer></Footer>
