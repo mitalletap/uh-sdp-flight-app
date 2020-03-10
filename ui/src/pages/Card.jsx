@@ -1,12 +1,17 @@
 import React from "react";
+import FlightSearch from "../components/FlightSearch";
+
 import CardDisp from "../components/CardDisp";
-// import NavigationBar from "../components/NavigationBar";
-import { Container, Footer, Content } from "rsuite";
+import NavigationBar from "../components/NavigationBar";
+import { Container, Header, Footer, Content } from "rsuite";
 
 const Card = () => {
   return (
     <React.Fragment>
       <Container>
+        {/* <Header>
+          <NavigationBar />
+        </Header> */}
         <Content>
           <CardDisp />
         </Content>
