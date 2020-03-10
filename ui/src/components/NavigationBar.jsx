@@ -26,14 +26,13 @@ class NavigationBar extends Component {
         .then(data => console.log(data))
         .catch(err => console.log(err));
     };
-
     return (
       <Navbar>
         <Navbar.Body>
           <Nav>
-            {/* <Link to={"/"}>
+            <Link to={"/"}>
               <Nav.Item icon={<Icon icon="home" />}>Home</Nav.Item>
-            </Link> */}
+            </Link>
             <Link to={"/flight-search"}>
               <Nav.Item icon={<Icon icon="plane" />}> Search Flights</Nav.Item>
             </Link>
