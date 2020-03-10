@@ -1,7 +1,7 @@
 import React from "react";
 import CardDisp from "../components/CardDisp";
-import NavigationBar from "../components/NavigationBar";
-import { Container, Header, Footer, Content, Toggle } from "rsuite";
+// import NavigationBar from "../components/NavigationBar";
+import { Container, Footer, Content } from "rsuite";
 
 const Card = () => {
   return (

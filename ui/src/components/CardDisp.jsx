@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table } from "rsuite";
 import jsonData from "../data/actualData";
-import { Container, Row, Col, Image, Card, Button, Nav } from "react-bootstrap";
+import { Card, Button, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const { Column, HeaderCell, Cell } = Table;
