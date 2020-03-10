@@ -1,5 +1,5 @@
 import React, { useState, Component } from "react";
-import NavigationBar from "../components/NavigationBar";
+import NavBar from "../components/NavBar";
 import FlightSearch from "../components/FlightSearch";
 import { Container, Header, Footer, Content, Toggle, Avatar } from "rsuite";
 
@@ -18,7 +18,7 @@ const Profile = () => {
     <React.Fragment>
       <Container>
         <Header>
-          <NavigationBar />
+          <NavBar />
         </Header>
         <Content>
           <h1> Welcome to your profile {username} </h1>

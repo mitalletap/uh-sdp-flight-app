@@ -8,9 +8,6 @@ import {
   Redirect
 } from "react-router-dom";
 import planeImg from "./images/Plane2.jpg";
-import { Modal, Button, Alert } from "rsuite";
-
-import ModalBody from "rsuite/lib/Modal/ModalBody";
 
 // Pages
 import Home from "./pages/Home.jsx";
@@ -18,7 +15,6 @@ import FlightSelection from "./pages/FlightSelection.jsx";
 import Data from "./pages/Data.jsx";
 import Profile from "./pages/Profile.jsx";
 import PageNotFound from "./pages/404";
-
 import Card from "./pages/Card.jsx";
 
 // CSS
@@ -49,29 +45,28 @@ function App() {
   //   .catch(err => console.log(err));
 
   return (
-    <Router>
-      <div
-        className="App"
-        style={{
-          backgroundImage: `url(${planeImg})`,
-          resize: "both",
-          height: "100vh",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat"
-        }}
-      >
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${planeImg})`,
+        resize: "both",
+        height: "100vh",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      <Router>
         <Switch>
-          <Route exact path="/" component={FlightSelection} />
+          <Route exact path="/" component={Home} />
           <Route exact path="/flight-search" component={FlightSelection} />
           <Route exact path="/data" component={Data} />
           <Route exact path="/logout" component={Home} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/404" component={PageNotFound} />
-
           <Route exact path="/card" component={Card} />
+          <Route exact path="/404" component={PageNotFound} />
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 
