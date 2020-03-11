@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DataTable from "../components/DataTable";
 import NavBar from "../components/NavBar";
 import { Container, Header, Footer, Content, Toggle, Navbar } from "rsuite";
 

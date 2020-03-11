@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import NavigationBar from "../components/NavigationBar";
 import FlightSearch from "../components/FlightSearch";
-import { Container, Header, Footer, Content, Toggle } from "rsuite";
+import { Container, Header, Content } from "rsuite";
 import NavBar from "../components/NavBar";
 
 const Home = () => {

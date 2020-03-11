@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Content } from "rsuite";
 import Table from "react-bootstrap/Table";
 import jsonData from "../data/actualData";
 import { Card, Button, Nav } from "react-bootstrap";
