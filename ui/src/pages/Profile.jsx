@@ -1,7 +1,6 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import NavBar from "../components/NavBar";
-import FlightSearch from "../components/FlightSearch";
-import { Container, Header, Footer, Content, Toggle, Avatar } from "rsuite";
+import { Container, Header, Content } from "rsuite";
 
 // AWS
 import { Auth } from "aws-amplify";
@@ -9,7 +8,7 @@ import { Auth } from "aws-amplify";
 const Profile = () => {
   const [username, setUsername] = useState(null);
   // const currentUser = Auth.currentSession();
-  const currentSession = Auth.currentAuthenticatedUser()
+  Auth.currentAuthenticatedUser()
     .then(user => setUsername(user.attributes.email))
     //.then(user => setUsername(user.attributes.phone_number))
     .catch(err => console.log(err));
