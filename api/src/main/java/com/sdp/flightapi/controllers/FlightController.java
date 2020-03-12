@@ -13,10 +13,10 @@ import java.util.Optional;
 @RequestMapping("api")
 @RestController
 public class FlightController {
-    private final FlightService flightService;
-
     @Autowired
-    private FlightDao flightDao;
+    FlightDao flightDao;
+
+    FlightService flightService;
 
     @Autowired
     public FlightController(FlightService flightService) {
@@ -36,20 +36,20 @@ public class FlightController {
                 inboundDate
         );
     }
-
-    @PostMapping("/post-reserved-flight")
-    public String saveFlight(@RequestBody ReservedFlights reservedFlights) {
+  
+    @PostMapping(path = "/post-reserved-flight")
+    public String saveFlight(@RequestBody ReservedFlights reservedFlights){
         flightDao.save(reservedFlights);
         return "Added reserved flight with info " + reservedFlights.getId();
     }
 
-    @GetMapping("/get-reserved-flights")
-    public List<ReservedFlights> getReservedFlights() {
+    @GetMapping(path = "/get-reserved-flights")
+    public List<ReservedFlights> getReservedFlights(){
         return flightDao.findAll();
     }
 
-    @GetMapping("/get-users-reserved-flights")
-    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName) {
+    @GetMapping(path = "/get-users-reserved-flights")
+    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName){
         return flightDao.findByUserName(userName);
     }
 }

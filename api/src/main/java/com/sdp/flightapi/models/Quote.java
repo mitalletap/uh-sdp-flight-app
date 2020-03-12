@@ -27,7 +27,9 @@ public class Quote {
     @JsonProperty("MinPrice")
     private Double minPrice;
     @JsonProperty("OutboundLeg")
-    private OutboundLeg outboundLeg;
+    private TripLeg outboundLeg;
+    @JsonProperty("InboundLeg")
+    private TripLeg inboundLeg;
     @JsonProperty("QuoteDateTime")
     private String quoteDateTime;
     @JsonProperty("QuoteId")

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import DataTable from "../components/DataTable";
-import NavigationBar from "../components/NavigationBar";
-import { Container, Header, Footer, Content, Toggle } from "rsuite";
+import NavBar from "../components/NavBar";
+import { Container, Header, Footer, Content, Toggle, Navbar } from "rsuite";
 
 const Data = () => {
   const [flightData, setFlightData] = useState([
@@ -71,7 +70,7 @@ const Data = () => {
     <React.Fragment>
       <Container>
         <Header>
-          <NavigationBar />
+          <NavBar />
         </Header>
         <Content>
           {/* <DataTable /> */}

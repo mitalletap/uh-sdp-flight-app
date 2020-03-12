@@ -26,9 +26,6 @@ public class RawFlightData {
     private List<Carrier> carriers = null;
     @JsonProperty("Currencies")
     private List<Currency> currencies = null;
-
-
-
     @JsonProperty("Places")
     private List<Place> places = null;
     @JsonProperty("Quotes")

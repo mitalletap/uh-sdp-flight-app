@@ -20,7 +20,7 @@ import lombok.Data;
     "DestinationId",
     "DepartureDate"
 })
-public class OutboundLeg {
+public class TripLeg {
 
     @JsonProperty("CarrierIds")
     private List<Integer> carrierIds = null;

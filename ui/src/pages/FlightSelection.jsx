@@ -1,6 +1,6 @@
 import React from "react";
 import FlightSearch from "../components/FlightSearch";
-import NavigationBar from "../components/NavigationBar";
+import NavBar from "../components/NavBar";
 import { Container, Header, Footer, Content, Toggle } from "rsuite";
 
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
     <React.Fragment>
       <Container>
         <Header>
-          <NavigationBar />
+          <NavBar />
         </Header>
         <Content>
           <FlightSearch />
