@@ -1,32 +1,43 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
+import airportData from "../data/airportsJS";
 import "rsuite/dist/styles/rsuite-default.css";
 import "antd/dist/antd.css";
 import moment from "moment";
-import { DatePicker, InputNumber, Switch, Button, Select } from "antd";
+import {
+  DatePicker,
+  InputNumber,
+  Switch,
+  Button,
+  Select,
+  Alert,
+  message
+} from "antd";
 
-const testData = [
-  "Houston",
-  "Dallas",
-  "Austin",
-  "San Antonio",
-  "Fort Worth",
-  "Arlington",
-  "Galveston",
-  "El Paso"
-];
+const airport = JSON.parse(JSON.stringify(airportData));
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 class FlightSearch extends Component {
-  state = {
-    numOfPassengers: 1,
-    departDate: "",
-    arriveDate: "",
-    isRoundTrip: "false",
-    origin: "",
-    destination: ""
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      numOfPassengers: 1,
+      departDate: "",
+      arriveDate: "",
+      isRoundTrip: "false",
+      origin: "",
+      originState: "",
+      originCity: "",
+      originCountry: "",
+      originCode: "",
+      destination: "",
+      destinationState: "",
+      destinationCity: "",
+      destinationCountry: "",
+      destinationCode: "",
+      completeData: null
+    };
+  }
   handleNumOfPassengers = props => {
     this.setState(
       {
@@ -37,7 +48,6 @@ class FlightSearch extends Component {
       }
     );
   };
-
   handleDate = props => {
     // Create IF ELSE statement to check if values are equal to null
     this.setState(
@@ -55,7 +65,6 @@ class FlightSearch extends Component {
       }
     );
   };
-
   handleisOneWay = props => {
     this.setState(
       {
@@ -66,46 +75,71 @@ class FlightSearch extends Component {
       }
     );
   };
-
-  handleOrigin = props => {
+  handleOrigin = (...props) => {
     this.setState(
       {
-        origin: props
+        origin: props[1].airport,
+        originCity: props[1].city,
+        originState: props[1].state,
+        originCountry: props[1].country,
+        originCode: props[1].key
       },
       () => {
-        console.log(props);
+        console.log(
+          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+        );
       }
     );
   };
-
-  handleDestination = props => {
+  handleDestination = (...props) => {
     this.setState(
       {
-        destination: props
+        destination: props[1].airport,
+        destinationCity: props[1].city,
+        destinationState: props[1].state,
+        destinationCountry: props[1].country,
+        destinationCode: props[1].key
       },
       () => {
-        console.log("Current Value: " + this.state.destination);
+        console.log(
+          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+        );
       }
     );
-  };
-
-  handleSearch = props => {
-    if (
-      this.state.arriveDate == "" ||
-      this.state.departDate == "" ||
-      this.state.destination == "" ||
-      this.state.origin == ""
-    ) {
-      console.log("Please Enter All Fields!");
-    } else {
-      console.log(this.state);
-    }
   };
 
   render() {
+    var stateObject = this.state;
     function disabledDate(current) {
-      // Can not select days before today and today
       return current && current < moment().endOf("day");
+    }
+
+    function checkCompleteData(props) {
+      var complete =
+        props.arriveDate === "" ||
+        props.departDate === "" ||
+        props.destination === "" ||
+        props.origin === "";
+
+      if (complete === false) {
+        message.success("Thank you. Please wait");
+      } else {
+        message.warning("Please complete all fields to proceed");
+      }
+      console.log("# of Passengers: " + props.numOfPassengers);
+      console.log("Depart Date: " + props.departDate);
+      console.log("Arrival Date: " + props.arriveDate);
+      console.log("Round Trip?: " + props.isRoundTrip);
+      console.log("Origin: " + props.origin);
+      console.log("Origin State: " + props.originState);
+      console.log("Origin City: " + props.originCity);
+      console.log("Origin Country: " + props.originCountry);
+      console.log("Origin Code: " + props.originCode);
+      console.log("Destination: " + props.destination);
+      console.log("Destination State: " + props.destinationState);
+      console.log("Destination City: " + props.destinationCity);
+      console.log("Destination Country: " + props.destinationCountry);
+      console.log("Destination Code: " + props.destinationCode);
     }
 
     return (
@@ -129,22 +163,62 @@ class FlightSearch extends Component {
           }}
         >
           <Select
+            showSearch
             placeholder={"Depart From"}
-            style={{ width: 120 }}
+            style={{ width: 400 }}
             onChange={this.handleOrigin}
           >
-            {testData.map(data => (
-              <Option key={data}>{data}</Option>
-            ))}
+            {airport.map(data => {
+              return data.country == "United States" &&
+                data.name != "" &&
+                data.type == "Airports" ? (
+                <Option
+                  key={data.code}
+                  value={data.label}
+                  airport={data.name}
+                  city={data.label}
+                  state={data.state}
+                  country={data.country}
+                >
+                  {" "}
+                  <strong>
+                    {data.label}, {data.state}
+                  </strong>{" "}
+                  <br /> {data.name}{" "}
+                </Option>
+              ) : (
+                console.log()
+              );
+            })}
           </Select>
           <Select
+            showSearch
             placeholder={"Arrive In"}
-            style={{ width: 120 }}
+            style={{ width: 400 }}
             onChange={this.handleDestination}
           >
-            {testData.map(data => (
-              <Option key={data}>{data}</Option>
-            ))}
+            {airport.map(data => {
+              return data.country == "United States" &&
+                data.name != "" &&
+                data.type == "Airports" ? (
+                <Option
+                  key={data.code}
+                  value={data.label}
+                  airport={data.name}
+                  city={data.label}
+                  state={data.state}
+                  country={data.country}
+                >
+                  {" "}
+                  <strong>
+                    {data.label}, {data.state}
+                  </strong>{" "}
+                  <br /> {data.name}{" "}
+                </Option>
+              ) : (
+                console.log()
+              );
+            })}
           </Select>
         </div>
 
@@ -185,7 +259,9 @@ class FlightSearch extends Component {
             <Button
               style={{ marginRight: "10px" }}
               type="primary"
-              onClick={this.handleSearch}
+              onClick={() => {
+                checkCompleteData(this.state);
+              }}
             >
               Find Flights
             </Button>
@@ -197,82 +273,3 @@ class FlightSearch extends Component {
 }
 
 export default FlightSearch;
-
-/*
-
-
-        <div style={{ paddingTop: "50px" }}>
-          <Content
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <InputGroup
-              style={{
-                width: "35vh"
-              }}
-            >
-              <InputPicker
-                placeholder="Depart From"
-                data={testData}
-                value={this.state.value}
-                onChange={this.handleOrigin}
-                preventOverflow={true}
-              />
-              <InputGroup.Addon>to</InputGroup.Addon>
-              <InputPicker
-                placeholder="Arrive In"
-                data={testData}
-                value={this.state.value}
-                onChange={this.handleDestination}
-                preventOverflow={true}
-              />
-            </InputGroup>
-          </Content>
-        </div>
-
-        <div style={{ paddingTop: "50px" }}>
-          <Content
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <div style={{ width: 85, paddingRight: "10px" }}>
-              <InputNumber
-                defaultValue={1}
-                max={10}
-                min={1}
-                onChange={this.handleNumOfPassengers}
-              />
-            </div>
-            <DateRangePicker
-              style={{ paddingRight: "10px" }}
-              disabledDate={beforeToday()}
-              onChange={this.handleDate}
-              preventOverflow={true}
-            />
-            <div style={{ paddingRight: "10px" }}>
-              <Toggle
-                size="lg"
-                checkedChildren="RT"
-                unCheckedChildren="OW"
-                onChange={this.handleisOneWay}
-              />
-            </div>
-            <div style={{ paddingRight: "10px" }}>
-              <Button
-                style={{ marginRight: "10px" }}
-                appearance="default"
-                onClick={this.handleSearch}
-              >
-                Find Flights
-              </Button>
-            </div>
-          </Content>
-</div>
-        
-        */

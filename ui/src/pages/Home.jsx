@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import FlightSearch from "../components/FlightSearch";
+import React from "react";
 import { Container, Header, Content } from "rsuite";
 import NavBar from "../components/NavBar";
 

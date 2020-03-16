@@ -1,12 +1,6 @@
 // Imports
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import planeImg from "./images/Plane2.jpg";
 
 // Pages
@@ -40,9 +34,9 @@ function App() {
 
   // Modal Hook
   const [show, setShow] = useState(true);
-  // const currentSession = Auth.currentAuthenticatedUser()
-  //   .then(user => setEmail(user.attributes.email))
-  //   .catch(err => console.log(err));
+  const currentSession = Auth.currentAuthenticatedUser()
+    .then(user => setEmail(user.attributes.email))
+    .catch(err => console.log(err));
 
   return (
     <div
@@ -57,13 +51,13 @@ function App() {
     >
       <Router>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={FlightSelection} />
           <Route exact path="/flight-search" component={FlightSelection} />
           <Route exact path="/data" component={Data} />
           <Route exact path="/logout" component={Home} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/card" component={Card} />
-          <Route exact path="/404" component={PageNotFound} />
+          <Route component={PageNotFound} />
         </Switch>
       </Router>
     </div>
@@ -71,4 +65,4 @@ function App() {
 }
 
 export default App;
-//export default withAuthenticator(App);
+//export default withAuthenticator(App, true);
