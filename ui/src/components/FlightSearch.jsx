@@ -65,6 +65,31 @@ class FlightSearch extends Component {
       }
     );
   };
+
+  handleStart = props => {
+    // Create IF ELSE statement to check if values are equal to null
+    this.setState(
+      {
+        departDate: props.format("YYYY-MM-DD")
+      },
+      () => {
+        console.log("Current Value: " + this.state.departDate);
+      }
+    );
+  };
+
+  handleEnd = props => {
+    // Create IF ELSE statement to check if values are equal to null
+    this.setState(
+      {
+        arriveDate: props.format("YYYY-MM-DD")
+      },
+      () => {
+        console.log("Current Value: " + this.state.arriveDate);
+      }
+    );
+  };
+
   handleisOneWay = props => {
     this.setState(
       {
@@ -117,11 +142,12 @@ class FlightSearch extends Component {
     function checkCompleteData(props) {
       var complete =
         props.arriveDate === "" ||
-        props.departDate === "" ||
         props.destination === "" ||
         props.origin === "";
 
-      if (complete === false) {
+      var oneWay = props.departDate == "" && props.isRoundTrip == false;
+
+      if (complete === false || oneWay == false) {
         message.success("Thank you. Please wait");
       } else {
         message.warning("Please complete all fields to proceed");
@@ -230,7 +256,7 @@ class FlightSearch extends Component {
             height: "10vh"
           }}
         >
-          <div style={{ width: 200, paddingRight: "10px" }}>
+          {/* <div style={{ width: 200, paddingRight: "10px" }}>
             <RangePicker
               placeholder={["Start", "End"]}
               disabledDate={disabledDate}
@@ -238,7 +264,45 @@ class FlightSearch extends Component {
               allowEmpty={(false, true)}
               onChange={this.handleDate}
             />
+          </div> */}
+          <div style={{ paddingRight: "10px" }}>
+            {this.state.isRoundTrip == true ? (
+              <RangePicker
+                placeholder={["Start", "End"]}
+                disabledDate={disabledDate}
+                format="YYYY-MM-DD"
+                allowEmpty={(false, true)}
+                onChange={this.handleDate}
+                style={{ width: 280, paddingRight: "10px" }}
+              />
+            ) : (
+              <DatePicker
+                placeholder={"Start"}
+                disabledDate={disabledDate}
+                format="YYYY-MM-DD"
+                allowEmpty={false}
+                onChange={this.handleStart}
+              />
+            )}
           </div>
+          {/* <div style={{ width: 200}}>
+            <DatePicker
+              placeholder={"Start"}
+              disabledDate={disabledDate}
+              format="YYYY-MM-DD"
+              allowEmpty={false}
+              onChange={this.handleStart}
+            />
+          </div>
+          <div style={{ width: 200, paddingRight: "10px" }}>
+            <DatePicker
+              placeholder={"Start"}
+              disabledDate={disabledDate}
+              format="YYYY-MM-DD"
+              allowEmpty={true}
+              onChange={this.handleEnd}
+            />
+          </div> */}
           <div style={{ width: 100, paddingRight: "10px" }}>
             <InputNumber
               defaultValue={1}
