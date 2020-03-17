@@ -49,7 +49,6 @@ function App() {
       style={{
         backgroundImage: `url(${planeImg})`,
         resize: "both",
-        height: "100vh",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
       }}

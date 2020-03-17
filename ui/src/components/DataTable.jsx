@@ -11,16 +11,17 @@ import { Button } from "antd";
 import { Card } from "antd";
 //const { Meta } = Card;
 
+import { createBrowserHistory } from "history";
 class DataTable extends Component {
   constructor(props) {
     super(props);
     console.log(props);
     this.state = {
-      depDate: this.props.title,
-      arrDate: "",
-      RT: null,
-      ori: "",
-      des: "",
+      depDate: this.props.qDD,
+      arrDate: this.props.qAD,
+      RT: this.props.qRT,
+      ori: this.props.qOC,
+      des: this.props.qDC,
       flights: [],
       response: "",
       responseType: "error",
@@ -38,10 +39,18 @@ class DataTable extends Component {
       this.state.depDate +
       "&inboundDate=" +
       this.state.arrDate;
+    //const URL = "http://localhost:8080/api/get-flights?origin=SFO&destination=ATL&outboundDate=2020-03-20&inboundDate=2020-03-25";
     const URL =
-      "http://localhost:8080/api/get-flights?origin=SFO&destination=ATL&outboundDate=2020-03-20&inboundDate=2020-03-25";
-    fetch(URL)
-      .then(res => res.json())
+      "http://localhost:8080/api/get-flights?origin=SFO&destination=ATL&outboundDate=anytime"; //&inboundDate=anytime
+
+    fetch(URI)
+      .then(res => {
+        if (!res.ok) {
+          console.log("Error!~");
+        }
+        return res.json();
+      })
+      // .then(res => res.json())
       .then(data => {
         this.setState({
           isLoaded: true,
@@ -105,7 +114,7 @@ class DataTable extends Component {
       return (
         <div style={{ paddingTop: "100px" }}>
           <h1> {this.props.title} </h1>
-          {/* {flights.map(flight => (
+          {flights.map(flight => (
             <React.Fragment>
               <div style={{ paddingTop: "25px" }}>
                 <CardDisp
@@ -123,9 +132,8 @@ class DataTable extends Component {
                 />
               </div>
             </React.Fragment>
-            
-          ))} */}
-          <Button onClick={() => this.alert()}>Hello</Button>
+          ))}
+          {/* <Button onClick={() => this.alert()}>Hello</Button> */}
         </div>
       );
     }

@@ -11,6 +11,7 @@
     "aws-amplify": "^2.2.5",
     "aws-amplify-react": "^3.1.6",
     "bootstrap": "^4.4.1",
+    "history": "^4.10.1",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",

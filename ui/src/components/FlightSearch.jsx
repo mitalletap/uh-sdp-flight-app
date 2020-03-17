@@ -4,7 +4,7 @@ import airportData from "../data/airportsJS";
 import "rsuite/dist/styles/rsuite-default.css";
 import "antd/dist/antd.css";
 import moment from "moment";
-import { withRouter, Redirect, Route, BrowserRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import {
   DatePicker,
   InputNumber,
@@ -15,6 +15,9 @@ import {
   message
 } from "antd";
 import DataTable from "../components/DataTable";
+
+const history = createBrowserHistory();
+const location = history.location;
 
 const airport = JSON.parse(JSON.stringify(airportData));
 const { RangePicker } = DatePicker;
@@ -40,8 +43,6 @@ class FlightSearch extends Component {
       destinationCode: "",
       status: false
     };
-
-    console.log(props);
   }
 
   handleNumOfPassengers = props => {
@@ -136,7 +137,7 @@ class FlightSearch extends Component {
     );
   };
   redirect = path => {
-    //this.props.history.push(path, {depDate: "Hello"});
+    history.push(path);
   };
 
   render() {
@@ -144,7 +145,6 @@ class FlightSearch extends Component {
     function disabledDate(current) {
       return current && current < moment().endOf("day");
     }
-
     function checkCompleteData(props) {
       var dataComplete =
         props.departDate !== "" &&
@@ -157,16 +157,17 @@ class FlightSearch extends Component {
       } else {
         message.warning("Please complete all fields to proceed");
       }
-      console.log("Depart Date: " + props.departDate);
-      console.log("Arrival Date: " + props.arriveDate);
-      console.log("Round Trip?: " + props.isRoundTrip);
-      console.log("Origin: " + props.originCode);
-      console.log("Destination: " + props.dest);
-      console.log("Status: " + props.status);
+      return props.status === true;
     }
 
     return this.state.status === true ? (
-      <DataTable title="hello" />
+      <DataTable
+        qDD={this.state.departDate}
+        qAD={this.state.arriveDate}
+        qRT={this.state.isRoundTrip}
+        qOC={this.state.originCode}
+        qDC={this.state.destinationCode}
+      />
     ) : (
       <React.Fragment>
         <img
@@ -295,11 +296,14 @@ class FlightSearch extends Component {
               style={{ marginRight: "10px" }}
               type="primary"
               onMouseDown={() => {
-                checkCompleteData(this.state);
+                var complete = checkCompleteData(this.state);
+                if (complete === true) {
+                  this.setState({
+                    status: true
+                  });
+                }
+                this.redirect(this.state.status === true ? "/data" : "");
               }}
-              onMouseUp={() =>
-                this.redirect(this.state.status === true ? "/data" : "")
-              }
             >
               Find Flights
             </Button>
@@ -310,4 +314,4 @@ class FlightSearch extends Component {
   }
 }
 
-export default withRouter(FlightSearch);
+export default FlightSearch;
