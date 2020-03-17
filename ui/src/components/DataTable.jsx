@@ -11,11 +11,11 @@ import { Button } from "antd";
 import { Card } from "antd";
 //const { Meta } = Card;
 
+import { withRouter, useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
 class DataTable extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       depDate: this.props.qDD,
       arrDate: this.props.qAD,
@@ -27,9 +27,17 @@ class DataTable extends Component {
       responseType: "error",
       isLoaded: false
     };
+    this.onBackButtonEvent = this.onBackButtonEvent.bind(this);
+  }
+
+  onBackButtonEvent(e) {
+    e.preventDefault();
+    console.log("Going Back!");
+    this.props.history.go("/");
   }
 
   componentDidMount() {
+    window.onpopstate = this.onBackButtonEvent;
     const URI =
       "http://localhost:8080/api/get-flights?origin=" +
       this.state.ori +
@@ -50,7 +58,6 @@ class DataTable extends Component {
         }
         return res.json();
       })
-      // .then(res => res.json())
       .then(data => {
         this.setState({
           isLoaded: true,
@@ -133,11 +140,11 @@ class DataTable extends Component {
               </div>
             </React.Fragment>
           ))}
-          {/* <Button onClick={() => this.alert()}>Hello</Button> */}
+          <Button onClick={() => this.alert()}>Hello</Button>
         </div>
       );
     }
   }
 }
 
-export default DataTable;
+export default withRouter(DataTable);

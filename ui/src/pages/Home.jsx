@@ -6,9 +6,9 @@ const Home = () => {
   return (
     <React.Fragment>
       <Container>
-        <Header>
+        {/* <Header>
           <NavBar />
-        </Header>
+        </Header> */}
         <Content>
           <h1> Welcome to Takeoff </h1>
         </Content>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import NavBar from "../components/NavBar";
 import DataTable from "../components/DataTable";
 import { Container, Header, Footer, Content } from "rsuite";
 import { Calendar, Badge } from "antd";
 
-const Data = () => {
+const Data = props => {
   const [flightData] = useState([
     {
       id: 1,
@@ -100,7 +100,6 @@ const Data = () => {
     }
     return listData || [];
   }
-
   function dateCellRender(value) {
     const listData = getListData(value);
     return (
@@ -113,13 +112,11 @@ const Data = () => {
       </ul>
     );
   }
-
   function getMonthData(value) {
     if (value.month() === 8) {
       return 1394;
     }
   }
-
   function monthCellRender(value) {
     const num = getMonthData(value);
     return num ? (
@@ -133,11 +130,11 @@ const Data = () => {
   return (
     <React.Fragment>
       <Container>
-        <Header>
+        {/* <Header>
           <NavBar />
-        </Header>
+        </Header> */}
         <Content>
-          <DataTable />
+          <DataTable {...props} />
           {/* <div>
             <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />
           </div> */}
@@ -149,3 +146,25 @@ const Data = () => {
 };
 
 export default Data;
+
+// class Data extends Component {
+//   state = {}
+//   render() {
+//     return (
+//       <React.Fragment>
+//         <Container>
+//           <Header>
+//             <NavBar />
+//           </Header>
+//           <Content>
+//             <DataTable />
+//           </Content>
+//           <Footer></Footer>
+//         </Container>
+//       </React.Fragment>
+
+//      );
+//   }
+// }
+
+// export default Data;
