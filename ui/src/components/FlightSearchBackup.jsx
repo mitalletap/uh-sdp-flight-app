@@ -40,7 +40,6 @@ class FlightSearch extends Component {
       destinationCode: "",
       status: false
     };
-
     console.log(props);
   }
 
@@ -136,7 +135,7 @@ class FlightSearch extends Component {
     );
   };
   redirect = path => {
-    //this.props.history.push(path, {depDate: "Hello"});
+    this.props.history.push(path, { depDate: "Hello" });
   };
 
   render() {
