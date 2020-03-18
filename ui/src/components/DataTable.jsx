@@ -13,6 +13,7 @@ import { Card } from "antd";
 
 import { withRouter, useHistory } from "react-router-dom";
 import { createBrowserHistory } from "history";
+
 class DataTable extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +23,9 @@ class DataTable extends Component {
       RT: this.props.qRT,
       ori: this.props.qOC,
       des: this.props.qDC,
-      flights: [],
+      flights: localStorage.getItem("productList")
+        ? JSON.parse(localStorage.getItem("productList"))
+        : [],
       response: "",
       responseType: "error",
       isLoaded: false
