@@ -31,8 +31,19 @@ class FlightService extends Component {
           <ul>
             {flights.map(flight => (
               <li key={flight.id}>
-                userName: {flight.userName} | direct: {flight.direct} | price:{" "}
-                {flight.price} | departureDate: {flight.departureDate}
+                flightId: {flight.id} | userName: {flight.userName}| direct:{" "}
+                {flight.direct}| price: {flight.price}| outboundDepartureDate:{" "}
+                {flight.outboundDepartureDate}| inboundDepartureDate:{" "}
+                {flight.inbounddepartureDate}| origin: {flight.origin.originId}|
+                originCityName: {flight.origin.originCityName}| originCityName:{" "}
+                {flight.origin.originCityName}| originIataCode:{" "}
+                {flight.origin.originIataCode}| originName:{" "}
+                {flight.origin.originName}| destinationName:{" "}
+                {flight.destination.destinationName}| destinationCityName:{" "}
+                {flight.destination.destinationCityName}| destinationIataCode:{" "}
+                {flight.destination.destinationIataCode}| outboundCarrierName:{" "}
+                {flight.outboundCarrier.name}| carrierId:{" "}
+                {flight.outboundCarrier.carrierId}
               </li>
             ))}
           </ul>
