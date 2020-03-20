@@ -1,17 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import FlightSearch from "../components/FlightSearch";
 import NavBar from "../components/NavBar";
-import { Container, Header, Footer, Content, Toggle } from "rsuite";
+import { Container, Header, Footer, Content } from "rsuite";
+import { withRouter } from "react-router-dom";
 
-const Home = () => {
+const FlightSelection = props => {
   return (
     <React.Fragment>
       <Container>
-        <Header>
+        {/* <Header>
           <NavBar />
-        </Header>
+        </Header> */}
         <Content>
-          <FlightSearch />
+          <FlightSearch {...props} />
         </Content>
         <Footer></Footer>
       </Container>
@@ -19,4 +20,32 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withRouter(FlightSelection);
+
+// class FlightSelection extends Component {
+//   state = {}
+//   componentDidMount() {
+//     this.props.history.push('/');
+//     console.log(this.props.history);
+//   }
+
+//   render() {
+//     return (
+
+//       <React.Fragment>
+//         <Container>
+//           <Header>
+//             <NavBar />
+//           </Header>
+//           <Content>
+//             <FlightSearch />
+//           </Content>
+//           <Footer></Footer>
+//         </Container>
+//       </React.Fragment>
+
+//      );
+//   }
+// }
+
+// export default FlightSelection;

@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
 import airportData from "../data/airportsJS";
+import "rsuite/dist/styles/rsuite-default.css";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch as RouteSwitch,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
   DatePicker,
   InputNumber,
@@ -19,12 +15,6 @@ import {
   //Alert,
   message
 } from "antd";
-import Home from "../pages/Home.jsx";
-import FlightSelection from "../pages/FlightSelection.jsx";
-import Data from "../pages/Data.jsx";
-import Profile from "../pages/Profile.jsx";
-import PageNotFound from "../pages/404";
-import Card from "../pages/Card";
 import DataTable from "../components/DataTable";
 
 const history = createBrowserHistory();
@@ -33,6 +23,7 @@ const location = history.location;
 const airport = JSON.parse(JSON.stringify(airportData));
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
 class FlightSearch extends Component {
   constructor(props) {
     super(props);
@@ -51,13 +42,8 @@ class FlightSearch extends Component {
       destinationCity: "",
       destinationCountry: "",
       destinationCode: "",
-      status: false,
-      exactPath: ""
+      status: false
     };
-  }
-
-  componentDidMount() {
-    this.props.history.push("/");
   }
 
   handleNumOfPassengers = props => {
@@ -174,9 +160,9 @@ class FlightSearch extends Component {
       }
       return props.status === true;
     }
+
     return this.state.status === true ? (
       <DataTable
-        // {...this.props}
         qDD={this.state.departDate}
         qAD={this.state.arriveDate}
         qRT={this.state.isRoundTrip}
@@ -329,4 +315,4 @@ class FlightSearch extends Component {
   }
 }
 
-export default withRouter(FlightSearch);
+export default FlightSearch;
