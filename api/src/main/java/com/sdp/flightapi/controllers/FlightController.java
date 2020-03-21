@@ -38,9 +38,9 @@ public class FlightController {
     }
   
     @PostMapping(path = "/post-reserved-flight")
-    public String saveFlight(@RequestBody ReservedFlights reservedFlights){
+    public ReservedFlights saveFlight(@RequestBody ReservedFlights reservedFlights){
         flightDao.save(reservedFlights);
-        return "Added reserved flight with info " + reservedFlights.getId();
+        return reservedFlights;
     }
 
     @GetMapping(path = "/get-reserved-flights")
