@@ -3,6 +3,7 @@ import CardDisp from "../components/CardDisp";
 import NavigationBar from "../components/NavigationBar";
 import { Container, Header, Footer, Content, Toggle } from "rsuite";
 import FlightService from "../components/FlightService";
+import ReserveFlightService from "../components/ReserveFlightService";
 
 const Card = () => {
   return (
@@ -11,6 +12,7 @@ const Card = () => {
         <Content>
           <FlightService />
           <CardDisp />
+          <ReserveFlightService />
         </Content>
         <Footer></Footer>
       </Container>
