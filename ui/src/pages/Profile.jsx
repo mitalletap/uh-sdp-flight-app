@@ -16,9 +16,6 @@ const Profile = () => {
   return (
     <React.Fragment>
       <Container>
-        {/* <Header>
-          <NavBar />
-        </Header> */}
         <Content>
           <h1> Welcome to your profile {username} </h1>
         </Content>

@@ -20,15 +20,17 @@ import NavBar from "./components/NavBar.jsx";
 // CSS
 import "./App.css";
 
+//AWS
+import { CognitoUserPool } from "amazon-cognito-identity-js";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import { Auth } from "aws-amplify";
+import { withAuthenticator } from "aws-amplify-react";
+
 export const history = createBrowserHistory();
 const location = history.location;
-// AWS
-// import { CognitoUserPool } from "amazon-cognito-identity-js";
-// import Amplify from "aws-amplify";
-// import awsconfig from "./aws-exports";
-// import { Auth } from "aws-amplify";
-// import { withAuthenticator } from "aws-amplify-react";
-// Amplify.configure(awsconfig);
+
+Amplify.configure(awsconfig);
 
 function App() {
   // AWS Pool Data
@@ -68,7 +70,7 @@ function App() {
             path="/"
             render={props => <FlightSelection {...props} />}
           />
-          <Route exact path="/data" render={props => <Data {...props} />} />
+          <Route exact path="/planner" render={props => <Data {...props} />} />
           <Route exact path="/logout" render={props => <Home {...props} />} />
           <Route
             exact
@@ -83,18 +85,5 @@ function App() {
   );
 }
 
-export default App;
-//export default withAuthenticator(App, true);
-
-{
-  /* <Router>
-  <Switch>
-    <Route exact path="/" component={FlightSelection} />
-    <Route exact path="/data" component={Data} />
-    <Route exact path="/logout" component={Home} />
-    <Route exact path="/profile" component={Profile} />
-    <Route exact path="/card" component={Card} />
-    <Route component={PageNotFound} />
-  </Switch>
-</Router> */
-}
+//export default App;
+export default withAuthenticator(App, false);

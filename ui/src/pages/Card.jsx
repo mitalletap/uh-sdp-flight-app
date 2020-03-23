@@ -9,9 +9,6 @@ const Card = () => {
   return (
     <React.Fragment>
       <Container>
-        {/* <Header>
-          <NavBar />
-        </Header> */}
         <Content>
           <CardDisp />
         </Content>

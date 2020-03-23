@@ -25,7 +25,7 @@ const NavBar = () => {
       <Navbar.Body>
         <Nav>
           <NavLink href="/" icon={<Icon icon="plane" />}></NavLink>
-          <NavLink href="/data" icon={<Icon icon="calendar" />}></NavLink>
+          <NavLink href="/planner" icon={<Icon icon="calendar" />}></NavLink>
         </Nav>
         <Nav pullRight>
           <NavLink
