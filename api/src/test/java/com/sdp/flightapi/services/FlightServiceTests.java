@@ -1,12 +1,8 @@
 package com.sdp.flightapi.services;
 
 
-import com.sdp.flightapi.controllers.FlightController;
 import com.sdp.flightapi.models.RawFlightData;
-import com.sdp.flightapi.models.ReservedFlights;
 import org.junit.jupiter.api.BeforeEach;
-
-import com.sdp.flightapi.dao.FlightDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +12,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -52,6 +46,7 @@ public class FlightServiceTests {
                 flightService.parameterString("SFO", "JFK",
                         "2020-01-01", Optional.of("2020-01-02")));
     }
+
 
     @Test
     void testGetFlightsCallsSkyscannerService() {
@@ -89,5 +84,8 @@ public class FlightServiceTests {
 
         verify(converterMock).convert(rawFlightData);
     }
+
+
+
 
 }

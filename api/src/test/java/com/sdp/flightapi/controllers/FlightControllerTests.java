@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdp.flightapi.dao.FlightDao;
 import com.sdp.flightapi.models.ReservedFlights;
 import com.sdp.flightapi.services.FlightService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class FlightControllerTests {
@@ -73,6 +71,7 @@ public class FlightControllerTests {
         verify(flightDaoMock).save(ArgumentMatchers.any(ReservedFlights.class));
     }
 
+
     @Test
     void testGetReservedFlights() throws Exception {
         FlightDao flightDaoMock = mock(FlightDao.class);
@@ -82,6 +81,43 @@ public class FlightControllerTests {
 
         verify(flightDaoMock).findAll();
     }
+
+    /*@GetMapping(path = "/get-reserved-flight-fliter-descending-sort-price")
+    public List<ReservedFlights> FlightFilterPriceDescending(){
+//ASCENDING SORT
+        ArrayList<ReservedFlights> ReservedFlightsHolder = (ArrayList<ReservedFlights>) flightDao.findAll();
+        Collections.sort(ReservedFlightsHolder, (Comparator<ReservedFlights>) (r1, r2) -> {
+                    return Float.valueOf(r2.getPrice()).compareTo(r1.getPrice());
+                }
+        );
+        return ReservedFlightsHolder;
+    }*/
+
+    @Test
+    void testFilterPriceAscending() throws Exception{
+
+        mockMvc.perform(get("/api/get-reserved-flight-fliter-ascending-sort-price")).andExpect(status().isOk());
+
+    }
+    @Test
+    void testFilterPriceDescending() throws Exception{
+
+        mockMvc.perform(get("/api/get-reserved-flight-fliter-descending-sort-price")).andExpect(status().isOk());
+
+    }
+    @Test
+    void testFilterDateAscending() throws Exception{
+
+        mockMvc.perform(get("/api/get-reserved-flight-filter-date-ascending")).andExpect(status().isOk());
+
+    }  @Test
+    void testFilterDateDescending() throws Exception{
+        FlightDao flightDaoMock = mock(FlightDao.class);
+      var Result = mockMvc.perform(get("/api/get-reserved-flight-filter-date-descending").contentType("application/json")).andReturn();
+        var body = Result.getResponse().getContentAsString();
+
+    }
+
 
     @Test
     void testGetUsersReservedFlights() throws Exception {
