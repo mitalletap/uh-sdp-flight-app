@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../components/NavBar";
-import { Container, Header, Content } from "rsuite";
+import { Container, Content } from "rsuite";
 
 // AWS
 import { Auth } from "aws-amplify";
@@ -25,21 +24,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-/*
-  const [userData, setUserData] = useState({
-    email: '',
-    username: '',
-    phone_number: ''
-  });
-  // const currentUser = Auth.currentSession();
-  const currentSession = Auth.currentAuthenticatedUser()
-    .then(user => setUserData({
-      email: user.attributes.email,
-      username: user.attributes.email,
-      phone_number: user.attributes.phone_number
-    }))
-    //.then(user => console.log(user))
-    .catch(err => console.log(err));
-
-    */

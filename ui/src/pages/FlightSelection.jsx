@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import FlightSearch from "../components/FlightSearch";
-import NavBar from "../components/NavBar";
-import { Container, Header, Footer, Content } from "rsuite";
+import { Container, Footer, Content } from "rsuite";
 import { withRouter } from "react-router-dom";
 
 const FlightSelection = props => {

@@ -1,6 +1,5 @@
 import React from "react";
-import { Container, Header, Content } from "rsuite";
-import NavBar from "../components/NavBar";
+import { Container, Content } from "rsuite";
 
 const Home = () => {
   return (

@@ -4,12 +4,7 @@ import airportData from "../data/airportsJS";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch as RouteSwitch,
-  withRouter
-} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   DatePicker,
   InputNumber,
@@ -18,23 +13,18 @@ import {
   Select,
   Modal,
   Descriptions,
-  Badge,
-  Alert,
   message,
   notification,
-  Typography
+  Typography,
+  Result
 } from "antd";
-import Home from "../pages/Home.jsx";
-import FlightSelection from "../pages/FlightSelection.jsx";
-import Data from "../pages/Data.jsx";
-import Profile from "../pages/Profile.jsx";
-import PageNotFound from "../pages/404";
-import Card from "../pages/Card";
+import { Auth } from "aws-amplify";
+import { SmileOutlined } from "@ant-design/icons";
 
 const history = createBrowserHistory();
 const location = history.location;
-const { Text } = Typography;
 const airport = JSON.parse(JSON.stringify(airportData));
+const { Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 class FlightSearch extends Component {
@@ -42,6 +32,7 @@ class FlightSearch extends Component {
     super(props);
     this.state = {
       API: false,
+      userName: "",
       numOfPassengers: 1,
       departDate: "",
       arriveDate: "",
@@ -73,9 +64,15 @@ class FlightSearch extends Component {
       flights: []
     };
   }
-
   componentDidMount() {
-    this.props.history.push("/");
+    // this.props.history.push("/");
+    Auth.currentAuthenticatedUser()
+      .then(data => {
+        this.setState({
+          userName: data.attributes.email
+        });
+      })
+      .catch(err => console.log(err));
   }
   handleNumOfPassengers = props => {
     this.setState(
@@ -202,7 +199,7 @@ class FlightSearch extends Component {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         direct: this.state.isRoundTrip,
-        userName: "NemoTheHero",
+        userName: this.state.userName,
         price: this.state.price,
         carrierIds: "",
         outboundDepartureDate: this.state.departDate,
@@ -247,7 +244,6 @@ class FlightSearch extends Component {
 
     openNotification();
   };
-
   redirect = path => {
     history.push(path);
   };
@@ -256,17 +252,23 @@ class FlightSearch extends Component {
       visible: true
     });
   };
-  handleOk = e => {
+  handleReturn = e => {
     this.setState({
       visible: false
     });
   };
-  handleCancel = e => {
+  handlePurchased = e => {
     this.setState({
-      visible: false
+      visible: false,
+      purchased: true
     });
   };
-
+  handleAfterPurchase = e => {
+    this.setState({
+      visible: false,
+      purchased: false
+    });
+  };
   getFlightInformation() {
     const URI =
       "http://localhost:8080/api/get-flights?origin=" +
@@ -277,9 +279,6 @@ class FlightSearch extends Component {
       this.state.departDate +
       "&inboundDate=" +
       this.state.arriveDate;
-    //const URL = "http://localhost:8080/api/get-flights?origin=SFO&destination=ATL&outboundDate=2020-03-20&inboundDate=2020-03-25";
-    const URL =
-      "http://localhost:8080/api/get-flights?origin=SFO&destination=ATL&outboundDate=anytime"; //&inboundDate=anytime
 
     fetch(URI)
       .then(res => {
@@ -299,31 +298,37 @@ class FlightSearch extends Component {
       .then(data => {
         if (this.state.API === true) {
           var newPrice;
-          data.length === 0 ? (newPrice = -1) : (newPrice = data[0].price);
-          this.setState(
-            {
-              isLoaded: true,
-              flights: data,
-              price: newPrice,
-              isRoundTrip: !data[0].direct,
-              originPlaceId: data[0].origin.PlaceId,
-              originCityId: data[0].origin.CityId,
-              destinationPlaceId: data[0].destination.PlaceId,
-              destinationCityId: data[0].destination.CityId,
-              outboundCarrierId: data[0].outboundCarrier.CarrierId,
-              outboundCarrierName: data[0].outboundCarrier.Name,
-              inboundCarrierId:
-                data[0].inboundCarrier === null
-                  ? null
-                  : data[0].inboundCarrier.CarrierId,
-              inboundCarrierName:
-                data[0].inboundCarrier === null
-                  ? null
-                  : data[0].inboundCarrier.Name
-            },
-            () => console.log(data),
-            console.log(this.state)
-          );
+          if (data.length === 0) {
+            this.setState({
+              price: -1
+            });
+          } else {
+            newPrice = data[0].price;
+            this.setState(
+              {
+                isLoaded: true,
+                flights: data,
+                price: newPrice,
+                isRoundTrip: !data[0].direct,
+                originPlaceId: data[0].origin.PlaceId,
+                originCityId: data[0].origin.CityId,
+                destinationPlaceId: data[0].destination.PlaceId,
+                destinationCityId: data[0].destination.CityId,
+                outboundCarrierId: data[0].outboundCarrier.CarrierId,
+                outboundCarrierName: data[0].outboundCarrier.Name,
+                inboundCarrierId:
+                  data[0].inboundCarrier === null
+                    ? null
+                    : data[0].inboundCarrier.CarrierId,
+                inboundCarrierName:
+                  data[0].inboundCarrier === null
+                    ? null
+                    : data[0].inboundCarrier.Name
+              },
+              () => console.log(data),
+              console.log(this.state)
+            );
+          }
         }
       });
   }
@@ -347,8 +352,28 @@ class FlightSearch extends Component {
       }
       return props.status === true;
     }
-
-    if (this.state.visible === false) {
+    if (this.state.visible === false && this.state.purchased === true) {
+      return (
+        <React.Fragment>
+          <Result
+            style={{
+              width: "50%",
+              background: "#f7f7fa",
+              left: "50%",
+              top: "50%",
+              transform: "translateX(50%) translateY(50%)"
+            }}
+            icon={<SmileOutlined />}
+            title="Great, we have done all the operations!"
+            extra={
+              <Button type="primary" onClick={this.handleAfterPurchase}>
+                Next
+              </Button>
+            }
+          />
+        </React.Fragment>
+      );
+    } else if (this.state.visible === false) {
       return (
         <React.Fragment>
           <img
@@ -495,13 +520,13 @@ class FlightSearch extends Component {
           </div>
         </React.Fragment>
       );
-    } else if (this.state.visible == true && this.state.price === -1) {
+    } else if (this.state.visible === true && this.state.price === -1) {
       return (
         <div>
           <Modal
             centered={true}
             title={
-              this.state.arriveDate == ""
+              this.state.arriveDate === ""
                 ? `${this.state.originCity} to ${
                     this.state.destinationCity
                   } on ${moment(this.state.departDate, "YYYY-MM-DD").format(
@@ -517,7 +542,8 @@ class FlightSearch extends Component {
             }
             visible={this.state.visible}
             okText="Return"
-            onOk={this.handleOk}
+            onCancel={this.handleReturn}
+            onOk={this.handleReturn}
           >
             <Text type="secondary">
               No flights were found. Please try again later.{" "}
@@ -531,7 +557,7 @@ class FlightSearch extends Component {
           <Modal
             centered={true}
             title={
-              this.state.arriveDate == ""
+              this.state.arriveDate === ""
                 ? `${this.state.originCity} to ${
                     this.state.destinationCity
                   } on ${moment(this.state.departDate, "YYYY-MM-DD").format(
@@ -548,8 +574,8 @@ class FlightSearch extends Component {
             visible={this.state.visible}
             okText="Book Now!"
             cancelText="Return"
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
+            onOk={this.handlePurchased}
+            onCancel={this.handleReturn}
           >
             <Descriptions layout="vertical" bordered>
               <Descriptions.Item label="Passengers">

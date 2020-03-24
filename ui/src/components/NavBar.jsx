@@ -24,16 +24,28 @@ const NavBar = () => {
     <Navbar>
       <Navbar.Body>
         <Nav>
-          <NavLink href="/" icon={<Icon icon="plane" />}></NavLink>
-          <NavLink href="/planner" icon={<Icon icon="calendar" />}></NavLink>
+          <NavLink href="/" icon={<Icon icon="plane" />}>
+            {" "}
+            Search Flights
+          </NavLink>
+          <NavLink href="/planner" icon={<Icon icon="calendar" />}>
+            {" "}
+            Calendar{" "}
+          </NavLink>
         </Nav>
         <Nav pullRight>
           <NavLink
             href="/logout"
             icon={<Icon icon="cog" />}
             onClick={signoutFunction}
-          ></NavLink>
-          <NavLink href="/profile" icon={<Icon icon="user" />}></NavLink>
+          >
+            {" "}
+            Logout
+          </NavLink>
+          <NavLink href="/profile" icon={<Icon icon="user" />}>
+            {" "}
+            Profile{" "}
+          </NavLink>
         </Nav>
       </Navbar.Body>
     </Navbar>

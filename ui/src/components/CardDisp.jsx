@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import Table from "react-bootstrap/Table";
-import jsonData from "../data/actualData";
+import React from "react";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Progress } from "antd";

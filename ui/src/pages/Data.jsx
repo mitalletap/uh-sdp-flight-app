@@ -1,8 +1,6 @@
-import React, { useState, Component } from "react";
-import NavBar from "../components/NavBar";
+import React from "react";
 import Planner from "../components/Planner";
-import { Container, Header, Footer, Content } from "rsuite";
-import { Calendar, Badge } from "antd";
+import { Container, Content } from "rsuite";
 
 const Data = props => {
   return (

@@ -2,17 +2,9 @@
 import React, { Component } from "react";
 import CardDisp from "./CardDisp";
 import { Button } from "antd";
-// import { Skeleton, Switch, Card, Avatar } from "antd";
-// import {
-//   EditOutlined,
-//   EllipsisOutlined,
-//   SettingOutlined
-// } from "@ant-design/icons";
 import { Card } from "antd";
-//const { Meta } = Card;
 
-import { withRouter, useHistory } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { withRouter } from "react-router-dom";
 
 class DataTable extends Component {
   constructor(props) {
@@ -135,28 +127,7 @@ class DataTable extends Component {
             destination={flights[0].destination}
             destinationCity={flights[0].destination.CityName}
             destinationCode={flights[0].destination.SkyscannerCode}
-          >
-            Hi
-          </CardDisp>
-          {/* {flights.map(flight => (
-            <React.Fragment>
-              <div style={{ paddingTop: "25px" }}>
-                <CardDisp
-                  price={flight.price}
-                  key={flight.outboundCarrier.CarrierId}
-                  departDate={flight.outboundDepartureDate}
-                  arriveDate={flight.inboundDepartureDate}
-                  isDirect={flight.direct}
-                  origin={flight.origin.Name}
-                  originCity={flight.origin.CityName}
-                  originCode={flight.origin.SkyscannerCode}
-                  destination={flight.destination}
-                  destinationCity={flight.destination.CityName}
-                  destinationCode={flight.destination.SkyscannerCode}
-                />
-              </div>
-            </React.Fragment>
-          ))} */}
+          />
           <Button onClick={() => this.alert()}>Hello</Button>
         </div>
       );
