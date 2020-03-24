@@ -1,18 +1,10 @@
 // Get link extension and add it to state/props
 import React, { Component } from "react";
-import CardDisp from "../components/CardDisp";
+import CardDisp from "./CardDisp";
 import { Button } from "antd";
-// import { Skeleton, Switch, Card, Avatar } from "antd";
-// import {
-//   EditOutlined,
-//   EllipsisOutlined,
-//   SettingOutlined
-// } from "@ant-design/icons";
 import { Card } from "antd";
-//const { Meta } = Card;
 
-import { withRouter, useHistory } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { withRouter } from "react-router-dom";
 
 class DataTable extends Component {
   constructor(props) {
@@ -23,9 +15,7 @@ class DataTable extends Component {
       RT: this.props.qRT,
       ori: this.props.qOC,
       des: this.props.qDC,
-      flights: localStorage.getItem("productList")
-        ? JSON.parse(localStorage.getItem("productList"))
-        : [],
+      flights: [],
       response: "",
       responseType: "error",
       isLoaded: false
@@ -72,6 +62,7 @@ class DataTable extends Component {
   alert() {
     console.log(this.props);
     console.log(this.state);
+    console.log(this.state.flights[0].price);
   }
 
   render() {
@@ -123,26 +114,20 @@ class DataTable extends Component {
     } else {
       return (
         <div style={{ paddingTop: "100px" }}>
-          <h1> {this.props.title} </h1>
-          {flights.map(flight => (
-            <React.Fragment>
-              <div style={{ paddingTop: "25px" }}>
-                <CardDisp
-                  price={flight.price}
-                  key={flight.outboundCarrier.CarrierId}
-                  departDate={flight.outboundDepartureDate}
-                  arriveDate={flight.inboundDepartureDate}
-                  isDirect={flight.direct}
-                  origin={flight.origin.Name}
-                  originCity={flight.origin.CityName}
-                  originCode={flight.origin.SkyscannerCode}
-                  destination={flight.destination}
-                  destinationCity={flight.destination.CityName}
-                  destinationCode={flight.destination.SkyscannerCode}
-                />
-              </div>
-            </React.Fragment>
-          ))}
+          {/* <h1> {this.props.title} </h1> */}
+          <CardDisp
+            price={flights.price}
+            key={flights[0].outboundCarrier.CarrierId}
+            departDate={flights[0].outboundDepartureDate}
+            arriveDate={flights[0].inboundDepartureDate}
+            isDirect={flights[0].direct}
+            origin={flights[0].origin.Name}
+            originCity={flights[0].origin.CityName}
+            originCode={flights[0].origin.SkyscannerCode}
+            destination={flights[0].destination}
+            destinationCity={flights[0].destination.CityName}
+            destinationCode={flights[0].destination.SkyscannerCode}
+          />
           <Button onClick={() => this.alert()}>Hello</Button>
         </div>
       );

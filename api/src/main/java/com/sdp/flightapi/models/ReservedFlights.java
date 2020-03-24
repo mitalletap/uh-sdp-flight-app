@@ -23,4 +23,5 @@ public class ReservedFlights {
 
     private Carrier outboundCarrier;
     private Carrier inboundCarrier;
+    private boolean purchased;
 }

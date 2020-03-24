@@ -1,17 +1,23 @@
-import React, { Component } from "react";
-import Table from "react-bootstrap/Table";
-import jsonData from "../data/actualData";
+import React from "react";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Progress } from "antd";
 
 const CardDisp = props => {
-  var title = `${props.originCity} to ${props.destinationCity} from ${moment(
-    props.departDate,
-    "YYYY-MM-DD"
-  ).format("MMM Do YYYY")} to ${moment(props.arriveDate, "YYYY-MM-DD").format(
-    "MMM Do YYYY"
-  )}`;
+  var title;
+  console.log(props.arriveDate);
+  props.arriveDate == null
+    ? (title = `${props.originCity} to ${props.destinationCity} on ${moment(
+        props.departDate,
+        "YYYY-MM-DD"
+      ).format("MMM Do YYYY")}`)
+    : (title = `${props.originCity} to ${props.destinationCity} from ${moment(
+        props.departDate,
+        "YYYY-MM-DD"
+      ).format("MMM Do YYYY")} to ${moment(
+        props.arriveDate,
+        "YYYY-MM-DD"
+      ).format("MMM Do YYYY")}`);
   return (
     <React.Fragment>
       <div
