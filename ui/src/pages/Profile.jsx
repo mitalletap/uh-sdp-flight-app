@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Container, Content } from "rsuite";
+
+// AWS
 import { Auth } from "aws-amplify";
 
 const Profile = () => {
