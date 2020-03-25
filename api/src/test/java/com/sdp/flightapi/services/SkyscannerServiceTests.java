@@ -18,12 +18,12 @@ public class SkyscannerServiceTests {
     @Autowired
     SkyscannerService skyscannerService;
 
-    String nextWeekDateString;
+    String nextMonthDateString;
 
     @BeforeEach
     void setUp() {
-        nextWeekDateString = new SimpleDateFormat("yyyy-MM-dd").format(
-                Date.from(Instant.now().plus(7, ChronoUnit.DAYS)));
+        nextMonthDateString = new SimpleDateFormat("yyyy-MM-dd").format(
+                Date.from(Instant.now().plus(30, ChronoUnit.DAYS)));
     }
 
     @Test
@@ -32,7 +32,7 @@ public class SkyscannerServiceTests {
 
         assertDoesNotThrow(() ->  {
             rawFlightData[0] = skyscannerService
-                    .getFlights("SFO-sky/JFK-sky/" + nextWeekDateString);
+                    .getFlights("IAH-sky/SFO-sky/" + nextMonthDateString);
         });
 
         assertTrue(rawFlightData[0].getQuotes()
@@ -42,7 +42,7 @@ public class SkyscannerServiceTests {
                 () -> assertEquals(rawFlightData[0].getPlaces()
                                 .stream()
                                 .filter(place -> place.getIataCode()
-                                        .equals("SFO"))
+                                        .equals("IAH"))
                                 .findAny()
                                 .get()
                                 .getPlaceId(),
@@ -54,7 +54,7 @@ public class SkyscannerServiceTests {
                 () -> assertEquals(rawFlightData[0].getPlaces()
                                 .stream()
                                 .filter(place -> place.getIataCode()
-                                        .equals("JFK"))
+                                        .equals("SFO"))
                                 .findAny()
                                 .get()
                                 .getPlaceId(),

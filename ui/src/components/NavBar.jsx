@@ -1,6 +1,6 @@
 // Imports
 import React from "react";
-import { Nav } from "rsuite";
+import { Nav, Navbar, Icon } from "rsuite";
 
 // Styles
 import "rsuite/dist/styles/rsuite-default.css";
@@ -9,11 +9,11 @@ import "rsuite/dist/styles/rsuite-default.css";
 import { Auth } from "aws-amplify";
 
 const NavBar = () => {
-  // const signoutFunction = () => {
-  //   Auth.signOut()
-  //     .then(data => console.log(data))
-  //     .catch(err => console.log(err));
-  // };
+  const signoutFunction = () => {
+    Auth.signOut()
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+  };
 
   const MyLink = React.forwardRef((props, ref) => {
     const { href, as, ...rest } = props;
@@ -21,13 +21,34 @@ const NavBar = () => {
   });
   const NavLink = props => <Nav.Item componentClass={MyLink} {...props} />;
   const instance = (
-    <Nav appearance={"default"}>
-      <NavLink href="/">Home</NavLink>
-      <NavLink href="/flight-search">Flight Search</NavLink>
-      <NavLink href="/data">Data</NavLink>
-      <NavLink href="/logout">Logout</NavLink>
-      <NavLink href="/profile">Profile</NavLink>
-    </Nav>
+    <Navbar>
+      <Navbar.Body>
+        <Nav>
+          <NavLink href="/" icon={<Icon icon="plane" />}>
+            {" "}
+            Search Flights
+          </NavLink>
+          <NavLink href="/planner" icon={<Icon icon="calendar" />}>
+            {" "}
+            Calendar{" "}
+          </NavLink>
+        </Nav>
+        <Nav pullRight>
+          <NavLink
+            href="/logout"
+            icon={<Icon icon="cog" />}
+            onClick={signoutFunction}
+          >
+            {" "}
+            Logout
+          </NavLink>
+          <NavLink href="/profile" icon={<Icon icon="user" />}>
+            {" "}
+            Profile{" "}
+          </NavLink>
+        </Nav>
+      </Navbar.Body>
+    </Navbar>
   );
   return instance;
 };
