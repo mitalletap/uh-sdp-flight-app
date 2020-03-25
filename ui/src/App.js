@@ -10,7 +10,6 @@ import Data from "./pages/Data.jsx";
 import Profile from "./pages/Profile.jsx";
 import PageNotFound from "./pages/404";
 import Card from "./pages/Card";
-
 import NavBar from "./components/NavBar.jsx";
 // CSS
 import "./App.css";
@@ -58,9 +57,10 @@ function App() {
       }}
     >
       <NavBar />
-      <Router>
-        <Switch>
+      <Router className="router">
+        <Switch className="switch">
           <Route
+            className="flightSelectionRoute"
             exact
             path="/"
             render={props => <FlightSelection {...props} />}

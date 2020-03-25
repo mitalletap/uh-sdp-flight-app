@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import MyCard from "./DataCard";
 import moment from "moment";
-// localhost:8080/api/get-users-reserved-flights?userName=NEMO
+
 class Planner extends Component {
   constructor(props) {
     super(props);

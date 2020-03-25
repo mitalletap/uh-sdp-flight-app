@@ -6,10 +6,8 @@ import { Auth } from "aws-amplify";
 
 const Profile = () => {
   const [username, setUsername] = useState(null);
-  // const currentUser = Auth.currentSession();
   Auth.currentAuthenticatedUser()
     .then(user => setUsername(user.attributes.email))
-    //.then(user => setUsername(user.attributes.phone_number))
     .catch(err => console.log(err));
 
   return (

@@ -4,22 +4,6 @@ import airplaneIcon from "../images/airplaneicon.png";
 import transparentPlane from "../images/30transparentPlane.png";
 
 var airlinerImage = "";
-
-{
-  /* 
-
-Delta - DAL
-American Airlines - AAL
-United Airlines - UAL
-Spirit Airlines - NKS
-Frontier Airlines - FFT
-Southwest Airlines - SWA
-
-
-
-*/
-}
-
 const DataCard = props => {
   if (props.skeleton === true) {
     return (
