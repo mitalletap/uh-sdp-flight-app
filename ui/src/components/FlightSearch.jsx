@@ -224,10 +224,13 @@ class FlightSearch extends Component {
         }
       })
     };
-    fetch("http://localhost:8080/api/post-reserved-flight", userData)
+    fetch(
+      "http://localhost:8080/api/post-reserved-flight?purchased=True",
+      userData
+    )
       .then(res => res.json())
       .catch(error => {
-        // console.error("There was an error!", error);
+        console.error("There was an error!", error);
       });
 
     openNotification();
