@@ -222,6 +222,9 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.13.0</version>
 				<configuration>
+					<excludes>
+						<exclude>com/sdp/flightapi/models/*</exclude>
+					</excludes>
 					<failOnViolation>false</failOnViolation>
 					<rulesets>
 						<ruleset>/rulesets/java/braces.xml</ruleset>
@@ -239,21 +242,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.13.0</version>
-				<configuration>
-					<rulesets>
-						<ruleset>/rulesets/java/braces.xml</ruleset>
-						<ruleset>/rulesets/java/naming.xml</ruleset>
-					</rulesets>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 
 </project>
