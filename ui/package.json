@@ -45,8 +45,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "set CI=true&&mocha",
-    "test:coverage": "set CI=true&&nyc mocha",
+    "test": "set CI=true&&mocha \"src/**/*.test.js*\"",
+    "test:coverage": "set CI=true&&nyc mocha \"src/**/*.test.js*\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
