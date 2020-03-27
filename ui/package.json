@@ -59,7 +59,8 @@
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/serviceWorker.js",
-      "!**/index.js"
+      "!**/index.js",
+      "!**/*NOTWORKING*.{js,jsx}"
     ]
   },
   "husky": {
