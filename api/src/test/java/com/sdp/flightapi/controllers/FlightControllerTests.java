@@ -66,7 +66,7 @@ public class FlightControllerTests {
         FlightDao flightDaoMock = mock(FlightDao.class);
         flightController.flightDao = flightDaoMock;
 
-        mockMvc.perform(post("/api/post-reserved-flight").header(
+        mockMvc.perform(post("/api/post-reserved-flight?purchased={purchased}", "true").header(
                 "Content-Type", "application/json")
             .content(jsonMapper.writeValueAsString(new ReservedFlights())));
 

@@ -1,28 +1,28 @@
-import React, { Component } from "react";
+// import React, { Component } from "react";
 
-class UserData extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      signedIn: false
-    };
-  }
+// class UserData extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       username: "",
+//       signedIn: false
+//     };
+//   }
 
-  getUserData = object => {
-    console.log(object);
-  };
+//   getUserData = object => {
+//     console.log(object);
+//   };
 
-  render() {
-    const currentSession = Auth.currentAuthenticatedUser()
-      .then(user => setUsername(user.attributes.email))
-      .catch(err => console.log(err));
+//   render() {
+//     const currentSession = Auth.currentAuthenticatedUser()
+//       .then(user => setUsername(user.attributes.email))
+//       .catch(err => console.log(err));
 
-    return <div> {this.getUserData} </div>;
-  }
-}
+//     return <div> {this.getUserData} </div>;
+//   }
+// }
 
-export default UserData;
+// export default UserData;
 
 // const [username, setUsername] = useState(null);
 // // const currentUser = Auth.currentSession();
