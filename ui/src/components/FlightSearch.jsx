@@ -55,7 +55,7 @@ class FlightSearch extends Component {
       outboundCarrierName: "",
       inboundCarrierId: "",
       inboundCarrierName: "",
-      purchased: false,
+      purchased: "false",
       price: null,
       status: false,
       exactPath: "",
@@ -183,7 +183,7 @@ class FlightSearch extends Component {
     );
   };
   handleSaveToPlanner = () => {
-    console.log(this.state);
+    console.log(this.state.purchased);
     const openNotification = () => {
       notification.success({
         message: "Flight Saved to your Planner!",
@@ -225,22 +225,19 @@ class FlightSearch extends Component {
         inboundCarrier: {
           carrierId: this.state.inboundCarrierId,
           name: this.state.inboundCarrierName
-        }
+        },
+        purchased: this.state.purchased
       })
     };
-    fetch("http://localhost:8080/api/post-reserved-flight", userData)
+    fetch(
+      "http://localhost:8080/api/post-reserved-flight?purchased=" +
+        this.state.purchased,
+      userData
+    )
       .then(res => res.json())
       .catch(error => {
         // console.error("There was an error!", error);
       });
-
-    // async response => {
-    //   const data = await response.json();
-    //   if (!response.ok) {
-    //     const error = (data && data.message) || response.status;
-    //     return Promise.reject(error);
-    //   }
-    // }
 
     openNotification();
   };
@@ -258,15 +255,17 @@ class FlightSearch extends Component {
     });
   };
   handlePurchased = e => {
-    this.setState({
-      visible: false,
-      purchased: true
-    });
+    this.setState(
+      {
+        visible: false,
+        purchased: "true"
+      },
+      () => this.handleSaveToPlanner()
+    );
   };
   handleAfterPurchase = e => {
     this.setState({
-      visible: false,
-      purchased: false
+      visible: false
     });
   };
   getFlightInformation() {
@@ -574,7 +573,9 @@ class FlightSearch extends Component {
             visible={this.state.visible}
             okText="Book Now!"
             cancelText="Return"
-            onOk={this.handlePurchased}
+            onOk={() => {
+              this.handlePurchased();
+            }}
             onCancel={this.handleReturn}
           >
             <Descriptions layout="vertical" bordered>

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import MyCard from "./DataCard";
 import moment from "moment";
+import { Result, Button } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
 // localhost:8080/api/get-users-reserved-flights?userName=NEMO
 class Planner extends Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class Planner extends Component {
           this.setState({
             data: jsonData
           });
+          console.log(jsonData);
         })
         .catch(error => {
           console.error(error);
@@ -47,15 +50,17 @@ class Planner extends Component {
       return (
         <React.Fragment>
           <div style={{ paddingTop: "100px" }}>
-            <ul style={{ paddingBottom: "50px" }}>
-              <MyCard skeleton={true} />
-            </ul>
-            <ul style={{ paddingBottom: "50px" }}>
-              <MyCard skeleton={true} />
-            </ul>
-            <ul style={{ paddingBottom: "50px" }}>
-              <MyCard skeleton={true} />
-            </ul>
+            <Result
+              icon={<FrownOutlined />}
+              title="There are no flights saved! Lets change that!"
+              extra={
+                <Button type="primary" href="/">
+                  {" "}
+                  Search Flights{" "}
+                </Button>
+              }
+              style={{ backgroundColor: "white" }}
+            />
           </div>
         </React.Fragment>
       );
@@ -64,7 +69,7 @@ class Planner extends Component {
         <React.Fragment>
           <div style={{ paddingTop: "100px" }}>
             {this.state.data.map(flights => (
-              <ul key={flights.id} style={{ paddingBottom: "50px" }}>
+              <ul key={flights.id} style={{ paddingTop: "100px" }}>
                 <MyCard
                   title={
                     flights.inboundDepartureDate === ""
@@ -88,6 +93,8 @@ class Planner extends Component {
                   destinationCode={flights.destination.destinationIataCode}
                   price={flights.price}
                   outboundCarrier={flights.outboundCarrier.name}
+                  id={flights.id}
+                  purchased={flights.purchased}
                 />
               </ul>
             ))}
