@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
-import airportData from "../data/airportsJS";
+//import airportData from "../data/airportsJS";
+import airportData from "../data/airports";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
@@ -23,6 +24,7 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const history = createBrowserHistory();
 const location = history.location;
+//const airport = JSON.parse(JSON.stringify(airportData));
 const airport = JSON.parse(JSON.stringify(airportData));
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -161,7 +163,7 @@ class FlightSearch extends Component {
       },
       () => {
         console.log(
-          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, with code ${props[1].key}`
         );
       }
     );
@@ -177,7 +179,7 @@ class FlightSearch extends Component {
       },
       () => {
         console.log(
-          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, with code ${props[1].key}`
         );
       }
     );
@@ -400,25 +402,19 @@ class FlightSearch extends Component {
               onChange={this.handleOrigin}
             >
               {airport.map(data => {
-                return data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports" ? (
+                return (
                   <Option
-                    key={data.code}
-                    value={data.label}
-                    airport={data.name}
-                    city={data.label}
+                    key={data.IATA}
+                    value={data.airport}
+                    airport={data.airport}
+                    city={data.city}
                     state={data.state}
                     country={data.country}
                   >
                     {" "}
-                    <strong>
-                      {data.label}, {data.state}
-                    </strong>{" "}
-                    <br /> {data.name}{" "}
+                    <strong>{data.airport}</strong> <br /> {data.city},{" "}
+                    {data.state}{" "}
                   </Option>
-                ) : (
-                  console.log()
                 );
               })}
             </Select>
@@ -429,25 +425,19 @@ class FlightSearch extends Component {
               onChange={this.handleDestination}
             >
               {airport.map(data => {
-                return data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports" ? (
+                return (
                   <Option
-                    key={data.code}
-                    value={data.label}
-                    airport={data.name}
-                    city={data.label}
+                    key={data.IATA}
+                    value={data.airport}
+                    airport={data.airport}
+                    city={data.city}
                     state={data.state}
                     country={data.country}
                   >
                     {" "}
-                    <strong>
-                      {data.label}, {data.state}
-                    </strong>{" "}
-                    <br /> {data.name}{" "}
+                    <strong>{data.airport}</strong> <br /> {data.city},{" "}
+                    {data.state}{" "}
                   </Option>
-                ) : (
-                  console.log()
                 );
               })}
             </Select>
