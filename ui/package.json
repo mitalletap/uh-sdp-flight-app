@@ -65,7 +65,7 @@
     "build": "react-scripts build",
     "test": "set CI=true&&react-scripts test",
     "test:coverage": "set CI=true&&react-scripts test --coverage",
-    "complexity-report": "es6-plato -r -d report '**/pages/*.{js,jsx}|**/components/*.{js,jsx}'",
+    "complexity-report": "es6-plato -r -d report \"**/pages/*.{js,jsx}|**/components/*.{js,jsx}\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
