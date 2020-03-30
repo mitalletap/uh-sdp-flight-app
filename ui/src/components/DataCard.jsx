@@ -4,7 +4,6 @@ import airplaneIcon from "../images/airplaneicon.png";
 import transparentPlane from "../images/30transparentPlane.png";
 
 var airlinerImage = "";
-
 const DataCard = props => {
   var purchasedState = props.purchased;
 
@@ -22,7 +21,6 @@ const DataCard = props => {
       description: `Your flight from ${props.originCode} to ${props.destinationCode} has been successfully purchased!`
     });
   };
-
   if (props.skeleton === true) {
     return (
       <React.Fragment>

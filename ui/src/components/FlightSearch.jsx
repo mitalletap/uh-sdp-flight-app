@@ -78,10 +78,10 @@ class FlightSearch extends Component {
     this.setState(
       {
         numOfPassengers: props
-      },
-      () => {
-        console.log("Current Value: " + this.state.numOfPassengers);
       }
+      // () => {
+      //   console.log("Current Value: " + this.state.numOfPassengers);
+      // }
     );
   };
   handleDate = props => {
@@ -91,30 +91,30 @@ class FlightSearch extends Component {
         {
           departDate: null,
           arriveDate: null
-        },
-        () => {
-          console.log(
-            "Current Value: " +
-              this.state.departDate +
-              " and " +
-              this.state.arriveDate
-          );
         }
+        // () => {
+        //   console.log(
+        //     "Current Value: " +
+        //       this.state.departDate +
+        //       " and " +
+        //       this.state.arriveDate
+        //   );
+        // }
       );
     } else {
       this.setState(
         {
           departDate: props[0].format("YYYY-MM-DD"),
           arriveDate: props[1].format("YYYY-MM-DD")
-        },
-        () => {
-          console.log(
-            "Current Value: " +
-              this.state.departDate +
-              " and " +
-              this.state.arriveDate
-          );
         }
+        // () => {
+        //   console.log(
+        //     "Current Value: " +
+        //       this.state.departDate +
+        //       " and " +
+        //       this.state.arriveDate
+        //   );
+        // }
       );
     }
   };
@@ -124,19 +124,19 @@ class FlightSearch extends Component {
       this.setState(
         {
           departDate: null
-        },
-        () => {
-          console.log("Current Value: " + this.state.departDate);
         }
+        // () => {
+        //   console.log("Current Value: " + this.state.departDate);
+        // }
       );
     } else {
       this.setState(
         {
           departDate: props.format("YYYY-MM-DD")
-        },
-        () => {
-          console.log("Current Value: " + this.state.departDate);
         }
+        // () => {
+        //   console.log("Current Value: " + this.state.departDate);
+        // }
       );
     }
   };
@@ -144,10 +144,10 @@ class FlightSearch extends Component {
     this.setState(
       {
         isRoundTrip: props
-      },
-      () => {
-        console.log("Current Value: " + this.state.isRoundTrip);
       }
+      // () => {
+      //   console.log("Current Value: " + this.state.isRoundTrip);
+      // }
     );
   };
   handleOrigin = (...props) => {
@@ -158,12 +158,12 @@ class FlightSearch extends Component {
         originState: props[1].state,
         originCountry: props[1].country,
         originCode: props[1].key
-      },
-      () => {
-        console.log(
-          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
-        );
       }
+      // () => {
+      //   console.log(
+      //     `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+      //   );
+      // }
     );
   };
   handleDestination = (...props) => {
@@ -174,23 +174,19 @@ class FlightSearch extends Component {
         destinationState: props[1].state,
         destinationCountry: props[1].country,
         destinationCode: props[1].key
-      },
-      () => {
-        console.log(
-          `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
-        );
       }
+      // () => {
+      //   console.log(
+      //     `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
+      //   );
+      // }
     );
   };
   handleSaveToPlanner = () => {
-    console.log(this.state.purchased);
     const openNotification = () => {
       notification.success({
         message: "Flight Saved to your Planner!",
-        description: `Your flight from ${this.state.originCity} to ${this.state.destinationCity} has been successfully saved!`,
-        onClick: () => {
-          console.log("Notification Clicked!");
-        }
+        description: `Your flight from ${this.state.originCity} to ${this.state.destinationCity} has been successfully saved!`
       });
     };
 
@@ -236,7 +232,7 @@ class FlightSearch extends Component {
     )
       .then(res => res.json())
       .catch(error => {
-        // console.error("There was an error!", error);
+        console.error("There was an error!", error);
       });
 
     openNotification();
@@ -400,26 +396,28 @@ class FlightSearch extends Component {
               onChange={this.handleOrigin}
             >
               {airport.map(data => {
-                return data.country === "United States" &&
+                if (
+                  data.country === "United States" &&
                   data.name !== "" &&
-                  data.type === "Airports" ? (
-                  <Option
-                    key={data.code}
-                    value={data.label}
-                    airport={data.name}
-                    city={data.label}
-                    state={data.state}
-                    country={data.country}
-                  >
-                    {" "}
-                    <strong>
-                      {data.label}, {data.state}
-                    </strong>{" "}
-                    <br /> {data.name}{" "}
-                  </Option>
-                ) : (
-                  console.log()
-                );
+                  data.type === "Airports"
+                ) {
+                  return (
+                    <Option
+                      key={data.code}
+                      value={data.label}
+                      airport={data.name}
+                      city={data.label}
+                      state={data.state}
+                      country={data.country}
+                    >
+                      {" "}
+                      <strong>
+                        {data.label}, {data.state}
+                      </strong>{" "}
+                      <br /> {data.name}{" "}
+                    </Option>
+                  );
+                }
               })}
             </Select>
             <Select
@@ -429,26 +427,49 @@ class FlightSearch extends Component {
               onChange={this.handleDestination}
             >
               {airport.map(data => {
-                return data.country === "United States" &&
+                if (
+                  data.country === "United States" &&
                   data.name !== "" &&
-                  data.type === "Airports" ? (
-                  <Option
-                    key={data.code}
-                    value={data.label}
-                    airport={data.name}
-                    city={data.label}
-                    state={data.state}
-                    country={data.country}
-                  >
-                    {" "}
-                    <strong>
-                      {data.label}, {data.state}
-                    </strong>{" "}
-                    <br /> {data.name}{" "}
-                  </Option>
-                ) : (
-                  console.log()
-                );
+                  data.type === "Airports"
+                ) {
+                  return (
+                    <Option
+                      key={data.code}
+                      value={data.label}
+                      airport={data.name}
+                      city={data.label}
+                      state={data.state}
+                      country={data.country}
+                    >
+                      {" "}
+                      <strong>
+                        {data.label}, {data.state}
+                      </strong>{" "}
+                      <br /> {data.name}{" "}
+                    </Option>
+                  );
+                }
+
+                // return data.country === "United States" &&
+                //   data.name !== "" &&
+                //   data.type === "Airports" ? (
+                //   <Option
+                //     key={data.code}
+                //     value={data.label}
+                //     airport={data.name}
+                //     city={data.label}
+                //     state={data.state}
+                //     country={data.country}
+                //   >
+                //     {" "}
+                //     <strong>
+                //       {data.label}, {data.state}
+                //     </strong>{" "}
+                //     <br /> {data.name}{" "}
+                //   </Option>
+                // ) : (
+                //   console.log();
+                // );
               })}
             </Select>
           </div>
@@ -599,4 +620,5 @@ class FlightSearch extends Component {
   }
 }
 
-export default withRouter(FlightSearch);
+export default FlightSearch;
+//export default withRouter(FlightSearch);

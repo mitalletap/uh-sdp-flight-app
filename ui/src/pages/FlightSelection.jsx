@@ -16,4 +16,5 @@ const FlightSelection = props => {
   );
 };
 
-export default withRouter(FlightSelection);
+export default FlightSelection;
+// export default FlightSelection;
