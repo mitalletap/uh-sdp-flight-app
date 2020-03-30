@@ -89,9 +89,10 @@ function App() {
       }}
     >
       <NavBar />
-      <Router>
-        <Switch>
+      <Router className="router">
+        <Switch className="switch">
           <Route
+            className="flightSelectionRoute"
             exact
             path="/"
             render={props => <FlightSelection {...props} />}
@@ -104,9 +105,9 @@ function App() {
             render={props => <Profile {...props} />}
           />
           <Route exact path="/about" render={props => <About {...props} />} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </Router>
+          <Route component={PageNotFound} />{" "}
+        </Switch>{" "}
+      </Router>{" "}
     </div>
   );
 }

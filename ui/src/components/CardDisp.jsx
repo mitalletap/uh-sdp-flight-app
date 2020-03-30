@@ -5,7 +5,7 @@ import { Card, Progress } from "antd";
 
 const CardDisp = props => {
   var title;
-  console.log(props.arriveDate);
+  // console.log(props.arriveDate);
   props.arriveDate == null
     ? (title = `${props.originCity} to ${props.destinationCity} on ${moment(
         props.departDate,

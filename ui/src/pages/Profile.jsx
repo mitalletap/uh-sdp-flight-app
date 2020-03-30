@@ -3,7 +3,6 @@ import { Divider, Avatar } from "antd";
 import { Auth } from "aws-amplify";
 
 const Profile = () => {
-  const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [name, setName] = useState(null);
