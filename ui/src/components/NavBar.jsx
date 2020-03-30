@@ -1,11 +1,7 @@
 // Imports
 import React from "react";
 import { Nav, Navbar, Icon } from "rsuite";
-
-// Styles
 import "rsuite/dist/styles/rsuite-default.css";
-
-// Pages
 import { Auth } from "aws-amplify";
 
 const NavBar = () => {
@@ -32,10 +28,14 @@ const NavBar = () => {
             {" "}
             Calendar{" "}
           </NavLink>
+          <NavLink href="/about" icon={<Icon icon="peoples" />}>
+            {" "}
+            About{" "}
+          </NavLink>
         </Nav>
         <Nav pullRight>
           <NavLink
-            href="/logout"
+            href="/"
             icon={<Icon icon="cog" />}
             onClick={signoutFunction}
           >

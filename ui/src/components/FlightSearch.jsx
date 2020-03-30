@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
-import airportData from "../data/airportsJS";
+//import airportData from "../data/airportsJS";
+import airportData from "../data/airports";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
@@ -23,6 +24,7 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const history = createBrowserHistory();
 const location = history.location;
+//const airport = JSON.parse(JSON.stringify(airportData));
 const airport = JSON.parse(JSON.stringify(airportData));
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
