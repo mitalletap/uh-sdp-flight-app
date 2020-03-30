@@ -398,28 +398,21 @@ class FlightSearch extends Component {
               onChange={this.handleOrigin}
             >
               {airport.map(data => {
-                if (
-                  data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports"
-                ) {
-                  return (
-                    <Option
-                      key={data.code}
-                      value={data.label}
-                      airport={data.name}
-                      city={data.label}
-                      state={data.state}
-                      country={data.country}
-                    >
-                      {" "}
-                      <strong>
-                        {data.label}, {data.state}
-                      </strong>{" "}
-                      <br /> {data.name}{" "}
-                    </Option>
-                  );
-                }
+                return (
+                  <Option
+                    key={data.IATA}
+                    value={data.city}
+                    airport={data.airport}
+                    city={data.city}
+                    state={data.state}
+                  >
+                    {" "}
+                    <strong>
+                      {data.airport}, {data.city}
+                    </strong>{" "}
+                    <br /> {data.IATA}{" "}
+                  </Option>
+                );
               })}
             </Select>
             <Select
@@ -429,49 +422,21 @@ class FlightSearch extends Component {
               onChange={this.handleDestination}
             >
               {airport.map(data => {
-                if (
-                  data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports"
-                ) {
-                  return (
-                    <Option
-                      key={data.code}
-                      value={data.label}
-                      airport={data.name}
-                      city={data.label}
-                      state={data.state}
-                      country={data.country}
-                    >
-                      {" "}
-                      <strong>
-                        {data.label}, {data.state}
-                      </strong>{" "}
-                      <br /> {data.name}{" "}
-                    </Option>
-                  );
-                }
-
-                // return data.country === "United States" &&
-                //   data.name !== "" &&
-                //   data.type === "Airports" ? (
-                //   <Option
-                //     key={data.code}
-                //     value={data.label}
-                //     airport={data.name}
-                //     city={data.label}
-                //     state={data.state}
-                //     country={data.country}
-                //   >
-                //     {" "}
-                //     <strong>
-                //       {data.label}, {data.state}
-                //     </strong>{" "}
-                //     <br /> {data.name}{" "}
-                //   </Option>
-                // ) : (
-                //   console.log();
-                // );
+                return (
+                  <Option
+                    key={data.IATA}
+                    value={data.city}
+                    airport={data.airport}
+                    city={data.city}
+                    state={data.state}
+                  >
+                    {" "}
+                    <strong>
+                      {data.airport}, {data.city}
+                    </strong>{" "}
+                    <br /> {data.IATA}{" "}
+                  </Option>
+                );
               })}
             </Select>
           </div>

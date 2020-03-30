@@ -6,8 +6,8 @@ import transparentPlane from "../images/30transparentPlane.png";
 var airlinerImage = "";
 const DataCard = props => {
   var purchasedState = props.purchased;
-
   const deleteFromPlanner = () => {
+    console.log(props.id);
     fetch("http://localhost:8080/api/delete-reserved-flight?id=" + props.id, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
