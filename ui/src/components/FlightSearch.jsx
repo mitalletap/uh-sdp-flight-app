@@ -68,13 +68,12 @@ class FlightSearch extends Component {
   }
   componentDidMount() {
     // this.props.history.push("/");
-    Auth.currentAuthenticatedUser()
-      .then(data => {
-        this.setState({
-          userName: data.attributes.email
-        });
-      })
-      .catch(err => console.log(err));
+    Auth.currentAuthenticatedUser().then(data => {
+      this.setState({
+        userName: data.attributes.email
+      });
+    });
+    // .catch(err => console.log(err));
   }
   handleNumOfPassengers = props => {
     this.setState(

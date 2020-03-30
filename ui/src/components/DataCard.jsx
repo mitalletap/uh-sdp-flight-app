@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import { Card, Progress, Button, notification } from "antd";
 import airplaneIcon from "../images/airplaneicon.png";
 import transparentPlane from "../images/30transparentPlane.png";
+import SWA from "../images/AirlinerLogos/SWA.png";
+import NKS from "../images/AirlinerLogos/NKS.png";
+import UAL from "../images/AirlinerLogos/UAL.png";
+import FFT from "../images/AirlinerLogos/FFT.png";
+import AAL from "../images/AirlinerLogos/AAL.png";
+import DAL from "../images/AirlinerLogos/DAL.png";
+import VRD from "../images/AirlinerLogos/VRD.png";
 
 var airlinerImage = "";
 const DataCard = props => {
@@ -92,37 +99,27 @@ const DataCard = props => {
       </React.Fragment>
     );
   } else {
-    function importAll(r) {
-      let images = {};
-      r.keys().map((item, index) => {
-        images[item.replace("./", "")] = r(item);
-      });
-      return images;
-    }
-    const images = importAll(
-      require.context("../images/AirlinerLogos", false, /\.(png|jpe?g|svg)$/)
-    );
     switch (props.outboundCarrier) {
       case "Southwest Airlines":
-        airlinerImage = "SWA.png";
+        airlinerImage = SWA;
         break;
       case "Spirit Airlines":
-        airlinerImage = "NKS.png";
+        airlinerImage = NKS;
         break;
       case "United Airlines":
-        airlinerImage = "UAL.png";
+        airlinerImage = UAL;
         break;
       case "Frontier Airlines":
-        airlinerImage = "FFT.png";
+        airlinerImage = FFT;
         break;
       case "American Airlines":
-        airlinerImage = "SWA.png";
+        airlinerImage = AAL;
         break;
       case "Delta Airlines":
-        airlinerImage = "DAL.png";
+        airlinerImage = DAL;
         break;
       default:
-        airlinerImage = "VRD.png";
+        airlinerImage = VRD;
     }
 
     return (
@@ -158,7 +155,7 @@ const DataCard = props => {
                 paddingLeft: "10px"
               }}
             >
-              <img src={images[airlinerImage]} alt={images[airlinerImage]} />
+              <img src={airlinerImage} />
             </div>
 
             <div
@@ -190,7 +187,7 @@ const DataCard = props => {
                 </div>
                 <img
                   src={airplaneIcon}
-                  alt={images[airlinerImage]}
+                  alt={airlinerImage}
                   style={{ display: "inline-block" }}
                   height="30px"
                   width="30px"
