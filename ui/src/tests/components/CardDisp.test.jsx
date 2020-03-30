@@ -10,7 +10,6 @@ describe("card-disp testing", () => {
     wrapper = shallow(<CardDisp arriveDate={"test"} />);
   });
 
-  // Expects to find the Container containing all Elements
   it("should contain props", () => {
     expect(wrapper.props()).toBeDefined();
   });
