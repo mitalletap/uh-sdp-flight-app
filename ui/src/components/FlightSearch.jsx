@@ -55,7 +55,7 @@ class FlightSearch extends Component {
       outboundCarrierName: "",
       inboundCarrierId: "",
       inboundCarrierName: "",
-      purchased: false,
+      purchased: "false",
       price: null,
       status: false,
       exactPath: "",
@@ -221,11 +221,13 @@ class FlightSearch extends Component {
         inboundCarrier: {
           carrierId: this.state.inboundCarrierId,
           name: this.state.inboundCarrierName
-        }
+        },
+        purchased: this.state.purchased
       })
     };
     fetch(
-      "http://localhost:8080/api/post-reserved-flight?purchased=True",
+      "http://localhost:8080/api/post-reserved-flight?purchased=" +
+        this.state.purchased,
       userData
     )
       .then(res => res.json())
@@ -249,15 +251,17 @@ class FlightSearch extends Component {
     });
   };
   handlePurchased = e => {
-    this.setState({
-      visible: false,
-      purchased: true
-    });
+    this.setState(
+      {
+        visible: false,
+        purchased: "true"
+      },
+      () => this.handleSaveToPlanner()
+    );
   };
   handleAfterPurchase = e => {
     this.setState({
-      visible: false,
-      purchased: false
+      visible: false
     });
   };
   getFlightInformation() {
@@ -590,7 +594,9 @@ class FlightSearch extends Component {
             visible={this.state.visible}
             okText="Book Now!"
             cancelText="Return"
-            onOk={this.handlePurchased}
+            onOk={() => {
+              this.handlePurchased();
+            }}
             onCancel={this.handleReturn}
           >
             <Descriptions layout="vertical" bordered>
