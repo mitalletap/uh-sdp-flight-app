@@ -17,6 +17,14 @@ import {
 import { Auth } from "aws-amplify";
 
 Enzyme.configure({ adapter: new Adapter() });
+jest.mock("moment", () => {
+  const mMoment = {
+    format: jest.fn().mockReturnThis(),
+    valueOf: jest.fn()
+  };
+  return jest.fn(() => mMoment);
+});
+
 describe("react testing", () => {
   let wrapper;
   beforeEach(() => {
@@ -43,20 +51,6 @@ describe("react testing", () => {
     expect(Button).toBeDefined();
   });
 });
-
-// describe("snapshot testing for flight-search", () => {
-//   let wrapper;
-//   let mockChange;
-
-//   beforeEach(() => {
-//     mockChange = jest.fn();
-//     wrapper = shallow(<FlightSearch />);
-//   });
-
-//   it("should match snapshot", () => {
-//     expect(wrapper).toMatchSnapshot();
-//   });
-// });
 
 describe("state testing", () => {
   let wrapper;
@@ -97,8 +91,6 @@ describe("state testing", () => {
       wrapper.instance().handleDate(props);
       const departState = wrapper.state("departDate");
       const arriveState = wrapper.state("arriveDate");
-      console.log(departState);
-      console.log(arriveState);
       expect(departState).toEqual(null);
       expect(arriveState).toEqual(null);
     });
@@ -110,10 +102,75 @@ describe("state testing", () => {
       wrapper.instance().handleDate(props);
       const departState = wrapper.state("departDate");
       const arriveState = wrapper.state("arriveDate");
-      console.log(departState);
-      console.log(arriveState);
+      expect(departState).toBeDefined();
+      expect(arriveState).toBeDefined();
+    });
+  });
+
+  it("handles null start", () => {
+    const props = null;
+    wrapper.setState(() => {
+      wrapper.instance().handleStart(props);
+      const departState = wrapper.state("departDate");
       expect(departState).toEqual(null);
-      expect(arriveState).toEqual(null);
+    });
+  });
+
+  it("handles not null start", () => {
+    const props = "2020-03-05";
+    wrapper.setState(() => {
+      wrapper.instance().handleStart(props);
+      const departState = wrapper.state("departDate");
+      console.log(departState);
+      expect(departState).toBeDefined();
+    });
+  });
+
+  it("handles one way", () => {
+    const props = true;
+    wrapper.setState(() => {
+      wrapper.instance().handleisOneWay(props);
+      const rt = wrapper.state("isRoundTrip");
+      expect(rt).toBe(true);
+    });
+  });
+
+  it("handles handle origin", () => {
+    const props = ["Bush Airport", "Houston", "Texas", "USA", 1];
+    wrapper.setState(() => {
+      wrapper.instance().handleOrigin(props);
+      const airport = wrapper.state("origin");
+      const city = wrapper.state("originCity");
+      const state = wrapper.state("originState");
+      const country = wrapper.state("originCountry");
+      const id = wrapper.state("originCode");
+      console.log(airport);
+      console.log(city);
+      console.log(state);
+      console.log(country);
+      console.log(id);
+      expect(airport).toBeDefined();
+      expect(city).toBeDefined();
+      expect(state).toBeDefined();
+      expect(country).toBeDefined();
+      expect(id).toBeDefined();
+    });
+  });
+
+  it("handles handle destination", () => {
+    const props = ["Bush Airport", "Houston", "Texas", "USA", 1];
+    wrapper.setState(() => {
+      wrapper.instance().handleDestination(props);
+      const airport = wrapper.state("destination");
+      const city = wrapper.state("destinationCity");
+      const state = wrapper.state("destinationState");
+      const country = wrapper.state("destinationCountry");
+      const id = wrapper.state("destinationCode");
+      expect(airport).toBeDefined();
+      expect(city).toBeDefined();
+      expect(state).toBeDefined();
+      expect(country).toBeDefined();
+      expect(id).toBeDefined();
     });
   });
 });
