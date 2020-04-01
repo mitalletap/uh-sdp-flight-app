@@ -22,25 +22,23 @@ class Planner extends Component {
         });
       })
       .catch(err => console.log(err));
-
-    this.getPlanner();
+    const URL =
+      "http://localhost:8080/api/get-users-reserved-flights?userName=";
+    this.getPlanner(URL);
   }
 
-  getPlanner() {
+  getPlanner(URL) {
+    var link = URL + this.state.userName;
     setTimeout(() => {
-      const URL =
-        "http://localhost:8080/api/get-users-reserved-flights?userName=" +
-        this.state.userName;
-      fetch(URL)
+      fetch(link)
         .then(response => response.json())
         .then(jsonData => {
           this.setState({
             data: jsonData
           });
-          console.log(jsonData);
         })
         .catch(error => {
-          console.error(error);
+          console.log();
         });
     }, 1000);
   }
@@ -49,28 +47,31 @@ class Planner extends Component {
     if (this.state.data[0] == null) {
       return (
         <React.Fragment>
-          <div style={{ paddingTop: "100px" }}>
-            <Result
-              icon={<FrownOutlined />}
-              title="There are no flights saved! Lets change that!"
-              extra={
-                <Button type="primary" href="/">
-                  {" "}
-                  Search Flights{" "}
-                </Button>
-              }
-              style={{ backgroundColor: "white" }}
-            />
+          <div className="emptyCardList" style={{ paddingTop: "100px" }}>
+            <ul style={{ paddingBottom: "50px" }}>
+              <MyCard className="placeholdCard" skeleton={true} />
+            </ul>
+            <ul style={{ paddingBottom: "50px" }}>
+              <MyCard className="placeholdCard" skeleton={true} />
+            </ul>
+            <ul style={{ paddingBottom: "50px" }}>
+              <MyCard className="placeholdCard" skeleton={true} />
+            </ul>
           </div>
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
-          <div style={{ paddingTop: "100px" }}>
+          <div className="cardMapContainer" style={{ paddingTop: "100px" }}>
             {this.state.data.map(flights => (
-              <ul key={flights.id} style={{ paddingTop: "100px" }}>
+              <ul
+                className="listitems"
+                key={flights.id}
+                style={{ paddingBottom: "50px" }}
+              >
                 <MyCard
+                  className="realCard"
                   title={
                     flights.inboundDepartureDate === ""
                       ? `${flights.origin.originCityName} to ${
