@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class RawFlightDataToReservedFlightsConverter {
+
     public List<ReservedFlights> convert(RawFlightData rawFlightData) {
         List<ReservedFlights> formattedFlights
                 = buildFlightListFromQuotesAndCarriers(rawFlightData);
