@@ -34,8 +34,8 @@ class Planner extends Component {
           this.setState({
             data: jsonData
           });
-        })
-        .catch(error);
+        });
+      //.catch(error);
     }, 1000);
   }
 
