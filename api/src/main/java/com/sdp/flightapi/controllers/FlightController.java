@@ -19,7 +19,7 @@ public class FlightController {
     /* default */ transient FlightService flightService;
 
     @Autowired
-    public FlightController(FlightService flightService) {
+    public FlightController(final FlightService flightService) {
         this.flightService = flightService;
     }
 
@@ -56,7 +56,7 @@ public class FlightController {
     }
 
     @DeleteMapping(path = "/delete-reserved-flight")
-    public String deleteUsersReservedFlight(@RequestParam String flightId){
+    public String deleteUsersReservedFlight(@RequestParam final String flightId){
         flightDao.deleteById(flightId);
         return "Flight by id: "+ flightId + " deleted";
     }
