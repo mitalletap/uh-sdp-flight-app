@@ -5,7 +5,6 @@ import airportData from "../data/airports";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
-import { withRouter } from "react-router-dom";
 import {
   DatePicker,
   InputNumber,
