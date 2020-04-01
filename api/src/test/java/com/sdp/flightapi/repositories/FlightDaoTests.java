@@ -25,11 +25,6 @@ class FlightDaoTests {
 	FlightDaoTests() {
 	}
 
-	@BeforeEach
-	public void clearLeftoverDataBeforeTest() throws Exception {
-		flightDao.deleteAll();
-	}
-
 	@Test
 	void contextLoads() {
 	}
@@ -44,11 +39,16 @@ class FlightDaoTests {
 	@Test
 	public void shouldCreateEntity() throws Exception {
 
-		mockMvc.perform(post("/flights").content(
+		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
                 "{\"origin\" : {\"name\" : \"A City\"}, " +
                         "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
-				status().isCreated()).andExpect(
-				header().string("Location", containsString("flights/")));
+				status().isCreated())
+				.andExpect(header().string("Location", containsString("flights/")))
+				.andReturn();
+
+		String location = mvcResult.getResponse().getHeader("Location");
+
+		mockMvc.perform(delete(location));
 	}
 
 	@Test
@@ -63,21 +63,28 @@ class FlightDaoTests {
 		mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
 				jsonPath("$.origin.name").value("A City")).andExpect(
 				jsonPath("$.destination.name").value("B City"));
+
+		mockMvc.perform(delete(location));
 	}
 
 	@Test
 	public void shouldQueryEntity() throws Exception {
 
-		mockMvc.perform(post("/flights").content(
+		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
                 "{\"userName\" : \"User1\", \"origin\" : {\"name\" : \"A City\"}, " +
-                        "\"destination\" : {\"name\" : \"B City\"}}")).andExpect(
-				status().isCreated());
+                        "\"destination\" : {\"name\" : \"B City\"}}"))
+				.andExpect(status().isCreated())
+				.andReturn();
+
+		String location = mvcResult.getResponse().getHeader("Location");
 
 		mockMvc.perform(
 				get("/flights/search/findByUserName?name={name}", "User1")).andExpect(
 				status().isOk()).andExpect(
 				jsonPath("$._embedded.flights[0].destination.name").value(
 						"B City"));
+
+		mockMvc.perform(delete(location));
 	}
 
 	@Test
@@ -98,6 +105,8 @@ class FlightDaoTests {
 		mockMvc.perform(get(location)).andExpect(status().isOk()).andExpect(
 				jsonPath("$.origin.name").value("C City")).andExpect(
 				jsonPath("$.destination.name").value("Z Town"));
+
+		mockMvc.perform(delete(location));
 	}
 
 	@Test
