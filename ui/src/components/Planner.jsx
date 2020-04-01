@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Auth } from "aws-amplify";
 import MyCard from "./DataCard";
 import moment from "moment";
-
+import { Result, Button } from "antd";
+import { FrownOutlined } from "@ant-design/icons";
+// localhost:8080/api/get-users-reserved-flights?userName=NEMO
 class Planner extends Component {
   constructor(props) {
     super(props);
@@ -34,8 +36,10 @@ class Planner extends Component {
           this.setState({
             data: jsonData
           });
+        })
+        .catch(error => {
+          console.log();
         });
-      //.catch(error);
     }, 1000);
   }
 
@@ -90,6 +94,8 @@ class Planner extends Component {
                   destinationCode={flights.destination.destinationIataCode}
                   price={flights.price}
                   outboundCarrier={flights.outboundCarrier.name}
+                  id={flights.id}
+                  purchased={flights.purchased}
                 />
               </ul>
             ))}

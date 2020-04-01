@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
-import airportData from "../data/airportsJS";
+//import airportData from "../data/airportsJS";
+import airportData from "../data/airports";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { createBrowserHistory } from "history";
@@ -22,6 +23,7 @@ import { SmileOutlined } from "@ant-design/icons";
 
 const history = createBrowserHistory();
 const location = history.location;
+//const airport = JSON.parse(JSON.stringify(airportData));
 const airport = JSON.parse(JSON.stringify(airportData));
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -54,7 +56,7 @@ class FlightSearch extends Component {
       outboundCarrierName: "",
       inboundCarrierId: "",
       inboundCarrierName: "",
-      purchased: false,
+      purchased: "false",
       price: null,
       status: false,
       exactPath: "",
@@ -219,13 +221,18 @@ class FlightSearch extends Component {
         inboundCarrier: {
           carrierId: this.state.inboundCarrierId,
           name: this.state.inboundCarrierName
-        }
+        },
+        purchased: this.state.purchased
       })
     };
-    fetch("http://localhost:8080/api/post-reserved-flight", userData)
+    fetch(
+      "http://localhost:8080/api/post-reserved-flight?purchased=" +
+        this.state.purchased,
+      userData
+    )
       .then(res => res.json())
       .catch(error => {
-        // console.error("There was an error!", error);
+        console.error("There was an error!", error);
       });
 
     openNotification();
@@ -244,15 +251,17 @@ class FlightSearch extends Component {
     });
   };
   handlePurchased = e => {
-    this.setState({
-      visible: false,
-      purchased: true
-    });
+    this.setState(
+      {
+        visible: false,
+        purchased: "true"
+      },
+      () => this.handleSaveToPlanner()
+    );
   };
   handleAfterPurchase = e => {
     this.setState({
-      visible: false,
-      purchased: false
+      visible: false
     });
   };
   getFlightInformation() {
@@ -387,28 +396,21 @@ class FlightSearch extends Component {
               onChange={this.handleOrigin}
             >
               {airport.map(data => {
-                if (
-                  data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports"
-                ) {
-                  return (
-                    <Option
-                      key={data.code}
-                      value={data.label}
-                      airport={data.name}
-                      city={data.label}
-                      state={data.state}
-                      country={data.country}
-                    >
-                      {" "}
-                      <strong>
-                        {data.label}, {data.state}
-                      </strong>{" "}
-                      <br /> {data.name}{" "}
-                    </Option>
-                  );
-                }
+                return (
+                  <Option
+                    key={data.IATA}
+                    value={data.city}
+                    airport={data.airport}
+                    city={data.city}
+                    state={data.state}
+                  >
+                    {" "}
+                    <strong>
+                      {data.airport}, {data.city}
+                    </strong>{" "}
+                    <br /> {data.IATA}{" "}
+                  </Option>
+                );
               })}
             </Select>
             <Select
@@ -418,49 +420,21 @@ class FlightSearch extends Component {
               onChange={this.handleDestination}
             >
               {airport.map(data => {
-                if (
-                  data.country === "United States" &&
-                  data.name !== "" &&
-                  data.type === "Airports"
-                ) {
-                  return (
-                    <Option
-                      key={data.code}
-                      value={data.label}
-                      airport={data.name}
-                      city={data.label}
-                      state={data.state}
-                      country={data.country}
-                    >
-                      {" "}
-                      <strong>
-                        {data.label}, {data.state}
-                      </strong>{" "}
-                      <br /> {data.name}{" "}
-                    </Option>
-                  );
-                }
-
-                // return data.country === "United States" &&
-                //   data.name !== "" &&
-                //   data.type === "Airports" ? (
-                //   <Option
-                //     key={data.code}
-                //     value={data.label}
-                //     airport={data.name}
-                //     city={data.label}
-                //     state={data.state}
-                //     country={data.country}
-                //   >
-                //     {" "}
-                //     <strong>
-                //       {data.label}, {data.state}
-                //     </strong>{" "}
-                //     <br /> {data.name}{" "}
-                //   </Option>
-                // ) : (
-                //   console.log();
-                // );
+                return (
+                  <Option
+                    key={data.IATA}
+                    value={data.city}
+                    airport={data.airport}
+                    city={data.city}
+                    state={data.state}
+                  >
+                    {" "}
+                    <strong>
+                      {data.airport}, {data.city}
+                    </strong>{" "}
+                    <br /> {data.IATA}{" "}
+                  </Option>
+                );
               })}
             </Select>
           </div>
@@ -585,7 +559,9 @@ class FlightSearch extends Component {
             visible={this.state.visible}
             okText="Book Now!"
             cancelText="Return"
-            onOk={this.handlePurchased}
+            onOk={() => {
+              this.handlePurchased();
+            }}
             onCancel={this.handleReturn}
           >
             <Descriptions layout="vertical" bordered>

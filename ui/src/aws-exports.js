@@ -5,9 +5,21 @@ const awsmobile = {
   aws_cognito_identity_pool_id:
     "us-east-2:721a1a5f-849f-471e-815b-e824278457f7",
   aws_cognito_region: "us-east-2",
-  aws_user_pools_id: "us-east-2_S2FwnCKiO",
-  aws_user_pools_web_client_id: "5r6disd2l9k8kbnhu8qu6f5rn3",
+  aws_user_pools_id: "us-east-2_QNoudyuuO",
+  aws_user_pools_web_client_id: "3lhdebjang6hur0ehs4urtr3l0",
   oauth: {}
 };
 
 export default awsmobile;
+
+// const awsmobile = {
+//   aws_project_region: "us-east-2",
+//   aws_cognito_identity_pool_id:
+//     "us-east-2:721a1a5f-849f-471e-815b-e824278457f7",
+//   aws_cognito_region: "us-east-2",
+//   aws_user_pools_id: "us-east-2_S2FwnCKiO",
+//   aws_user_pools_web_client_id: "5r6disd2l9k8kbnhu8qu6f5rn3",
+//   oauth: {}
+// };
+
+// export default awsmobile;

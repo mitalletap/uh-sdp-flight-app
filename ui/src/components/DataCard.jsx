@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Progress } from "antd";
+import React, { Component } from "react";
+import { Card, Progress, Button, notification } from "antd";
 import airplaneIcon from "../images/airplaneicon.png";
 import transparentPlane from "../images/30transparentPlane.png";
 import SWA from "../images/AirlinerLogos/SWA.png";
@@ -12,6 +12,22 @@ import VRD from "../images/AirlinerLogos/VRD.png";
 
 var airlinerImage = "";
 const DataCard = props => {
+  var purchasedState = props.purchased;
+  const deleteFromPlanner = () => {
+    console.log(props.id);
+    fetch("http://localhost:8080/api/delete-reserved-flight?id=" + props.id, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    });
+    window.location.reload();
+  };
+
+  const purchasedFlight = () => {
+    notification.success({
+      message: "Flight has been purchased!",
+      description: `Your flight from ${props.originCode} to ${props.destinationCode} has been successfully purchased!`
+    });
+  };
   if (props.skeleton === true) {
     return (
       <React.Fragment>
@@ -127,7 +143,6 @@ const DataCard = props => {
               backgroundImage: `url(${transparentPlane})`,
               backgroundSize: "200px",
               backgroundRepeat: "no-repeat",
-
               backgroundPositionX: "340px",
               backgroundPositionY: "45px"
             }}
@@ -202,6 +217,39 @@ const DataCard = props => {
               }}
             >
               <p> ${props.price} </p>
+            </div>
+
+            <div style={{ backgroundColor: "red", textAlign: "center" }}>
+              {purchasedState === true ? (
+                <React.Fragment>
+                  <Button
+                    type="primary"
+                    danger
+                    style={{ display: "inline-block", float: "right" }}
+                    onClick={() => deleteFromPlanner()}
+                  >
+                    {" "}
+                    Delete This Flight{" "}
+                  </Button>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <h4 style={{ float: "left", fontSize: "12px" }}>
+                    {" "}
+                    ** This Flight has not been booked{" "}
+                  </h4>
+                  <div />
+                  <Button
+                    type="primary"
+                    danger
+                    style={{ display: "inline-block", float: "right" }}
+                    onClick={() => deleteFromPlanner()}
+                  >
+                    {" "}
+                    Delete This Flight{" "}
+                  </Button>
+                </React.Fragment>
+              )}
             </div>
           </Card>
         </div>
