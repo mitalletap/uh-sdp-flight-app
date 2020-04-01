@@ -56,8 +56,8 @@ public class FlightController {
     }
 
     @DeleteMapping(path = "/delete-reserved-flight")
-    public String deleteUsersReservedFlight(@RequestParam final String id){
-        flightDao.deleteById(id);
-        return "Flight by id: "+ id + " deleted";
+    public String deleteUsersReservedFlight(@RequestParam String flightId){
+        flightDao.deleteById(flightId);
+        return "Flight by id: "+ flightId + " deleted";
     }
 }
