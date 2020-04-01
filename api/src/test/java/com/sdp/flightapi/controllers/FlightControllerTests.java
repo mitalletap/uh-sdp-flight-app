@@ -18,8 +18,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -91,5 +90,15 @@ public class FlightControllerTests {
         mockMvc.perform(get("/api/get-users-reserved-flights?userName={userName}", "user1"));
 
         verify(flightDaoMock).findByUserName("user1");
+    }
+
+    @Test
+    void testDeleteUsersReservedFlight() throws Exception {
+        FlightDao flightDaoMock = mock(FlightDao.class);
+        flightController.flightDao = flightDaoMock;
+
+        mockMvc.perform(delete("/api/delete-reserved-flight?id={id}", "0"));
+
+        verify(flightDaoMock).deleteById("0");
     }
 }
