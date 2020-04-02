@@ -73,10 +73,17 @@ describe("state testing", () => {
     expect(wrapper.state("userName")).toBeDefined();
   });
 
-  it("handles disable date", async () => {
-    var check = wrapper.find("disabledDate");
-    console.log(check);
-  });
+  // it("handles disable date", async () => {
+  //   // var check = wrapper.find("disabledDate");
+  //   // console.log(check);
+  //   const props = "2020-01-01";
+
+  //   wrapper.setState(() => {
+  //     wrapper.instance().disabledDate(props);
+  //     const disabled = wrapper.state("disabled");
+  //     expect(disabled).toBeFalsy;
+  //   });
+  // });
 
   // Handle Number Of Passengers
   it("handles number of passengers", () => {
@@ -199,8 +206,9 @@ describe("state testing", () => {
     wrapper.setState(() => {
       wrapper.instance().handlePurchased();
       const visible = wrapper.state("visible");
+      const purchased = wrapper.state("purchased");
       expect(visible).toBe(false);
-      expect(purchased).toBe(true);
+      expect(purchased).toBe("true");
     });
   });
 
@@ -208,8 +216,9 @@ describe("state testing", () => {
     wrapper.setState(() => {
       wrapper.instance().handleAfterPurchase();
       const visible = wrapper.state("visible");
+      const purchased = wrapper.state("purchased");
       expect(visible).toBe(false);
-      expect(purchased).toBe(false);
+      expect(purchased).toBe("false");
     });
   });
 });

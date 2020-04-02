@@ -331,7 +331,8 @@ class FlightSearch extends Component {
   render() {
     var stateObject = this.state;
     function disabledDate(current) {
-      return current && current < moment().endOf("day");
+      var disabled = current && current < moment().endOf("day");
+      return disabled;
     }
     function checkCompleteData(props) {
       var dataComplete =
