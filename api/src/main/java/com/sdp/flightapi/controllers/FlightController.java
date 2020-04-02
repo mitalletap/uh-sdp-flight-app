@@ -46,11 +46,11 @@ public class FlightController {
     public List<ReservedFlights> FlightFilterPrice(){
 //ASCENDING SORT
         ArrayList<ReservedFlights> ReservedFlightsHolder = (ArrayList<ReservedFlights>) flightDao.findAll();
-        Collections.sort(ReservedFlightsHolder, (Comparator<ReservedFlights>) (r1, r2) -> {
+        return flightService.filterByPrice(ReservedFlightsHolder, true);
+        /*Collections.sort(ReservedFlightsHolder, (Comparator<ReservedFlights>) (r1, r2) -> {
         return Float.valueOf(r1.getPrice()).compareTo(r2.getPrice());
         }
-        );
-        return ReservedFlightsHolder;
+        );*/
     }
     @GetMapping(path = "/get-reserved-flight-fliter-descending-sort-price")
     public List<ReservedFlights> FlightFilterPriceDescending(){
