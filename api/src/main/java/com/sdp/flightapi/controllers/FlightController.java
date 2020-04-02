@@ -14,20 +14,20 @@ import java.util.Optional;
 @RestController
 public class FlightController {
     @Autowired
-    FlightDao flightDao;
+    /* default */ transient FlightDao flightDao;
 
-    FlightService flightService;
+    /* default */ transient FlightService flightService;
 
     @Autowired
-    public FlightController(FlightService flightService) {
+    public FlightController(final FlightService flightService) {
         this.flightService = flightService;
     }
 
     @GetMapping(path = "/get-flights")
-    public Object getFlights(@RequestParam String origin,
-                             @RequestParam String destination,
-                             @RequestParam String outboundDate,
-                             @RequestParam Optional<String> inboundDate) {
+    public Object getFlights(@RequestParam final String origin,
+                             @RequestParam final String destination,
+                             @RequestParam final String outboundDate,
+                             @RequestParam final Optional<String> inboundDate) {
         //GET request that returns list of examples from Skyscanner web API
         return flightService.getFlights(
                 origin,
@@ -38,7 +38,8 @@ public class FlightController {
     }
   
     @PostMapping(path = "/post-reserved-flight")
-    public ReservedFlights saveFlight(@RequestBody ReservedFlights reservedFlights, @RequestParam boolean purchased){
+    public ReservedFlights saveFlight(@RequestBody final ReservedFlights reservedFlights,
+                                      @RequestParam final boolean purchased){
         reservedFlights.setPurchased(purchased);
         flightDao.save(reservedFlights);
         return reservedFlights;
@@ -50,13 +51,13 @@ public class FlightController {
     }
 
     @GetMapping(path = "/get-users-reserved-flights")
-    public List<ReservedFlights> getUsersReservedFlights(@RequestParam String userName){
+    public List<ReservedFlights> getUsersReservedFlights(@RequestParam final String userName){
         return flightDao.findByUserName(userName);
     }
 
     @DeleteMapping(path = "/delete-reserved-flight")
-    public String deleteUsersReservedFlight(@RequestParam String id){
-        flightDao.deleteById(id);
-        return "Flight by id: "+ id + " deleted";
+    public String deleteUsersReservedFlight(@RequestParam final String flightId){
+        flightDao.deleteById(flightId);
+        return "Flight by id: "+ flightId + " deleted";
     }
 }

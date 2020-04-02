@@ -93,11 +93,11 @@ public class FlightControllerTests {
     }
 
     @Test
-    void testDeleteUsersReservedFlight() throws Exception {
+    void testDeleteReservedFlight() throws Exception {
         FlightDao flightDaoMock = mock(FlightDao.class);
         flightController.flightDao = flightDaoMock;
 
-        mockMvc.perform(delete("/api/delete-reserved-flight?id={id}", "0"));
+        mockMvc.perform(delete("/api/delete-reserved-flight?flightId={flightId}", "0"));
 
         verify(flightDaoMock).deleteById("0");
     }
