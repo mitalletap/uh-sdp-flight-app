@@ -6,8 +6,7 @@ import com.sdp.flightapi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api")
@@ -60,4 +59,24 @@ public class FlightController {
         flightDao.deleteById(flightId);
         return "Flight by id: "+ flightId + " deleted";
     }
+    @GetMapping(path = "/get-reserved-flight-fliter-ascending-sort-price")
+    public List<ReservedFlights> FlightFilterPrice(){
+//ASCENDING SORT
+
+        List<ReservedFlights> ReservedFlightsHolder =  flightDao.findAll();
+        return flightService.filterByPrice(ReservedFlightsHolder, true);
+    }
+
+
+    @GetMapping(path = "/get-reserved-flight-fliter-descending-sort-price")
+    public List<ReservedFlights> FlightFilterPriceDescending(){
+//ASCENDING SORT
+        ArrayList<ReservedFlights> ReservedFlightsHolder = (ArrayList<ReservedFlights>) flightDao.findAll();
+        Collections.sort(ReservedFlightsHolder, (Comparator<ReservedFlights>) (r1, r2) -> {
+                    return Float.valueOf(r2.getPrice()).compareTo(r1.getPrice());
+                }
+        );
+        return ReservedFlightsHolder;
+    }
+
 }

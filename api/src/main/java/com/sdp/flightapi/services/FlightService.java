@@ -1,9 +1,11 @@
 package com.sdp.flightapi.services;
+
 import com.sdp.flightapi.models.RawFlightData;
 import com.sdp.flightapi.models.ReservedFlights;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +13,7 @@ import java.util.Optional;
 public class FlightService {
     /* default */ transient SkyscannerService skyscannerService;
     /* default */ transient RawFlightDataToReservedFlightsConverter dataConverter;
-
+    FilteringService filteringService = new FilteringService();
     public FlightService(final WebClient.Builder webClientBuilder) {
         dataConverter = new RawFlightDataToReservedFlightsConverter();
         skyscannerService = new SkyscannerService(webClientBuilder);
@@ -44,6 +46,10 @@ public class FlightService {
         return urlCodedOriginOrDestination(origin) +
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
+    }
+
+    public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
+        return filteringService.filterByPrice(reservedFlightsHolder, ascending);
     }
 }
 
