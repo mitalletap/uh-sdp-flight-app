@@ -47,10 +47,15 @@ public class FlightService {
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
     }
-
+    public List<ReservedFlights> FilterByDate(List<ReservedFlights> reservedFlightsHolder,boolean ascending){
+        return filteringService.filterByDate(reservedFlightsHolder,ascending);
+    }
     public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
         return filteringService.filterByPrice(reservedFlightsHolder, ascending);
     }
+
+
+
 }
 
 
