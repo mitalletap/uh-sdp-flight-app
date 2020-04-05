@@ -60,16 +60,16 @@ public class FlightController {
         return "Flight by id: "+ flightId + " deleted";
     }
     @GetMapping(path = "/get-reserved-flight-filter-sort-price")
-    public List<ReservedFlights> FlightFilterPrice(){
+    public List<ReservedFlights> FlightFilterPrice(@RequestParam final String userName){
 //ASCENDING SORT
 
-        List<ReservedFlights> ReservedFlightsHolder =  flightDao.findAll();
+        List<ReservedFlights> ReservedFlightsHolder =  flightDao.findByUserName(userName);
         return flightService.filterByPrice(ReservedFlightsHolder, true);
     }
 
     @GetMapping(path= "/get-reserved-flight-filter-sort-Date")
-    public List<ReservedFlights> FlightFilterDate(){
-        List<ReservedFlights> ReservedFlightsHolder =  flightDao.findAll();
+    public List<ReservedFlights> FlightFilterDate(final String userName){
+        List<ReservedFlights> ReservedFlightsHolder =  flightDao.findByUserName(userName);
     return flightService.FilterByDate(ReservedFlightsHolder,true);
     }
 
