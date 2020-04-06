@@ -15,10 +15,13 @@ const DataCard = props => {
   var purchasedState = props.purchased;
   const deleteFromPlanner = () => {
     console.log(props.id);
-    fetch("http://localhost:8080/api/delete-reserved-flight?id=" + props.id, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    });
+    fetch(
+      "http://localhost:8080/api/delete-reserved-flight?flightId=" + props.id,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      }
+    );
     window.location.reload();
   };
 

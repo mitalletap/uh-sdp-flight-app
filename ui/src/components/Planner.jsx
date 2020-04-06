@@ -9,7 +9,7 @@ class Planner extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
+      userName: null,
       data: []
     };
   }
@@ -17,17 +17,20 @@ class Planner extends Component {
   componentDidMount() {
     Auth.currentAuthenticatedUser()
       .then(data => {
+        console.log(data);
         this.setState({
           userName: data.attributes.email
         });
       })
       .catch(err => console.log(err));
-    const URL =
-      "http://localhost:8080/api/get-users-reserved-flights?userName=";
-    this.getPlanner(URL);
+    setTimeout(() => {
+      this.getPlanner(URL);
+    }, 1000);
   }
 
-  getPlanner(URL) {
+  getPlanner() {
+    const URL =
+      "http://localhost:8080/api/get-users-reserved-flights?userName=";
     var link = URL + this.state.userName;
     setTimeout(() => {
       fetch(link)
@@ -44,7 +47,7 @@ class Planner extends Component {
   }
 
   render() {
-    if (this.state.data[0] == null) {
+    if (this.state.data.length === 0) {
       return (
         <React.Fragment>
           <div className="emptyCardList" style={{ paddingTop: "100px" }}>
@@ -63,7 +66,7 @@ class Planner extends Component {
     } else {
       return (
         <React.Fragment>
-          <div className="cardMapContainer" style={{ paddingTop: "100px" }}>
+          <div className="cardMapContainer" style={{ paddingTop: "200px" }}>
             {this.state.data.map(flights => (
               <ul
                 className="listitems"
