@@ -34,5 +34,33 @@ public class FilteringService {
 
     }
 
+    public List<ReservedFlights> filterByCityOrigin(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
+        if(ascending == true){
+            return reservedFlightsHolder.stream()
+                    .sorted((r1, r2) -> Integer.parseInt(String.valueOf(r1.getOrigin().getCityName().compareTo(r2.getOrigin().getCityName()))))
+                    .collect(Collectors.toList());
+        }
+        else{
+            return reservedFlightsHolder.stream()
+                    .sorted((r1, r2) -> Integer.parseInt(String.valueOf(r2.getOrigin().getCityName().compareTo(r1.getOrigin().getCityName()))))
+                    .collect(Collectors.toList());
+        }
+
+    }
+
+    public List<ReservedFlights> filterByCityDestination(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
+        if(ascending == true){
+            return reservedFlightsHolder.stream()
+                    .sorted((r1, r2) -> Integer.parseInt(String.valueOf(r1.getDestination().getCityName().compareTo(r2.getDestination().getCityName()))))
+                    .collect(Collectors.toList());
+        }
+        else{
+            return reservedFlightsHolder.stream()
+                    .sorted((r1, r2) -> Integer.parseInt(String.valueOf(r2.getDestination().getCityName().compareTo(r1.getDestination().getCityName()))))
+                    .collect(Collectors.toList());
+        }
+
+    }
+
 
 }

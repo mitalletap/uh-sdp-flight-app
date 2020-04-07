@@ -1,15 +1,11 @@
 
 package com.sdp.flightapi.models;
 
+import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,7 +39,6 @@ public class Place {
     private String countryName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

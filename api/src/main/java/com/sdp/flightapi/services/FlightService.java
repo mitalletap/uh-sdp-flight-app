@@ -47,11 +47,17 @@ public class FlightService {
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
     }
-    public List<ReservedFlights> filterByDate(List<ReservedFlights> reservedFlightsHolder,boolean ascending){
-        return filteringService.filterByDate(reservedFlightsHolder,ascending);
+    public List<ReservedFlights> filterByDate(List<ReservedFlights> reservedFlightsHolder,boolean choice){
+        return filteringService.filterByDate(reservedFlightsHolder,choice);
     }
-    public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
-        return filteringService.filterByPrice(reservedFlightsHolder, ascending);
+    public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean choice) {
+        return filteringService.filterByPrice(reservedFlightsHolder, choice);
+    }
+    public List<ReservedFlights> filterByCityOrigin(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
+        return filteringService.filterByCityOrigin(reservedFlightsHolder, ascending);
+    }
+    public List<ReservedFlights> filterByCityDestination(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
+        return filteringService.filterByCityDestination(reservedFlightsHolder, ascending);
     }
 
 

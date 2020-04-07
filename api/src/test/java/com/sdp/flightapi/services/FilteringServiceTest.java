@@ -1,5 +1,6 @@
 package com.sdp.flightapi.services;
 
+import com.sdp.flightapi.models.Place;
 import com.sdp.flightapi.models.ReservedFlights;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -83,6 +84,132 @@ class FilteringServiceTest {
         reservedFlightsHolder = filteringService.filterByDate(reservedFlightsHolder, false);
 
         assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
+    }
+    @Test
+    void testFilterByCityOriginAscending() {
+        ReservedFlights flight0 = new ReservedFlights();
+        Place Origin0 = new Place();
+        Origin0.setCityName("A");
+        flight0.setOrigin(Origin0);
+
+
+        ReservedFlights flight1 = new ReservedFlights();
+        Place Origin1 = new Place();
+        Origin1.setCityName("B");
+        flight1.setOrigin(Origin1);
+
+
+        ReservedFlights flight2 = new ReservedFlights();
+        Place Origin2 = new Place();
+        Origin2.setCityName("C");
+        flight2.setOrigin(Origin2);
+
+
+        ReservedFlights flight3 = new ReservedFlights();
+        Place Origin3 = new Place();
+        Origin3.setCityName("D");
+        flight3.setOrigin(Origin3);
+
+        List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
+
+        reservedFlightsHolder = filteringService.filterByCityOrigin(reservedFlightsHolder, true);
+
+        assertEquals(List.of(flight0,flight1,flight2,flight3), reservedFlightsHolder);
+    }
+    @Test
+    void testFilterByCityOriginDescending() {
+        ReservedFlights flight0 = new ReservedFlights();
+        Place Origin0 = new Place();
+        Origin0.setCityName("A");
+        flight0.setOrigin(Origin0);
+
+
+        ReservedFlights flight1 = new ReservedFlights();
+        Place Origin1 = new Place();
+        Origin1.setCityName("B");
+        flight1.setOrigin(Origin1);
+
+
+        ReservedFlights flight2 = new ReservedFlights();
+        Place Origin2 = new Place();
+        Origin2.setCityName("C");
+        flight2.setOrigin(Origin2);
+
+
+        ReservedFlights flight3 = new ReservedFlights();
+        Place Origin3 = new Place();
+        Origin3.setCityName("D");
+        flight3.setOrigin(Origin3);
+
+        List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
+
+        reservedFlightsHolder = filteringService.filterByCityOrigin(reservedFlightsHolder, false);
+
+        assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
+    }
+
+    @Test
+    void testFilterByCityDestinationDescending() {
+        ReservedFlights flight0 = new ReservedFlights();
+        Place Destination0 = new Place();
+        Destination0.setCityName("A");
+        flight0.setDestination(Destination0);
+
+
+        ReservedFlights flight1 = new ReservedFlights();
+        Place Destination1 = new Place();
+        Destination1.setCityName("B");
+        flight1.setDestination(Destination1);
+
+
+        ReservedFlights flight2 = new ReservedFlights();
+        Place Destination2 = new Place();
+        Destination2.setCityName("C");
+        flight2.setDestination(Destination2);
+
+
+        ReservedFlights flight3 = new ReservedFlights();
+        Place Destination3 = new Place();
+        Destination3.setCityName("D");
+        flight3.setDestination(Destination3);
+
+        List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
+
+        reservedFlightsHolder = filteringService.filterByCityDestination(reservedFlightsHolder, false);
+
+        assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
+    }
+
+    @Test
+    void testFilterByCityDestinationAscending() {
+        ReservedFlights flight0 = new ReservedFlights();
+        Place Destination0 = new Place();
+        Destination0.setCityName("A");
+        flight0.setDestination(Destination0);
+
+
+        ReservedFlights flight1 = new ReservedFlights();
+        Place Destination1 = new Place();
+        Destination1.setCityName("B");
+        flight1.setDestination(Destination1);
+
+
+        ReservedFlights flight2 = new ReservedFlights();
+        Place Destination2 = new Place();
+        Destination2.setCityName("C");
+        flight2.setDestination(Destination2);
+
+
+        ReservedFlights flight3 = new ReservedFlights();
+        Place Destination3 = new Place();
+        Destination3.setCityName("D");
+        flight3.setDestination(Destination3);
+
+        List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
+
+        reservedFlightsHolder = filteringService.filterByCityDestination(reservedFlightsHolder, true);
+
+        assertEquals(List.of(flight0,flight1,flight2,flight3), reservedFlightsHolder);
     }
 
 }
