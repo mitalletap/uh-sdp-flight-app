@@ -65,7 +65,7 @@ public class FlightController {
 
         List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
         return flightService.filterByPrice(reservedFlightsHolder, true);
-    }g
+    }
 
     @GetMapping(path= "/get-reserved-flight-filter-sort-Date")
     public List<ReservedFlights> flightFilterDate(final String userName){
