@@ -38,7 +38,7 @@ public class FlightController {
                 inboundDate
         );
     }
-  
+
     @PostMapping(path = "/post-reserved-flight")
     public ReservedFlights saveFlight(@RequestBody final ReservedFlights reservedFlights,
                                       @RequestParam final boolean purchased){

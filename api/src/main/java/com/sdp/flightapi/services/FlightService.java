@@ -73,7 +73,7 @@ public class FlightService {
                                                     final boolean ascending) {
         return FilteringUtils.sortBy(ORIGIN_CITY, ascending, flights);
     }
-  
+
     public List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
                                                          final boolean ascending) {
         return FilteringUtils.sortBy(DESTINATION_CITY, ascending, flights);
