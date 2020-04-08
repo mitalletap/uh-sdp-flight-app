@@ -56,27 +56,27 @@ public class FlightService {
 
     public List<ReservedFlights> filterByPrice(final List<ReservedFlights> flights,
                                                final boolean ascending) {
-        return FilteringUtils.sortBy(PRICE, ascending, flights);
+        return sortBy(PRICE, ascending, flights);
     }
 
     public List<ReservedFlights> filterByOutboundDeparture(final List<ReservedFlights> flights,
                                                            final boolean ascending) {
-        return FilteringUtils.sortBy(OUTBOUND_DEPARTURE, ascending, flights);
+        return sortBy(OUT_DEPARTURE, ascending, flights);
     }
 
     public List<ReservedFlights> filterByInboundDeparture(final List<ReservedFlights> flights,
                                                            final boolean ascending) {
-        return FilteringUtils.sortBy(INBOUND_DEPARTURE, ascending, flights);
+        return sortBy(IN_DEPARTURE, ascending, flights);
     }
 
     public List<ReservedFlights> filterByCityOrigin(final List<ReservedFlights> flights,
                                                     final boolean ascending) {
-        return FilteringUtils.sortBy(ORIGIN_CITY, ascending, flights);
+        return sortBy(ORIGIN_CITY, ascending, flights);
     }
 
     public List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
                                                          final boolean ascending) {
-        return FilteringUtils.sortBy(DESTINATION_CITY, ascending, flights);
+        return sortBy(DEST_CITY, ascending, flights);
     }
 }
 

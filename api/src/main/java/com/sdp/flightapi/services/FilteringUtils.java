@@ -10,22 +10,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class FilteringUtils {
-    private FilteringUtils() {}
-
     public static final Function<ReservedFlights, Float> PRICE =
             ReservedFlights::getPrice;
 
-    public static final Function<ReservedFlights, Date> OUTBOUND_DEPARTURE =
-            (flight -> DateFormatUtils.parse(flight.getOutboundDepartureDate()));
+    public static final Function<ReservedFlights, Date> OUT_DEPARTURE =
+            flight -> DateFormatUtils.parse(flight.getOutboundDepartureDate());
 
-    public static final Function<ReservedFlights, Date> INBOUND_DEPARTURE =
-            (flight -> DateFormatUtils.parse(flight.getInboundDepartureDate()));
+    public static final Function<ReservedFlights, Date> IN_DEPARTURE =
+            flight -> DateFormatUtils.parse(flight.getInboundDepartureDate());
 
     public static final Function<ReservedFlights, String> ORIGIN_CITY =
-            (flight -> flight.getOrigin().getCityName());
+            flight -> flight.getOrigin()
+                    .getCityName();
 
-    public static final Function<ReservedFlights, String> DESTINATION_CITY =
-            (flight -> flight.getDestination().getCityName());
+    public static final Function<ReservedFlights, String> DEST_CITY =
+            flight -> flight.getDestination()
+                    .getCityName();
+
+    private FilteringUtils() {}
 
     public static <T extends Comparable<? super T>> List<ReservedFlights> sortBy(
             final Function<ReservedFlights, T> propertyExtractor,

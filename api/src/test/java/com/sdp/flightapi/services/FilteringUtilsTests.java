@@ -58,7 +58,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByOutboundDepartureAscending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(OUTBOUND_DEPARTURE, true,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(OUT_DEPARTURE, true,
                 originalFlightList);
 
         assertEquals(
@@ -74,7 +74,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByOutboundDepartureDescending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(OUTBOUND_DEPARTURE, false,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(OUT_DEPARTURE, false,
                 originalFlightList);
 
         assertEquals(
@@ -90,7 +90,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByInboundDepartureAscending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(INBOUND_DEPARTURE, true,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(IN_DEPARTURE, true,
                 originalFlightList);
 
         assertEquals(
@@ -106,7 +106,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByInboundDepartureDescending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(INBOUND_DEPARTURE, false,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(IN_DEPARTURE, false,
                 originalFlightList);
 
         assertEquals(
@@ -154,7 +154,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByCityDestinationAscending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(DESTINATION_CITY, true,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(DEST_CITY, true,
                 originalFlightList);
 
         assertEquals(
@@ -170,7 +170,7 @@ class FilteringUtilsTests {
 
     @Test
     void testFilterByCityDestinationDescending() {
-        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(DESTINATION_CITY, false,
+        List<ReservedFlights> filteredFlights = FilteringUtils.sortBy(DEST_CITY, false,
                 originalFlightList);
 
         assertEquals(
