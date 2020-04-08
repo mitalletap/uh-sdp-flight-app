@@ -18,21 +18,13 @@ public class SkyscannerServiceTests {
     @Autowired
     SkyscannerService skyscannerService;
 
-    String nextMonthDateString;
-
-    @BeforeEach
-    void setUp() {
-        nextMonthDateString = new SimpleDateFormat("yyyy-MM-dd").format(
-                Date.from(Instant.now().plus(30, ChronoUnit.DAYS)));
-    }
-
     @Test
     void testGetFlightsReturnsFlightDataInExpectedRawFormat() {
         RawFlightData[] rawFlightData = new RawFlightData[1];
 
         assertDoesNotThrow(() ->  {
             rawFlightData[0] = skyscannerService
-                    .getFlights("IAH-sky/SFO-sky/" + nextMonthDateString);
+                    .getFlights("IAH-sky/SFO-sky/" + "anytime");
         });
 
         assertTrue(rawFlightData[0].getQuotes()

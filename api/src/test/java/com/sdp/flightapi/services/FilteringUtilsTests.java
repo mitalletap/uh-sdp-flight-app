@@ -2,19 +2,14 @@ package com.sdp.flightapi.services;
 
 import com.sdp.flightapi.models.Place;
 import com.sdp.flightapi.models.ReservedFlights;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class FilteringServiceTest {
-    static FilteringService filteringService;
-    @BeforeAll
-    static void setUpBeforeAll() {
-        filteringService = new FilteringService();
-    }
+class FilteringUtilsTests {
+
     @Test
     void testFilterByPriceAscending() {
         ReservedFlights flight0 = new ReservedFlights();
@@ -28,7 +23,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByPrice(reservedFlightsHolder, true);
+        reservedFlightsHolder = FilteringUtils.filterByPrice(reservedFlightsHolder, true);
 
         assertEquals(List.of(flight3, flight1, flight2, flight0), reservedFlightsHolder);
     }
@@ -45,7 +40,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByPrice(reservedFlightsHolder, false);
+        reservedFlightsHolder = FilteringUtils.filterByPrice(reservedFlightsHolder, false);
 
         assertEquals(List.of(flight0,flight2,flight1,flight3), reservedFlightsHolder);
     }
@@ -63,7 +58,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByDate(reservedFlightsHolder, true);
+        reservedFlightsHolder = FilteringUtils.filterByDate(reservedFlightsHolder, true);
 
         assertEquals(List.of(flight0,flight1,flight2,flight3), reservedFlightsHolder);
     }
@@ -81,7 +76,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByDate(reservedFlightsHolder, false);
+        reservedFlightsHolder = FilteringUtils.filterByDate(reservedFlightsHolder, false);
 
         assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
     }
@@ -112,7 +107,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByCityOrigin(reservedFlightsHolder, true);
+        reservedFlightsHolder = FilteringUtils.filterByCityOrigin(reservedFlightsHolder, true);
 
         assertEquals(List.of(flight0,flight1,flight2,flight3), reservedFlightsHolder);
     }
@@ -143,7 +138,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByCityOrigin(reservedFlightsHolder, false);
+        reservedFlightsHolder = FilteringUtils.filterByCityOrigin(reservedFlightsHolder, false);
 
         assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
     }
@@ -175,7 +170,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByCityDestination(reservedFlightsHolder, false);
+        reservedFlightsHolder = FilteringUtils.filterByCityDestination(reservedFlightsHolder, false);
 
         assertEquals(List.of(flight3,flight2,flight1,flight0), reservedFlightsHolder);
     }
@@ -207,7 +202,7 @@ class FilteringServiceTest {
 
         List<ReservedFlights> reservedFlightsHolder = List.of(flight0, flight1, flight2, flight3);
 
-        reservedFlightsHolder = filteringService.filterByCityDestination(reservedFlightsHolder, true);
+        reservedFlightsHolder = FilteringUtils.filterByCityDestination(reservedFlightsHolder, true);
 
         assertEquals(List.of(flight0,flight1,flight2,flight3), reservedFlightsHolder);
     }

@@ -15,9 +15,6 @@ public class FlightService {
 
     @VisibleForTesting
     transient SkyscannerService skyscannerService;
-    
-    @VisibleForTesting
-    transient FilteringService filteringService = new FilteringService();
 
     public FlightService(final WebClient.Builder webClientBuilder) {
         skyscannerService = new SkyscannerService(webClientBuilder);
@@ -55,24 +52,25 @@ public class FlightService {
                 datesString(outboundDate, inboundDate);
     }
   
-    public List<ReservedFlights> filterByDate(List<ReservedFlights> reservedFlightsHolder,boolean choice){
-        return filteringService.filterByDate(reservedFlightsHolder,choice);
+    public List<ReservedFlights> filterByDate(final List<ReservedFlights> flights,
+                                              final boolean ascending){
+        return FilteringUtils.filterByDate(flights, ascending);
     }
   
-    public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean choice) {
-        return filteringService.filterByPrice(reservedFlightsHolder, choice);
+    public List<ReservedFlights> filterByPrice(final List<ReservedFlights> flights,
+                                               final boolean ascending) {
+        return FilteringUtils.filterByPrice(flights, ascending);
     }
   
-    public List<ReservedFlights> filterByCityOrigin(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
-        return filteringService.filterByCityOrigin(reservedFlightsHolder, ascending);
+    public List<ReservedFlights> filterByCityOrigin(final List<ReservedFlights> flights,
+                                                    final boolean ascending) {
+        return FilteringUtils.filterByCityOrigin(flights, ascending);
     }
   
-    public List<ReservedFlights> filterByCityDestination(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
-        return filteringService.filterByCityDestination(reservedFlightsHolder, ascending);
+    public List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
+                                                         final boolean ascending) {
+        return FilteringUtils.filterByCityDestination(flights, ascending);
     }
-
-
-
 }
 
 
