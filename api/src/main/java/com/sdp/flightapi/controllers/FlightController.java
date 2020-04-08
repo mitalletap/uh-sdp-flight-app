@@ -6,8 +6,7 @@ import com.sdp.flightapi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api")
@@ -60,4 +59,31 @@ public class FlightController {
         flightDao.deleteById(flightId);
         return "Flight by id: "+ flightId + " deleted";
     }
+    @GetMapping(path = "/get-reserved-flight-filter-sort-price")
+    public List<ReservedFlights> flightFilterPrice(@RequestParam final String userName, boolean ascending){
+//ASCENDING SORT
+
+        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
+        return flightService.filterByPrice(reservedFlightsHolder, ascending);
+    }
+
+    @GetMapping(path= "/get-reserved-flight-filter-sort-date")
+    public List<ReservedFlights> flightFilterDate(final String userName, boolean ascending){
+        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
+    return flightService.filterByDate(reservedFlightsHolder,ascending);
+    }
+
+    @GetMapping(path="/get-reserved-flight-filter-sort-origin-cityname")
+    public List<ReservedFlights> flightFilterCityOrigin(final String userName, boolean ascending){
+        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
+        return flightService.filterByCityOrigin(reservedFlightsHolder,ascending);
+    }
+
+    @GetMapping(path="/get-reserved-flight-filter-sort-destination-cityname")
+    public List<ReservedFlights> flightFilterCityDestination(final String userName, boolean ascending){
+        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
+        return flightService.filterByCityDestination(reservedFlightsHolder,ascending);
+    }
+
+
 }
