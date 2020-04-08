@@ -38,25 +38,4 @@ public final class FilteringUtils {
                         Comparator.comparing(propertyExtractor).reversed())
                 .collect(Collectors.toList());
     }
-
-    public static List<ReservedFlights> filterByPrice(final List<ReservedFlights> flights,
-                                                      final boolean ascending) {
-        return sortBy(PRICE, ascending, flights);
-    }
-
-    public static List<ReservedFlights> filterByDate(final List<ReservedFlights> flights,
-                                                     final boolean ascending) {
-        return sortBy(OUTBOUND_DEPARTURE, ascending, flights);
-    }
-
-    public static List<ReservedFlights> filterByCityOrigin(final List<ReservedFlights> flights,
-                                                           final boolean ascending) {
-        return sortBy(ORIGIN_CITY, ascending, flights);
-    }
-
-    public static List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
-                                                                final boolean ascending) {
-        return sortBy(DESTINATION_CITY, ascending, flights);
-    }
-
 }

@@ -71,7 +71,7 @@ public class FlightController {
     @GetMapping(path= "/get-reserved-flight-filter-sort-date")
     public List<ReservedFlights> flightFilterDate(final String userName, final boolean ascending) {
         final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
-        return flightService.filterByDate(userFlights, ascending);
+        return flightService.filterByOutboundDeparture(userFlights, ascending);
     }
 
     @GetMapping(path="/get-reserved-flight-filter-sort-origin-cityname")
