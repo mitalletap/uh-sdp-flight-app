@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="flightapi PMD ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+    <description>
+        This ruleset uses the ErrorProne ruleset and modified versions of the Design and CodeStyle rulesets.
+        It excludes the Law of Demeter rule to allow functional-style code that uses method chains. It also excludes
+        the CommentDefaultAccessModifier rule from the CodeStyle ruleset so that members of some classes can have an
+        accessibility level of package/default to make them visible for testing.
+    </description>
+
+    <rule ref="category/java/bestpractices.xml" />
+    <rule ref="category/java/design.xml">
+        <exclude name="LawOfDemeter" />
+    </rule>
+    <rule ref="category/java/errorprone.xml" />
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="CommentDefaultAccessModifier" />
+    </rule>
+
+
+    <!-- many more rules are available at https://pmd.github.io/pmd-6.21.0/pmd_rules_java.html -->
+</ruleset>

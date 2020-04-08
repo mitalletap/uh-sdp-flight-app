@@ -71,7 +71,7 @@ class FlightDaoTests {
 	public void shouldQueryEntity() throws Exception {
 
 		MvcResult mvcResult = mockMvc.perform(post("/flights").content(
-                "{\"userName\" : \"User1\", \"origin\" : {\"name\" : \"A City\"}, " +
+                "{\"userName\" : \"UserName\", \"origin\" : {\"name\" : \"A City\"}, " +
                         "\"destination\" : {\"name\" : \"B City\"}}"))
 				.andExpect(status().isCreated())
 				.andReturn();
@@ -79,7 +79,7 @@ class FlightDaoTests {
 		String location = mvcResult.getResponse().getHeader("Location");
 
 		mockMvc.perform(
-				get("/flights/search/findByUserName?name={name}", "User1")).andExpect(
+				get("/flights/search/findByUserName?name={name}", "UserName")).andExpect(
 				status().isOk()).andExpect(
 				jsonPath("$._embedded.flights[0].destination.name").value(
 						"B City"));

@@ -38,30 +38,28 @@ public class SkyscannerServiceTests {
         assertTrue(rawFlightData[0].getQuotes()
                 .size() > 0);
 
-        assertAll(
-                () -> assertEquals(rawFlightData[0].getPlaces()
-                                .stream()
-                                .filter(place -> place.getIataCode()
-                                        .equals("IAH"))
-                                .findAny()
-                                .get()
-                                .getPlaceId(),
-                        rawFlightData[0].getQuotes()
-                                .get(0)
-                                .getOutboundLeg()
-                                .getOriginId()),
+        assertEquals(rawFlightData[0].getPlaces()
+                    .stream()
+                    .filter(place -> place.getIataCode()
+                            .equals("IAH"))
+                    .findAny()
+                    .get()
+                    .getPlaceId(),
+                rawFlightData[0].getQuotes()
+                    .get(0)
+                    .getOutboundLeg()
+                    .getOriginId());
 
-                () -> assertEquals(rawFlightData[0].getPlaces()
-                                .stream()
-                                .filter(place -> place.getIataCode()
-                                        .equals("SFO"))
-                                .findAny()
-                                .get()
-                                .getPlaceId(),
-                        rawFlightData[0].getQuotes()
-                                .get(0)
-                                .getOutboundLeg()
-                                .getDestinationId()
-                ));
+        assertEquals(rawFlightData[0].getPlaces()
+                    .stream()
+                    .filter(place -> place.getIataCode()
+                            .equals("SFO"))
+                    .findAny()
+                    .get()
+                    .getPlaceId(),
+                rawFlightData[0].getQuotes()
+                    .get(0)
+                    .getOutboundLeg()
+                    .getDestinationId());
     }
 }

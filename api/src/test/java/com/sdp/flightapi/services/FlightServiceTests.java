@@ -1,12 +1,8 @@
 package com.sdp.flightapi.services;
 
 
-import com.sdp.flightapi.controllers.FlightController;
-import com.sdp.flightapi.models.RawFlightData;
-import com.sdp.flightapi.models.ReservedFlights;
+import com.sdp.flightapi.models.*;
 import org.junit.jupiter.api.BeforeEach;
-
-import com.sdp.flightapi.dao.FlightDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -54,40 +49,41 @@ public class FlightServiceTests {
     }
 
     @Test
-    void testGetFlightsCallsSkyscannerService() {
-        RawFlightData rawFlightData = new RawFlightData();
-        rawFlightData.setQuotes(Collections.emptyList());
+    void testGetFlightsCallsSkyscannerServiceAndDataConverter() {
+        RawFlightData rawFlightData = RawFlightData.builder()
+            .quotes(Collections.singletonList(Quote.builder()
+                .direct(true)
+                .minPrice(100d)
+                .outboundLeg(TripLeg.builder()
+                    .carrierIds(Collections.singletonList(0))
+                    .build())
+                .build()))
+            .carriers(Collections.singletonList(Carrier.builder()
+                .carrierId(0)
+                .build()))
+            .places(Collections.singletonList(Place.builder()
+                .placeId(0)
+                .build()))
+            .build();
 
         SkyscannerService skyscannerServiceMock = mock(SkyscannerService.class);
         when(skyscannerServiceMock.getFlights(anyString())).thenReturn(rawFlightData);
 
-        FlightService flightServiceWithMockSkyscanner = flightService;
-        flightServiceWithMockSkyscanner.skyscannerService = skyscannerServiceMock;
+        FlightService mockedFlightService = flightService;
+        mockedFlightService.skyscannerService = skyscannerServiceMock;
 
-        flightServiceWithMockSkyscanner.getFlights("", "",
+        List<ReservedFlights> flights = mockedFlightService.getFlights("", "",
                 "", Optional.empty());
 
         verify(skyscannerServiceMock).getFlights(anyString());
-    }
-
-    @Test
-    void testGetFlightsCallsDataFormatConverter() {
-        RawFlightData rawFlightData = new RawFlightData();
-        rawFlightData.setQuotes(Collections.emptyList());
-
-        RawFlightDataToReservedFlightsConverter converterMock = mock(RawFlightDataToReservedFlightsConverter.class);
-
-        SkyscannerService skyscannerServiceMock = mock(SkyscannerService.class);
-        when(skyscannerServiceMock.getFlights(anyString())).thenReturn(rawFlightData);
-
-        FlightService flightServiceWithMockComponents = flightService;
-        flightServiceWithMockComponents.skyscannerService = skyscannerServiceMock;
-        flightServiceWithMockComponents.dataConverter = converterMock;
-
-        flightServiceWithMockComponents.getFlights("", "",
-                "", Optional.empty());
-
-        verify(converterMock).convert(rawFlightData);
+        assertEquals(Collections.singletonList(ReservedFlights.builder()
+                    .direct(true)
+                    .price(100f)
+                    .outboundCarrier(Carrier.builder()
+                        .carrierId(0)
+                        .build())
+                    .build()),
+                flights);
     }
 
 }

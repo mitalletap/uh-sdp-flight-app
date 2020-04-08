@@ -3,6 +3,7 @@ package com.sdp.flightapi.controllers;
 import com.sdp.flightapi.dao.FlightDao;
 import com.sdp.flightapi.models.ReservedFlights;
 import com.sdp.flightapi.services.FlightService;
+import org.assertj.core.util.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,11 @@ import java.util.*;
 @RestController
 public class FlightController {
     @Autowired
-    /* default */ transient FlightDao flightDao;
+    @VisibleForTesting
+    transient FlightDao flightDao;
 
-    /* default */ transient FlightService flightService;
+    @VisibleForTesting
+    transient FlightService flightService;
 
     @Autowired
     public FlightController(final FlightService flightService) {
