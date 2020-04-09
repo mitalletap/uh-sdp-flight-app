@@ -10,14 +10,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 import java.util.Optional;
 
+import static com.sdp.flightapi.services.FilteringUtils.*;
+
 @Service
 public class FlightService {
 
     @VisibleForTesting
     transient SkyscannerService skyscannerService;
-    
-    @VisibleForTesting
-    transient FilteringService filteringService = new FilteringService();
 
     public FlightService(final WebClient.Builder webClientBuilder) {
         skyscannerService = new SkyscannerService(webClientBuilder);
@@ -54,25 +53,31 @@ public class FlightService {
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
     }
-  
-    public List<ReservedFlights> filterByDate(List<ReservedFlights> reservedFlightsHolder,boolean choice){
-        return filteringService.filterByDate(reservedFlightsHolder,choice);
-    }
-  
-    public List<ReservedFlights> filterByPrice(List<ReservedFlights> reservedFlightsHolder, boolean choice) {
-        return filteringService.filterByPrice(reservedFlightsHolder, choice);
-    }
-  
-    public List<ReservedFlights> filterByCityOrigin(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
-        return filteringService.filterByCityOrigin(reservedFlightsHolder, ascending);
-    }
-  
-    public List<ReservedFlights> filterByCityDestination(List<ReservedFlights> reservedFlightsHolder, boolean ascending) {
-        return filteringService.filterByCityDestination(reservedFlightsHolder, ascending);
+
+    public List<ReservedFlights> filterByPrice(final List<ReservedFlights> flights,
+                                               final boolean ascending) {
+        return sortBy(PRICE, ascending, flights);
     }
 
+    public List<ReservedFlights> filterByOutboundDeparture(final List<ReservedFlights> flights,
+                                                           final boolean ascending) {
+        return sortBy(OUT_DEPARTURE, ascending, flights);
+    }
 
+    public List<ReservedFlights> filterByInboundDeparture(final List<ReservedFlights> flights,
+                                                           final boolean ascending) {
+        return sortBy(IN_DEPARTURE, ascending, flights);
+    }
 
+    public List<ReservedFlights> filterByCityOrigin(final List<ReservedFlights> flights,
+                                                    final boolean ascending) {
+        return sortBy(ORIGIN_CITY, ascending, flights);
+    }
+
+    public List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
+                                                         final boolean ascending) {
+        return sortBy(DEST_CITY, ascending, flights);
+    }
 }
 
 

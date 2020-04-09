@@ -38,7 +38,7 @@ public class FlightController {
                 inboundDate
         );
     }
-  
+
     @PostMapping(path = "/post-reserved-flight")
     public ReservedFlights saveFlight(@RequestBody final ReservedFlights reservedFlights,
                                       @RequestParam final boolean purchased){
@@ -63,30 +63,30 @@ public class FlightController {
         return "Flight by id: "+ flightId + " deleted";
     }
     @GetMapping(path = "/get-reserved-flight-filter-sort-price")
-    public List<ReservedFlights> flightFilterPrice(@RequestParam final String userName, boolean ascending){
-//ASCENDING SORT
-
-        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
-        return flightService.filterByPrice(reservedFlightsHolder, ascending);
+    public List<ReservedFlights> flightFilterPrice(@RequestParam final String userName,
+                                                   @RequestParam final boolean ascending) {
+        final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
+        return flightService.filterByPrice(userFlights, ascending);
     }
 
     @GetMapping(path= "/get-reserved-flight-filter-sort-date")
-    public List<ReservedFlights> flightFilterDate(final String userName, boolean ascending){
-        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
-    return flightService.filterByDate(reservedFlightsHolder,ascending);
+    public List<ReservedFlights> flightFilterDate(@RequestParam final String userName,
+                                                  @RequestParam final boolean ascending) {
+        final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
+        return flightService.filterByOutboundDeparture(userFlights, ascending);
     }
 
     @GetMapping(path="/get-reserved-flight-filter-sort-origin-cityname")
-    public List<ReservedFlights> flightFilterCityOrigin(final String userName, boolean ascending){
-        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
-        return flightService.filterByCityOrigin(reservedFlightsHolder,ascending);
+    public List<ReservedFlights> flightFilterCityOrigin(@RequestParam final String userName,
+                                                        @RequestParam final boolean ascending) {
+        final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
+        return flightService.filterByCityOrigin(userFlights, ascending);
     }
 
     @GetMapping(path="/get-reserved-flight-filter-sort-destination-cityname")
-    public List<ReservedFlights> flightFilterCityDestination(final String userName, boolean ascending){
-        List<ReservedFlights> reservedFlightsHolder =  flightDao.findByUserName(userName);
-        return flightService.filterByCityDestination(reservedFlightsHolder,ascending);
+    public List<ReservedFlights> flightFilterCityDestination(@RequestParam final String userName,
+                                                             @RequestParam final boolean ascending) {
+        final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
+        return flightService.filterByCityDestination(userFlights, ascending);
     }
-
-
 }
