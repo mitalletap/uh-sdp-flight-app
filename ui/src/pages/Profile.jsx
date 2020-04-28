@@ -9,16 +9,14 @@ const Profile = () => {
   const [name, setName] = useState(null);
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(
-        data => (
-          setUsername(data.username),
-          setPhone(data.attributes.phone_number),
-          setEmail(data.attributes.email),
-          setName(data.attributes.name)
-        )
+    Auth.currentAuthenticatedUser().then(
+      data => (
+        setUsername(data.username),
+        setPhone(data.attributes.phone_number),
+        setEmail(data.attributes.email),
+        setName(data.attributes.name)
       )
-      .catch(err => console.log(err));
+    );
   });
 
   return (
@@ -44,7 +42,11 @@ const Profile = () => {
         </Divider>
 
         <div className="header">
-          <h1> Welcome {name} </h1>
+          <h1>
+            {" "}
+            Welcome
+            {name}
+          </h1>
         </div>
         <div className="information">
           <br />

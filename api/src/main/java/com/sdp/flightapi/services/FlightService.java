@@ -53,6 +53,7 @@ public class FlightService {
                 urlCodedOriginOrDestination(destination) +
                 datesString(outboundDate, inboundDate);
     }
+<<<<<<< Updated upstream
 
     public List<ReservedFlights> filterByPrice(final List<ReservedFlights> flights,
                                                final boolean ascending) {
@@ -77,6 +78,13 @@ public class FlightService {
     public List<ReservedFlights> filterByCityDestination(final List<ReservedFlights> flights,
                                                          final boolean ascending) {
         return sortBy(DEST_CITY, ascending, flights);
+=======
+
+    public List<ReservedFlights> filterBy(final String sortBy,
+                                          final boolean ascending,
+                                          final List<ReservedFlights> userFlights) {
+        return FILTERING_METHODS.get(sortBy).apply(ascending,userFlights);
+>>>>>>> Stashed changes
     }
 }
 

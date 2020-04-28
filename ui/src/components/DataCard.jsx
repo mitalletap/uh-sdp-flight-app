@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Card, Progress, Button, notification } from "antd";
+import React from "react";
+import { Card, Progress, notification } from "antd";
 import airplaneIcon from "../images/airplaneicon.png";
 import transparentPlane from "../images/30transparentPlane.png";
 import SWA from "../images/AirlinerLogos/SWA.png";
@@ -10,20 +10,11 @@ import AAL from "../images/AirlinerLogos/AAL.png";
 import DAL from "../images/AirlinerLogos/DAL.png";
 import VRD from "../images/AirlinerLogos/VRD.png";
 
-var airlinerImage = "";
+let airlinerImage = "";
 const DataCard = props => {
-  var purchasedState = props.purchased;
-  const deleteFromPlanner = () => {
-    console.log(props.id);
-    fetch(
-      "http://localhost:8080/api/delete-reserved-flight?flightId=" + props.id,
-      {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" }
-      }
-    );
-    window.location.reload();
-  };
+  const activeState = props.active;
+  const purchasedState = props.purchased;
+  console.log(props.active);
 
   const purchasedFlight = () => {
     notification.success({
@@ -94,14 +85,15 @@ const DataCard = props => {
                   verticalAlign: "middle"
                 }}
               >
-                <p> ${props.price} </p>
+                <p> ${props.price}</p>
               </div>
             </div>
           </Card>
         </div>
       </React.Fragment>
     );
-  } else {
+  }
+  if (activeState === true) {
     switch (props.outboundCarrier) {
       case "Southwest Airlines":
         airlinerImage = SWA;
@@ -124,7 +116,6 @@ const DataCard = props => {
       default:
         airlinerImage = VRD;
     }
-
     return (
       <React.Fragment>
         <div
@@ -137,7 +128,6 @@ const DataCard = props => {
             bordered={false}
             style={{
               width: "500px",
-              // background: "#f7f7fa",
               left: "50%",
               top: "50%",
               transform: "translateX(-50%) translateY(-50%)",
@@ -158,7 +148,7 @@ const DataCard = props => {
                 paddingLeft: "10px"
               }}
             >
-              <img src={airlinerImage} />
+              <img alt="airliner" src={airlinerImage} />
             </div>
 
             <div
@@ -219,22 +209,12 @@ const DataCard = props => {
                 paddingRight: "10px"
               }}
             >
-              <p> ${props.price} </p>
+              <p> ${props.price}</p>
             </div>
 
             <div style={{ backgroundColor: "red", textAlign: "center" }}>
               {purchasedState === true ? (
-                <React.Fragment>
-                  <Button
-                    type="primary"
-                    danger
-                    style={{ display: "inline-block", float: "right" }}
-                    onClick={() => deleteFromPlanner()}
-                  >
-                    {" "}
-                    Delete This Flight{" "}
-                  </Button>
-                </React.Fragment>
+                <React.Fragment />
               ) : (
                 <React.Fragment>
                   <h4 style={{ float: "left", fontSize: "12px" }}>
@@ -242,15 +222,6 @@ const DataCard = props => {
                     ** This Flight has not been booked{" "}
                   </h4>
                   <div />
-                  <Button
-                    type="primary"
-                    danger
-                    style={{ display: "inline-block", float: "right" }}
-                    onClick={() => deleteFromPlanner()}
-                  >
-                    {" "}
-                    Delete This Flight{" "}
-                  </Button>
                 </React.Fragment>
               )}
             </div>

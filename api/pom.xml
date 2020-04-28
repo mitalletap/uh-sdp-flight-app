@@ -195,6 +195,7 @@
 					<excludes>
 						<exclude>com/sdp/flightapi/FlightApiApplication.*</exclude>
 						<exclude>com/sdp/flightapi/models/*</exclude>
+						<exclude>com/sdp/flightapi/services/SkyscannerService.*</exclude>
 					</excludes>
 					<failOnViolation>true</failOnViolation>
 					<rulesets>
@@ -230,6 +231,7 @@
 					<excludes>
 						<exclude>com/sdp/flightapi/FlightApiApplication.*</exclude>
 						<exclude>com/sdp/flightapi/models/*</exclude>
+						<exclude>com/sdp/flightapi/services/SkyscannerService.*</exclude>
 					</excludes>
 					<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
 				</configuration>

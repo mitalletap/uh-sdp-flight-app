@@ -1,75 +1,72 @@
 import React from "react";
-import Enzyme, { shallow, mount, configure } from "enzyme";
+import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  MemoryRouter
-} from "react-router-dom";
-import { createBrowserHistory } from "history";
-import { render } from "@testing-library/react";
 
-import App from "../../App";
-import Home from "../../pages/Home.jsx";
-import FlightSelection from "../../pages/FlightSelection.jsx";
-import Data from "../../pages/Data.jsx";
-import Profile from "../../pages/Profile.jsx";
-import PageNotFound from "../../pages/404";
-import Card from "../../pages/Card";
-import NavBar from "../../components/NavBar";
+import { App } from "../../App";
+import Home from "../../pages/Home";
+import FlightSelection from "../../pages/FlightSelection";
+import Data from "../../pages/Data";
+import Profile from "../../pages/Profile";
+import About from "../../pages/About";
 
 Enzyme.configure({ adapter: new Adapter() });
-describe("app", () => {
+describe("app testing", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<App />);
+    wrapper = shallow(<App />);
   });
 
-  it("renders app", () => {
-    expect(App).toBeDefined();
-    const tree = shallow(<App />);
-    expect(tree).not.toBeNull();
+  it("renders router", () => {
+    expect(wrapper.find("Router")).not.toBe(null);
   });
 
-  it("find div", () => {
-    var div = wrapper.find("div").exists();
-    expect(div).toBe(true);
+  it("should render Flight Selection", () => {
+    const route = wrapper.find("Route").first();
+    const { render } = route.props();
+    const props = { props: "test" };
+    const rendered = render(props);
+    expect(route.props().path).toEqual("/");
+    expect(rendered.type).toEqual(FlightSelection);
+    expect(rendered.props).toEqual(props);
   });
 
-  it("render flight selection", () => {
-    const tree = shallow(<FlightSelection />);
-    expect(tree).not.toBeNull();
+  it("should render Data", () => {
+    const route = wrapper.find("Route").at(1);
+    const { render } = route.props();
+    const props = { props: "test" };
+    const rendered = render(props);
+    expect(route.props().path).toEqual("/planner");
+    expect(rendered.type).toEqual(Data);
+    expect(rendered.props).toEqual(props);
   });
 
-  // it('tests link change to "/"', () => {
-  //   wrapper = mount(
-  //     <MemoryRouter initialEntries={["/"]}>
-  //       <Switch>
-  //         <Route
-  //           exact
-  //           path="/"
-  //           render={props => <FlightSelection {...props} />}
-  //         />
-  //         <Route exact path="/planner" render={props => <Data {...props} />} />
-  //         <Route exact path="/logout" render={props => <Home {...props} />} />
-  //         <Route
-  //           exact
-  //           path="/profile"
-  //           render={props => <Profile {...props} />}
-  //         />
-  //         <Route exact path="/card" render={props => <Card {...props} />} />
-  //         <Route component={PageNotFound} />
-  //       </Switch>
-  //     </MemoryRouter>
-  //   );
-  //   expect(wrapper.find("Route").prop("location").pathname).toBe("/");
-  // });
+  it("should render Logout", () => {
+    const route = wrapper.find("Route").at(2);
+    const { render } = route.props();
+    const props = { props: "test" };
+    const rendered = render(props);
+    expect(route.props().path).toEqual("/logout");
+    expect(rendered.type).toEqual(Home);
+    expect(rendered.props).toEqual(props);
+  });
 
-  it("test", () => {
-    wrapper = shallow(
-      <Route exact path="/" render={props => <FlightSelection {...props} />} />
-    );
-    expect(wrapper.props()).toBeDefined();
+  it("should render Profile", () => {
+    const route = wrapper.find("Route").at(3);
+    const { render } = route.props();
+    const props = { props: "test" };
+    const rendered = render(props);
+    expect(route.props().path).toEqual("/profile");
+    expect(rendered.type).toEqual(Profile);
+    expect(rendered.props).toEqual(props);
+  });
+
+  it("should render About", () => {
+    const route = wrapper.find("Route").at(4);
+    const { render } = route.props();
+    const props = { props: "test" };
+    const rendered = render(props);
+    expect(route.props().path).toEqual("/about");
+    expect(rendered.type).toEqual(About);
+    expect(rendered.props).toEqual(props);
   });
 });

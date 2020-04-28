@@ -1,52 +1,47 @@
-import React, { Component } from "react";
+import React from "react";
 import Adapter from "enzyme-adapter-react-16";
-import Enzyme, { configure, shallow } from "enzyme";
-import FlightSearch from "../../components/FlightSearch";
+import Enzyme, { shallow } from "enzyme";
 import "rsuite/lib/styles/index.less";
 import moment from "moment";
-import {
-  DateRangePicker,
-  Content,
-  InputNumber,
-  Button,
-  Toggle,
-  InputGroup,
-  InputPicker,
-  Container
-} from "rsuite";
-import { Auth } from "aws-amplify";
+import { DateRangePicker, Button, InputGroup, InputPicker } from "rsuite";
+import FlightSearch from "../../components/FlightSearch";
 
 Enzyme.configure({ adapter: new Adapter() });
-jest.mock("moment", () => {
-  const mMoment = {
-    format: jest.fn().mockReturnThis(),
-    valueOf: jest.fn()
-  };
-  return jest.fn(() => mMoment);
-});
 
-describe("react testing", () => {
-  let wrapper;
+describe("authentication testing", () => {
+  let component;
+
   beforeEach(() => {
-    wrapper = shallow(<FlightSearch />);
+    component = new FlightSearch();
+    component.setState = function(state) {
+      this.state = { ...this.state, ...state };
+    };
   });
 
-  // Expects to find the Input Picker
+  it("componentDidMount sets username to email", () => {
+    component.componentDidMount();
+
+    return new Promise((resolve, reject) => {
+      setImmediate(() => {
+        expect(component.state.userName).toBe("sample@example.com");
+
+        resolve();
+      });
+    });
+  });
+
   it("should contain input picker", () => {
     expect(InputPicker).toBeDefined();
   });
 
-  // Expects to find the Input Group
   it("should contain input group", () => {
     expect(InputGroup).toBeDefined();
   });
 
-  // Expects to find the Date Range Picker
   it("should contain date range picker", () => {
     expect(DateRangePicker).toBeDefined();
   });
 
-  // Expects to find the Button
   it("should contain button", () => {
     expect(Button).toBeDefined();
   });
@@ -54,41 +49,19 @@ describe("react testing", () => {
 
 describe("state testing", () => {
   let wrapper;
+  let component;
+
   beforeEach(() => {
     wrapper = shallow(<FlightSearch />);
+
+    component = new FlightSearch();
+    component.setState = function(state) {
+      this.state = { ...this.state, ...state };
+    };
   });
 
-  // Component Did Mount
-  it("sets the state componentDidMount", async () => {
-    window.fetch = jest.fn().mockImplementation(() => ({
-      status: 200,
-      json: () =>
-        new Promise((resolve, reject) => {
-          resolve({
-            userName: "mitalletap1998@gmail.com"
-          });
-        })
-    }));
-
-    expect(wrapper.state("userName")).toBeDefined();
-  });
-
-  // it("handles disable date", async () => {
-  //   // var check = wrapper.find("disabledDate");
-  //   // console.log(check);
-  //   const props = "2020-01-01";
-
-  //   wrapper.setState(() => {
-  //     wrapper.instance().disabledDate(props);
-  //     const disabled = wrapper.state("disabled");
-  //     expect(disabled).toBeFalsy;
-  //   });
-  // });
-
-  // Handle Number Of Passengers
   it("handles number of passengers", () => {
     const props = 2;
-
     wrapper.setState(() => {
       wrapper.instance().handleNumOfPassengers(props);
       const userState = wrapper.state("numOfPassengers");
@@ -96,7 +69,6 @@ describe("state testing", () => {
     });
   });
 
-  // Handle Date
   it("handles null date", () => {
     const props = null;
     wrapper.setState(() => {
@@ -108,16 +80,15 @@ describe("state testing", () => {
     });
   });
 
-  // it("handles not null date", () => {
-  //   const props = ["2020-03-05", "2020-03-10"];
-  //   wrapper.setState(() => {
-  //     wrapper.instance().handleDate(props);
-  //     const departState = wrapper.state("departDate");
-  //     const arriveState = wrapper.state("arriveDate");
-  //     expect(departState).toBeDefined();
-  //     expect(arriveState).toBeDefined();
-  //   });
-  // });
+  it("handles not null date", () => {
+    const props = [
+      moment("2019-10-31T12:34:56"),
+      moment("2023-10-31T12:34:56")
+    ];
+    component.handleDate(props);
+    expect(component.state.departDate).toBe("2019-10-31");
+    expect(component.state.arriveDate).toBe("2023-10-31");
+  });
 
   it("handles null start", () => {
     const props = null;
@@ -128,15 +99,10 @@ describe("state testing", () => {
     });
   });
 
-  // it("handles not null start", () => {
-  //   const props = "2020-03-05";
-  //   wrapper.setState(() => {
-  //     wrapper.instance().handleStart(props);
-  //     const departState = wrapper.state("departDate");
-  //     console.log(departState);
-  //     expect(departState).toBeDefined();
-  //   });
-  // });
+  it("handles not null start", () => {
+    component.handleStart(moment("2019-10-31T12:34:56"));
+    expect(component.state.departDate).toBe("2019-10-31");
+  });
 
   it("handles one way", () => {
     const props = true;
@@ -147,44 +113,53 @@ describe("state testing", () => {
     });
   });
 
-  // it("handles origin", () => {
-  //   const props = ["Bush Airport", "Houston", "Texas", "USA", 1];
-  //   wrapper.setState(() => {
-  //     wrapper.instance().handleOrigin(props);
-  //     const airport = wrapper.state("origin");
-  //     const city = wrapper.state("originCity");
-  //     const state = wrapper.state("originState");
-  //     const country = wrapper.state("originCountry");
-  //     const id = wrapper.state("originCode");
-  //     console.log(airport);
-  //     console.log(city);
-  //     console.log(state);
-  //     console.log(country);
-  //     console.log(id);
-  //     expect(airport).toBeDefined();
-  //     expect(city).toBeDefined();
-  //     expect(state).toBeDefined();
-  //     expect(country).toBeDefined();
-  //     expect(id).toBeDefined();
-  //   });
-  // });
+  it("handles origin", () => {
+    const props = [
+      {},
+      {
+        airport: "Bush Airport",
+        city: "Houston",
+        state: "Texas",
+        country: "USA",
+        key: "1"
+      }
+    ];
 
-  // it("handles destination", () => {
-  //   const props = ["Bush Airport", "Houston", "Texas", "USA", 1];
-  //   wrapper.setState(() => {
-  //     wrapper.instance().handleDestination(props);
-  //     const airport = wrapper.state("destination");
-  //     const city = wrapper.state("destinationCity");
-  //     const state = wrapper.state("destinationState");
-  //     const country = wrapper.state("destinationCountry");
-  //     const id = wrapper.state("destinationCode");
-  //     expect(airport).toBeDefined();
-  //     expect(city).toBeDefined();
-  //     expect(state).toBeDefined();
-  //     expect(country).toBeDefined();
-  //     expect(id).toBeDefined();
-  //   });
-  // });
+    wrapper.setState(() => {
+      wrapper.instance().handleOrigin(...props);
+    });
+
+    component.handleOrigin(...props);
+    expect(component.state.origin).toBe("Bush Airport");
+    expect(component.state.originCity).toBe("Houston");
+    expect(component.state.originState).toBe("Texas");
+    expect(component.state.originCountry).toBe("USA");
+    expect(component.state.originCode).toBe("1");
+  });
+
+  it("handles destination", () => {
+    const props = [
+      {},
+      {
+        airport: "Bush Airport",
+        city: "Houston",
+        state: "Texas",
+        country: "USA",
+        key: "1"
+      }
+    ];
+
+    wrapper.setState(() => {
+      wrapper.instance().handleDestination(...props);
+    });
+
+    component.handleDestination(...props);
+    expect(component.state.destination).toBe("Bush Airport");
+    expect(component.state.destinationCity).toBe("Houston");
+    expect(component.state.destinationState).toBe("Texas");
+    expect(component.state.destinationCountry).toBe("USA");
+    expect(component.state.destinationCode).toBe("1");
+  });
 
   it("shows modal", () => {
     wrapper.setState(() => {
@@ -202,15 +177,15 @@ describe("state testing", () => {
     });
   });
 
-  // it("handles purchased", () => {
-  //   wrapper.setState(() => {
-  //     wrapper.instance().handlePurchased();
-  //     const visible = wrapper.state("visible");
-  //     const purchased = wrapper.state("purchased");
-  //     expect(visible).toBe(false);
-  //     expect(purchased).toBe("true");
-  //   });
-  // });
+  it("handles purchased", () => {
+    wrapper.setState(() => {
+      wrapper.instance().handlePurchased();
+      const visible = wrapper.state("visible");
+      const purchased = wrapper.state("purchased");
+      expect(visible).toBe(false);
+      expect(purchased).toBe("true");
+    });
+  });
 
   it("handles after purchase", () => {
     wrapper.setState(() => {
@@ -219,6 +194,99 @@ describe("state testing", () => {
       const purchased = wrapper.state("purchased");
       expect(visible).toBe(false);
       expect(purchased).toBe("false");
+    });
+  });
+});
+
+describe("handle save to planner", () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = shallow(<FlightSearch />);
+  });
+
+  it("should api call for posting reserved flights", async () => {
+    wrapper.setState({
+      direct: true,
+      userName: "mitalletap",
+      price: 18,
+      carrierIds: "",
+      outboundDepartureDate: "2019-10-31",
+      inboundDepartureDate: "2019-10-31",
+      origin: {
+        originId: 123,
+        originIataCode: 45,
+        originName: "Houston",
+        originCityName: "Houston",
+        originCityId: 678
+      },
+      destination: {
+        destinationId: 321,
+        destinationIataCode: 54,
+        destinationName: "Atlanta",
+        destinationCityName: "Atlanta",
+        destinationCityId: 876
+      },
+      outboundCarrier: {
+        carrierId: 123,
+        name: "Frontier"
+      },
+      inboundCarrier: {
+        carrierId: 321,
+        name: "Spirit"
+      },
+      purchased: true
+    });
+    const purchasedState = wrapper.state("purchased");
+
+    return fetch(
+      `http://localhost:8080/api/post-reserved-flight?purchased=${purchasedState}`
+    )
+      .then(res => res.json())
+      .catch(err => console.log());
+  });
+});
+
+describe("handles moment.js", () => {
+  let wrapper;
+  let component;
+  beforeEach(() => {
+    wrapper = shallow(<FlightSearch />);
+
+    component = new FlightSearch();
+  });
+
+  it("checks the disabled date", () => {
+    const test = component.disabledDate("2019-10-31");
+    expect(test).toBe(false);
+  });
+
+  it("checks complete data", () => {
+    const props1 = [
+      {
+        departDate: "2019-10-31",
+        destination: "Houston",
+        origin: "Texas",
+        isRoundTrip: false,
+        status: false
+      }
+    ];
+    component.checkCompleteData(props1);
+    expect(props1.status).toBe(true);
+  });
+
+  it("checks the one way status", () => {
+    wrapper.setState({
+      isRoundTrip: false
+    });
+    expect(wrapper.state("isRoundTrip")).toBe(false);
+  });
+
+  it("checks conditional rendering", () => {
+    wrapper.setState({
+      visible: true,
+      price: -1,
+      arriveDate: "",
+      originCity: "Houston"
     });
   });
 });

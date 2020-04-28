@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Logo from "../images/logo.png";
-//import airportData from "../data/airportsJS";
 import airportData from "../data/airports";
 import "antd/dist/antd.css";
 import moment from "moment";
@@ -22,12 +21,11 @@ import { Auth } from "aws-amplify";
 import { SmileOutlined } from "@ant-design/icons";
 
 const history = createBrowserHistory();
-const location = history.location;
-//const airport = JSON.parse(JSON.stringify(airportData));
 const airport = JSON.parse(JSON.stringify(airportData));
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
 class FlightSearch extends Component {
   constructor(props) {
     super(props);
@@ -65,123 +63,63 @@ class FlightSearch extends Component {
       flights: []
     };
   }
+
   componentDidMount() {
-    // this.props.history.push("/");
-    Auth.currentAuthenticatedUser().then(data => {
-      this.setState({
-        userName: data.attributes.email
-      });
-    });
-    // .catch(err => console.log(err));
+    Auth.currentAuthenticatedUser().then(data =>
+      this.setState({ userName: data.attributes.email })
+    );
   }
+
   handleNumOfPassengers = props => {
-    this.setState(
-      {
-        numOfPassengers: props
-      }
-      // () => {
-      //   console.log("Current Value: " + this.state.numOfPassengers);
-      // }
-    );
+    this.setState({
+      numOfPassengers: props
+    });
   };
-  handleDate = props => {
-    // Create IF ELSE statement to check if values are equal to null
+
+  handleDate(props) {
     if (props === null) {
-      this.setState(
-        {
-          departDate: null,
-          arriveDate: null
-        }
-        // () => {
-        //   console.log(
-        //     "Current Value: " +
-        //       this.state.departDate +
-        //       " and " +
-        //       this.state.arriveDate
-        //   );
-        // }
-      );
+      this.setState({ departDate: null, arriveDate: null });
     } else {
-      this.setState(
-        {
-          departDate: props[0].format("YYYY-MM-DD"),
-          arriveDate: props[1].format("YYYY-MM-DD")
-        }
-        // () => {
-        //   console.log(
-        //     "Current Value: " +
-        //       this.state.departDate +
-        //       " and " +
-        //       this.state.arriveDate
-        //   );
-        // }
-      );
+      this.setState({
+        departDate: props[0].format("YYYY-MM-DD"),
+        arriveDate: props[1].format("YYYY-MM-DD")
+      });
     }
-  };
+  }
+
   handleStart = props => {
-    // Create IF ELSE statement to check if values are equal to null
     if (props === null) {
-      this.setState(
-        {
-          departDate: null
-        }
-        // () => {
-        //   console.log("Current Value: " + this.state.departDate);
-        // }
-      );
+      this.setState({ departDate: null });
     } else {
-      this.setState(
-        {
-          departDate: props.format("YYYY-MM-DD")
-        }
-        // () => {
-        //   console.log("Current Value: " + this.state.departDate);
-        // }
-      );
+      this.setState({ departDate: props.format("YYYY-MM-DD") });
     }
   };
+
   handleisOneWay = props => {
-    this.setState(
-      {
-        isRoundTrip: props
-      }
-      // () => {
-      //   console.log("Current Value: " + this.state.isRoundTrip);
-      // }
-    );
+    this.setState({
+      isRoundTrip: props
+    });
   };
+
   handleOrigin = (...props) => {
-    this.setState(
-      {
-        origin: props[1].airport,
-        originCity: props[1].city,
-        originState: props[1].state,
-        originCountry: props[1].country,
-        originCode: props[1].key
-      }
-      // () => {
-      //   console.log(
-      //     `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
-      //   );
-      // }
-    );
+    this.setState({
+      origin: props[1].airport,
+      originCity: props[1].city,
+      originState: props[1].state,
+      originCountry: props[1].country,
+      originCode: props[1].key
+    });
   };
   handleDestination = (...props) => {
-    this.setState(
-      {
-        destination: props[1].airport,
-        destinationCity: props[1].city,
-        destinationState: props[1].state,
-        destinationCountry: props[1].country,
-        destinationCode: props[1].key
-      }
-      // () => {
-      //   console.log(
-      //     `Logged ${props[0]} located in ${props[1].city}, ${props[1].state}, ${props[1].country} with code ${props[1].key}`
-      //   );
-      // }
-    );
+    this.setState({
+      destination: props[1].airport,
+      destinationCity: props[1].city,
+      destinationState: props[1].state,
+      destinationCountry: props[1].country,
+      destinationCode: props[1].key
+    });
   };
+
   handleSaveToPlanner = () => {
     const openNotification = () => {
       notification.success({
@@ -237,19 +175,23 @@ class FlightSearch extends Component {
 
     openNotification();
   };
+
   redirect = path => {
     history.push(path);
   };
+
   showModal = () => {
     this.setState({
       visible: true
     });
   };
+
   handleReturn = e => {
     this.setState({
       visible: false
     });
   };
+
   handlePurchased = e => {
     this.setState(
       {
@@ -259,11 +201,13 @@ class FlightSearch extends Component {
       () => this.handleSaveToPlanner()
     );
   };
+
   handleAfterPurchase = e => {
     this.setState({
       visible: false
     });
   };
+
   getFlightInformation() {
     const URI =
       "http://localhost:8080/api/get-flights?origin=" +
@@ -328,26 +272,27 @@ class FlightSearch extends Component {
       });
   }
 
+  disabledDate(current) {
+    var disabled = current && current < moment().endOf("day");
+    return disabled;
+  }
+
+  checkCompleteData(props) {
+    var dataComplete =
+      props.departDate !== "" &&
+      props.destination !== "" &&
+      props.origin !== "";
+    var oneWay = props.departDate === "" && props.isRoundTrip === false;
+    if (dataComplete === true && oneWay !== true) {
+      message.success("Thank you. Please wait");
+      props.status = true;
+    } else {
+      message.warning("Please complete all fields to proceed");
+    }
+    return props.status === true;
+  }
+
   render() {
-    var stateObject = this.state;
-    function disabledDate(current) {
-      var disabled = current && current < moment().endOf("day");
-      return disabled;
-    }
-    function checkCompleteData(props) {
-      var dataComplete =
-        props.departDate !== "" &&
-        props.destination !== "" &&
-        props.origin !== "";
-      var oneWay = props.departDate === "" && props.isRoundTrip === false;
-      if (dataComplete === true && oneWay !== true) {
-        message.success("Thank you. Please wait");
-        props.status = true;
-      } else {
-        message.warning("Please complete all fields to proceed");
-      }
-      return props.status === true;
-    }
     if (this.state.visible === false && this.state.purchased === true) {
       return (
         <React.Fragment>
@@ -374,6 +319,7 @@ class FlightSearch extends Component {
         <React.Fragment>
           <img
             src={Logo}
+            alt="logo"
             style={{
               height: "50vh",
               textAlign: "center",
@@ -451,7 +397,7 @@ class FlightSearch extends Component {
               {this.state.isRoundTrip === true ? (
                 <RangePicker
                   placeholder={["Start", "End"]}
-                  disabledDate={disabledDate}
+                  disabledDate={this.disabledDate}
                   format="YYYY-MM-DD"
                   allowEmpty={(false, true)}
                   onChange={this.handleDate}
@@ -460,7 +406,7 @@ class FlightSearch extends Component {
               ) : (
                 <DatePicker
                   placeholder={"Start"}
-                  disabledDate={disabledDate}
+                  disabledDate={this.disabledDate}
                   format="YYYY-MM-DD"
                   allowEmpty={false}
                   onChange={this.handleStart}
@@ -488,7 +434,7 @@ class FlightSearch extends Component {
                 style={{ marginRight: "10px" }}
                 type="primary"
                 onMouseDown={() => {
-                  var complete = checkCompleteData(this.state);
+                  var complete = this.checkCompleteData(this.state);
                   if (complete === true) {
                     this.setState({
                       status: true,
@@ -496,9 +442,7 @@ class FlightSearch extends Component {
                     });
                     this.getFlightInformation();
                   }
-                  // this.redirect(this.state.status === true ? "/data" : "");
                 }}
-                // onClick={this.showModal}
               >
                 Find Flights
               </Button>
@@ -587,4 +531,3 @@ class FlightSearch extends Component {
 }
 
 export default FlightSearch;
-//export default withRouter(FlightSearch);

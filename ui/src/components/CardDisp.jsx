@@ -4,8 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Progress } from "antd";
 
 const CardDisp = props => {
-  var title;
-  // console.log(props.arriveDate);
+  let title;
   props.arriveDate == null
     ? (title = `${props.originCity} to ${props.destinationCity} on ${moment(
         props.departDate,
@@ -79,7 +78,7 @@ const CardDisp = props => {
                 verticalAlign: "middle"
               }}
             >
-              <p> ${props.price} </p>
+              <p> ${props.price}</p>
             </div>
           </div>
         </Card>

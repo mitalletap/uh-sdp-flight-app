@@ -1,4 +1,3 @@
-
 package com.sdp.flightapi.models;
 
 import java.util.HashMap;

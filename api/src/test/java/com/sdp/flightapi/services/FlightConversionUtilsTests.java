@@ -3,14 +3,17 @@ package com.sdp.flightapi.services;
 import com.sdp.flightapi.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+<<<<<<< Updated upstream
 public class FlightConversionUtilsTests {
+=======
+class FlightConversionUtilsTests {
+>>>>>>> Stashed changes
 
     RawFlightData oneWayRawFlightData;
     RawFlightData roundTripRawFlightData;
@@ -29,13 +32,13 @@ public class FlightConversionUtilsTests {
 
         assertEquals(
                 ReservedFlights.builder()
-                    .direct(true)
-                    .price(200f)
-                    .outboundCarrier(Carrier.builder()
-                        .carrierId(100)
-                        .name("Alpha Airlines")
-                        .build())
-                    .build(),
+                        .direct(true)
+                        .price(200f)
+                        .outboundCarrier(Carrier.builder()
+                                .carrierId(100)
+                                .name("Alpha Airlines")
+                                .build())
+                        .build(),
                 flight);
     }
 
@@ -70,45 +73,45 @@ public class FlightConversionUtilsTests {
     void testBuildFlightListFromQuotesAndCarriersOneWay() {
         List<ReservedFlights> builtFlights
                 = FlightConversionUtils
-                    .buildFlightListFromQuotesAndCarriers(oneWayRawFlightData);
+                .buildFlightListFromQuotesAndCarriers(oneWayRawFlightData);
 
         assertEquals(
                 List.of(ReservedFlights.builder()
-                            .direct(true)
-                            .price(200f)
-                            .outboundDepartureDate("2020-05-09T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(100)
-                                .name("Alpha Airlines")
-                                .build())
-                            .build(),
+                                .direct(true)
+                                .price(200f)
+                                .outboundDepartureDate("2020-05-09T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(100)
+                                        .name("Alpha Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(false)
-                            .price(300f)
-                            .outboundDepartureDate("2020-05-10T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(200)
-                                .name("Beta Airlines")
-                                .build())
-                            .build(),
+                                .direct(false)
+                                .price(300f)
+                                .outboundDepartureDate("2020-05-10T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(200)
+                                        .name("Beta Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(true)
-                            .price(250f)
-                            .outboundDepartureDate("2020-05-11T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(300)
-                                .name("Gamma Airlines")
-                                .build())
-                            .build(),
+                                .direct(true)
+                                .price(250f)
+                                .outboundDepartureDate("2020-05-11T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(300)
+                                        .name("Gamma Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(false)
-                            .price(300f)
-                            .outboundDepartureDate("2020-05-12T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(500)
-                                .name("Epsilon Airlines")
-                                .build())
-                            .build()),
+                                .direct(false)
+                                .price(300f)
+                                .outboundDepartureDate("2020-05-12T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(500)
+                                        .name("Epsilon Airlines")
+                                        .build())
+                                .build()),
 
                 builtFlights);
     }
@@ -121,17 +124,17 @@ public class FlightConversionUtilsTests {
 
         assertEquals(
                 ReservedFlights.builder()
-                    .direct(true)
-                    .price(300f)
-                    .outboundCarrier(Carrier.builder()
-                        .carrierId(100)
-                        .name("Alpha Airlines")
-                        .build())
-                    .inboundCarrier(Carrier.builder()
-                        .carrierId(100)
-                        .name("Alpha Airlines")
-                        .build())
-                    .build(),
+                        .direct(true)
+                        .price(300f)
+                        .outboundCarrier(Carrier.builder()
+                                .carrierId(100)
+                                .name("Alpha Airlines")
+                                .build())
+                        .inboundCarrier(Carrier.builder()
+                                .carrierId(100)
+                                .name("Alpha Airlines")
+                                .build())
+                        .build(),
                 flight);
     }
 
@@ -143,61 +146,61 @@ public class FlightConversionUtilsTests {
 
         assertEquals(
                 List.of(ReservedFlights.builder()
-                            .direct(true)
-                            .price(300f)
-                            .outboundDepartureDate("2020-05-09T00:00:00")
-                            .inboundDepartureDate("2020-05-11T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(100)
-                                .name("Alpha Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(100)
-                                .name("Alpha Airlines")
-                                .build())
-                            .build(),
+                                .direct(true)
+                                .price(300f)
+                                .outboundDepartureDate("2020-05-09T00:00:00")
+                                .inboundDepartureDate("2020-05-11T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(100)
+                                        .name("Alpha Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(100)
+                                        .name("Alpha Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(false)
-                            .price(500f)
-                            .outboundDepartureDate("2020-05-10T00:00:00")
-                            .inboundDepartureDate("2020-05-12T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(200)
-                                .name("Beta Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(200)
-                                .name("Beta Airlines")
-                                .build())
-                            .build(),
+                                .direct(false)
+                                .price(500f)
+                                .outboundDepartureDate("2020-05-10T00:00:00")
+                                .inboundDepartureDate("2020-05-12T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(200)
+                                        .name("Beta Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(200)
+                                        .name("Beta Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(true)
-                            .price(350f)
-                            .outboundDepartureDate("2020-05-11T00:00:00")
-                            .inboundDepartureDate("2020-05-13T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(300)
-                                .name("Gamma Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(300)
-                                .name("Gamma Airlines")
-                                .build())
-                            .build(),
+                                .direct(true)
+                                .price(350f)
+                                .outboundDepartureDate("2020-05-11T00:00:00")
+                                .inboundDepartureDate("2020-05-13T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(300)
+                                        .name("Gamma Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(300)
+                                        .name("Gamma Airlines")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(false)
-                            .price(450f)
-                            .outboundDepartureDate("2020-05-12T00:00:00")
-                            .inboundDepartureDate("2020-05-14T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(500)
-                                .name("Epsilon Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(500)
-                                .name("Epsilon Airlines")
-                                .build())
-                            .build()),
+                                .direct(false)
+                                .price(450f)
+                                .outboundDepartureDate("2020-05-12T00:00:00")
+                                .inboundDepartureDate("2020-05-14T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(500)
+                                        .name("Epsilon Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(500)
+                                        .name("Epsilon Airlines")
+                                        .build())
+                                .build()),
 
                 builtFlights);
     }
@@ -230,83 +233,7 @@ public class FlightConversionUtilsTests {
     }
 
     @Test
-    void testConvertRawFlightDataWithOnlyDirectQuoteGeneratesListWithOneReservedFlight() {
-        roundTripRawFlightData.setQuotes(Collections.singletonList(
-                roundTripRawFlightData.getQuotes()
-                        .get(0)));
-
-        List<ReservedFlights> convertedFlights
-                = FlightConversionUtils.convert(roundTripRawFlightData);
-
-        assertEquals(1, convertedFlights.size());
-
-        assertEquals(
-            ReservedFlights.builder()
-                .direct(true)
-                .price(300f)
-                .outboundDepartureDate("2020-05-09T00:00:00")
-                .inboundDepartureDate("2020-05-11T00:00:00")
-                .outboundCarrier(Carrier.builder()
-                    .carrierId(100)
-                    .name("Alpha Airlines")
-                    .build())
-                .inboundCarrier(Carrier.builder()
-                    .carrierId(100)
-                    .name("Alpha Airlines")
-                    .build())
-                .origin(Place.builder()
-                    .placeId(10000)
-                    .cityName("A City")
-                    .build())
-                .destination(Place.builder()
-                    .placeId(20000)
-                    .cityName("B City")
-                    .build())
-                .build(),
-
-                convertedFlights.get(0));
-    }
-
-    @Test
-    void testConvertRawFlightDataWithOnlyIndirectQuoteGeneratesListWithOneReservedFlight() {
-        roundTripRawFlightData.setQuotes(Collections.singletonList(
-                roundTripRawFlightData.getQuotes()
-                        .get(1)));
-
-        List<ReservedFlights> convertedFlights
-                = FlightConversionUtils.convert(roundTripRawFlightData);
-
-        assertEquals(1, convertedFlights.size());
-
-        assertEquals(
-                ReservedFlights.builder()
-                    .direct(false)
-                    .price(500f)
-                    .outboundDepartureDate("2020-05-10T00:00:00")
-                    .inboundDepartureDate("2020-05-12T00:00:00")
-                    .outboundCarrier(Carrier.builder()
-                        .carrierId(200)
-                        .name("Beta Airlines")
-                        .build())
-                    .inboundCarrier(Carrier.builder()
-                        .carrierId(200)
-                        .name("Beta Airlines")
-                        .build())
-                    .origin(Place.builder()
-                        .placeId(10000)
-                        .cityName("A City")
-                        .build())
-                    .destination(Place.builder()
-                        .placeId(20000)
-                        .cityName("B City")
-                        .build())
-                    .build(),
-
-                convertedFlights.get(0));
-    }
-
-    @Test
-    void testConvertRawFlightDataWithDirectAndIndirectQuoteGeneratesPairOfReservedFlights() {
+    void testConvertPopulatedRawFlightDataToListOfReservedFlights() {
         roundTripRawFlightData.setQuotes(roundTripRawFlightData.getQuotes().subList(0, 2));
 
         List<ReservedFlights> convertedFlights
@@ -316,49 +243,49 @@ public class FlightConversionUtilsTests {
 
         assertEquals(
                 List.of(ReservedFlights.builder()
-                            .direct(true)
-                            .price(300f)
-                            .outboundDepartureDate("2020-05-09T00:00:00")
-                            .inboundDepartureDate("2020-05-11T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(100)
-                                .name("Alpha Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(100)
-                                .name("Alpha Airlines")
-                                .build())
-                            .origin(Place.builder()
-                                .placeId(10000)
-                                .cityName("A City")
-                                .build())
-                            .destination(Place.builder()
-                                .placeId(20000)
-                                .cityName("B City")
-                                .build())
-                            .build(),
+                                .direct(true)
+                                .price(300f)
+                                .outboundDepartureDate("2020-05-09T00:00:00")
+                                .inboundDepartureDate("2020-05-11T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(100)
+                                        .name("Alpha Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(100)
+                                        .name("Alpha Airlines")
+                                        .build())
+                                .origin(Place.builder()
+                                        .placeId(10000)
+                                        .cityName("A City")
+                                        .build())
+                                .destination(Place.builder()
+                                        .placeId(20000)
+                                        .cityName("B City")
+                                        .build())
+                                .build(),
                         ReservedFlights.builder()
-                            .direct(false)
-                            .price(500f)
-                            .outboundDepartureDate("2020-05-10T00:00:00")
-                            .inboundDepartureDate("2020-05-12T00:00:00")
-                            .outboundCarrier(Carrier.builder()
-                                .carrierId(200)
-                                .name("Beta Airlines")
-                                .build())
-                            .inboundCarrier(Carrier.builder()
-                                .carrierId(200)
-                                .name("Beta Airlines")
-                                .build())
-                            .origin(Place.builder()
-                                .placeId(10000)
-                                .cityName("A City")
-                                .build())
-                            .destination(Place.builder()
-                                .placeId(20000)
-                                .cityName("B City")
-                                .build())
-                            .build()),
+                                .direct(false)
+                                .price(500f)
+                                .outboundDepartureDate("2020-05-10T00:00:00")
+                                .inboundDepartureDate("2020-05-12T00:00:00")
+                                .outboundCarrier(Carrier.builder()
+                                        .carrierId(200)
+                                        .name("Beta Airlines")
+                                        .build())
+                                .inboundCarrier(Carrier.builder()
+                                        .carrierId(200)
+                                        .name("Beta Airlines")
+                                        .build())
+                                .origin(Place.builder()
+                                        .placeId(10000)
+                                        .cityName("A City")
+                                        .build())
+                                .destination(Place.builder()
+                                        .placeId(20000)
+                                        .cityName("B City")
+                                        .build())
+                                .build()),
 
                 convertedFlights);
     }

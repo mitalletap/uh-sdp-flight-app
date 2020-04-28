@@ -30,7 +30,6 @@ public class FlightController {
                              @RequestParam final String destination,
                              @RequestParam final String outboundDate,
                              @RequestParam final Optional<String> inboundDate) {
-        //GET request that returns list of examples from Skyscanner web API
         return flightService.getFlights(
                 origin,
                 destination,
@@ -62,6 +61,7 @@ public class FlightController {
         flightDao.deleteById(flightId);
         return "Flight by id: "+ flightId + " deleted";
     }
+<<<<<<< Updated upstream
     @GetMapping(path = "/get-reserved-flight-filter-sort-price")
     public List<ReservedFlights> flightFilterPrice(@RequestParam final String userName,
                                                    @RequestParam final boolean ascending) {
@@ -89,4 +89,14 @@ public class FlightController {
         final List<ReservedFlights> userFlights =  flightDao.findByUserName(userName);
         return flightService.filterByCityDestination(userFlights, ascending);
     }
+=======
+
+    @GetMapping(path="/get-reserved-flight-filter-sort")
+    public List<ReservedFlights> flightFilterSortBy(@RequestParam final String userName,
+                                                    @RequestParam final boolean ascending,
+                                                    @RequestParam final String sortBy) {
+        final List<ReservedFlights> userFlights = flightDao.findByUserName(userName);
+        return flightService.filterBy(sortBy, ascending, userFlights);
+    }
+>>>>>>> Stashed changes
 }

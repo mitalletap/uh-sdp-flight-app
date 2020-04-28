@@ -99,4 +99,16 @@ public class FlightControllerTests {
 
         verify(flightDaoMock).deleteById("0");
     }
+
+    @Test
+    void testFlightFilterSortBy() throws Exception {
+        flightController.flightDao = mock(FlightDao.class);
+        FlightService flightServiceMock = mock(FlightService.class);
+        flightController.flightService = flightServiceMock;
+
+        mockMvc.perform(get("/api/get-reserved-flight-filter-sort?" +
+                "userName={userName}&ascending={ascending}&sortBy={sortBy}", "FlightTeam", true,"price"));
+
+        verify(flightServiceMock).filterBy(ArgumentMatchers.anyString(),ArgumentMatchers.anyBoolean(),ArgumentMatchers.anyList());
+    }
 }
